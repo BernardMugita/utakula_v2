@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   late final Dio _dio;
 
-  DioClient({String baseUrl = 'https://philanthropically-farsighted-malik.ngrok-free.dev'}) {
+  DioClient({
+    String baseUrl =
+        'https://philanthropically-farsighted-malik.ngrok-free.dev',
+  }) {
     _dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
@@ -18,14 +22,27 @@ class DioClient {
     );
 
     _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString('token');
+
+          if (token != null) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+
+          return handler.next(options);
+        },
+      ),
+    );
+
+    _dio.interceptors.add(
       LogInterceptor(
         requestBody: true,
         responseBody: true,
         error: true,
         logPrint: (obj) {
-          if (kDebugMode) {
-            print(obj);
-          }
+          if (kDebugMode) print(obj);
         },
       ),
     );
@@ -34,19 +51,19 @@ class DioClient {
   Dio get dio => _dio;
 
   Future<Response> get(
-      String path, {
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-      }) {
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) {
     return _dio.get(path, queryParameters: queryParameters, options: options);
   }
 
   Future<Response> post(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-      }) {
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+  }) {
     return _dio.post(
       path,
       data: data,
@@ -55,19 +72,11 @@ class DioClient {
     );
   }
 
-  Future<Response> put(
-      String path, {
-        dynamic data,
-        Options? options,
-      }) {
+  Future<Response> put(String path, {dynamic data, Options? options}) {
     return _dio.put(path, data: data, options: options);
   }
 
-  Future<Response> delete(
-      String path, {
-        dynamic data,
-        Options? options,
-      }) {
+  Future<Response> delete(String path, {dynamic data, Options? options}) {
     return _dio.delete(path, data: data, options: options);
   }
 }
