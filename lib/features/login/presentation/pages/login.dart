@@ -1,131 +1,70 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart'; // Included in hooks_riverpod
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_button.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_input.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
-import 'package:utakula_v2/features/login/presentation/widgets/utakula_button.dart';
-import 'package:utakula_v2/features/login/presentation/widgets/utakula_input.dart';
+import 'package:utakula_v2/features/login/presentation/providers/sign_in_provider.dart';
+import 'package:utakula_v2/features/login/presentation/providers/sign_in_state_providers.dart';
+import 'package:utakula_v2/routing/routes.dart';
 
-class Login extends StatefulWidget {
+class Login extends HookConsumerWidget {
   const Login({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final usernameController = useTextEditingController();
+    final passwordController = useTextEditingController();
+    final formKey = useMemoized(() => GlobalKey<FormState>());
 
-class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  // Auth loginRequest = Auth();
-  bool isLoading = false;
-
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
+    final animationController = useAnimationController(
       duration: const Duration(milliseconds: 1200),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
+    final fadeAnimation = useMemoized(
+      () => Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+          parent: animationController,
+          curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
+        ),
       ),
+      [animationController],
     );
 
-    _slideAnimation =
-        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
-          CurvedAnimation(
-            parent: _animationController,
-            curve: const Interval(0.3, 1.0, curve: Curves.easeOut),
+    final slideAnimation = useMemoized(
+      () =>
+          Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+            CurvedAnimation(
+              parent: animationController,
+              curve: const Interval(0.3, 1.0, curve: Curves.easeOut),
+            ),
           ),
-        );
+      [animationController],
+    );
 
-    _animationController.forward();
-  }
+    useEffect(() {
+      animationController.forward();
+      return null;
+    }, []);
 
-  @override
-  void dispose() {
-    _animationController.dispose();
-    usernameController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
+    final loginState = ref.watch(loginStateProvider);
 
-  Future<void> signInToAccount() async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
-    setState(() {
-      isLoading = true;
+    ref.listen<LoginState>(loginStateProvider, (previous, next) {
+      if (next.errorMessage != null) {
+        _showSnackBar(context, next.errorMessage!, Colors.red);
+      } else if (next.isSuccess) {
+        _showSnackBar(context, "Login successful!", Colors.green);
+        Future.delayed(const Duration(seconds: 1), () {
+          if (context.mounted) {
+            context.go(Routes.home);
+          }
+        });
+      }
     });
 
-    // TODO: Implement actual sign-in logic
-    // final signInRequest = await loginRequest.signIn(
-    //     username: usernameController.text,
-    //     password: passwordController.text);
-
-    // Simulated delay
-    await Future.delayed(const Duration(seconds: 2));
-
-    // TODO: Replace with actual response handling
-    final bool success = true; // Simulated success
-
-    if (success && mounted) {
-      _showSnackBar(
-        "Account Authorized. You'll be redirected shortly.",
-        ThemeUtils.$primaryColor,
-      );
-
-      await Future.delayed(const Duration(seconds: 2));
-      if (mounted) {
-        // Navigator.popAndPushNamed(context, '/');
-      }
-    } else if (mounted) {
-      _showSnackBar(
-        "Account Authorization Failed: Try again",
-        ThemeUtils.$error,
-      );
-    }
-
-    if (mounted) {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  void _showSnackBar(String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: backgroundColor,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.all(16),
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: ThemeUtils.$secondaryColor,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -134,7 +73,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             fit: BoxFit.cover,
             image: const AssetImage('assets/images/background.png'),
             colorFilter: ColorFilter.mode(
-              ThemeUtils.$blacks.withOpacity(0.7),
+              Colors.black.withOpacity(0.7),
               BlendMode.darken,
             ),
           ),
@@ -145,8 +84,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                ThemeUtils.$blacks.withOpacity(0.6),
-                ThemeUtils.$blacks.withOpacity(0.8),
+                Colors.black.withOpacity(0.6),
+                Colors.black.withOpacity(0.8),
               ],
             ),
           ),
@@ -155,32 +94,30 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: FadeTransition(
-                  opacity: _fadeAnimation,
+                  opacity: fadeAnimation,
                   child: SlideTransition(
-                    position: _slideAnimation,
+                    position: slideAnimation,
                     child: Form(
-                      key: _formKey,
+                      key: formKey,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Logo Section
                           _buildLogo(context),
                           const Gap(40),
-
-                          // Welcome Text
                           _buildWelcomeText(),
                           const Gap(50),
-
-                          // Form Container
-                          _buildFormContainer(),
+                          _buildFormContainer(
+                            context,
+                            ref,
+                            formKey,
+                            usernameController,
+                            passwordController,
+                            loginState.isLoading,
+                          ),
                           const Gap(30),
-
-                          // Divider
                           _buildDivider(),
                           const Gap(20),
-
-                          // Sign Up Prompt
-                          _buildSignUpPrompt(),
+                          _buildSignUpPrompt(context),
                         ],
                       ),
                     ),
@@ -250,7 +187,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           "Login to continue your culinary journey",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: ThemeUtils.$secondaryColor.withOpacity(0.8),
+            color: Colors.white.withOpacity(0.8),
             fontSize: 15,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.3,
@@ -260,7 +197,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget _buildFormContainer() {
+  Widget _buildFormContainer(
+    BuildContext context,
+    WidgetRef ref,
+    GlobalKey<FormState> formKey,
+    TextEditingController usernameController,
+    TextEditingController passwordController,
+    bool isLoading,
+  ) {
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
@@ -277,54 +221,28 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       ),
       child: Column(
         children: [
-          // Username Input
           UtakulaInput(
             controller: usernameController,
-            hintText: "Username or email",
+            hintText: "Please enter your username",
             prefixIcon: FluentIcons.person_24_regular,
-            keyboardType: TextInputType.emailAddress,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your username or email';
-              }
-              return null;
-            },
           ),
-          const Gap(16),
-
-          // Password Input
+          const Gap(12),
           UtakulaInput(
             controller: passwordController,
-            hintText: "Password",
+            hintText: "Please enter your password",
             prefixIcon: FluentIcons.lock_closed_24_regular,
             obscureText: true,
             showPasswordToggle: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
-              }
-              if (value.length < 6) {
-                return 'Password must be at least 6 characters';
-              }
-              return null;
-            },
           ),
           const Gap(12),
-
-          // Forgot Password
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () {
-                // TODO: Navigate to forgot password
-              },
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              ),
+              onPressed: () {},
               child: Text(
                 "Forgot password?",
                 style: TextStyle(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.9),
+                  color: ThemeUtils.$primaryColor,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
@@ -332,16 +250,24 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             ),
           ),
           const Gap(24),
-
-          // Login Button
-          UtakulaButton(
-            text: "Login",
-            onPressed: signInToAccount,
-            isLoading: isLoading,
-            size: UtakulaButtonSize.large,
+          SizedBox(
             width: double.infinity,
-            icon: FluentIcons.arrow_right_24_filled,
-            iconRight: true,
+            height: 56,
+            child: UtakulaButton(
+              text: "Login",
+              onPressed: isLoading
+                  ? null
+                  : () async {
+                      if (formKey.currentState!.validate()) {
+                        await ref
+                            .read(loginStateProvider.notifier)
+                            .signIn(
+                              usernameController.text,
+                              passwordController.text,
+                            );
+                      }
+                    },
+            ),
           ),
         ],
       ),
@@ -352,33 +278,27 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     return Row(
       children: [
         Expanded(
-          child: Divider(
-            color: ThemeUtils.$secondaryColor.withOpacity(0.3),
-            thickness: 1,
-          ),
+          child: Divider(color: Colors.white.withOpacity(0.3), thickness: 1),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             "Or",
             style: TextStyle(
-              color: ThemeUtils.$secondaryColor.withOpacity(0.7),
+              color: Colors.white.withOpacity(0.7),
               fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Expanded(
-          child: Divider(
-            color: ThemeUtils.$secondaryColor.withOpacity(0.3),
-            thickness: 1,
-          ),
+          child: Divider(color: Colors.white.withOpacity(0.3), thickness: 1),
         ),
       ],
     );
   }
 
-  Widget _buildSignUpPrompt() {
+  Widget _buildSignUpPrompt(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -392,7 +312,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           Text(
             "Don't have an account?",
             style: TextStyle(
-              color: ThemeUtils.$secondaryColor.withOpacity(0.8),
+              color: Colors.white.withOpacity(0.8),
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -415,7 +335,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               child: const Text(
                 "Sign up",
                 style: TextStyle(
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.$secondaryColor,
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.5,
@@ -424,6 +344,27 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showSnackBar(BuildContext context, String message, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: color,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        margin: const EdgeInsets.all(16),
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
+        ),
+        duration: const Duration(seconds: 3),
       ),
     );
   }

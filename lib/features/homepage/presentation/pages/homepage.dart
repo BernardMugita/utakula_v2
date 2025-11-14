@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/action_item.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/days_widget.dart';
@@ -11,31 +12,31 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // These would come from Riverpod providers
     final bool isFetchingMealPlan = false;
     final Map<String, dynamic> myMealPlan = {};
     final Map selectedPlan = {};
     final List sharedMealPlans = [];
 
-    return RefreshIndicator(
-      onRefresh: () async {
-        // Hook up your refresh logic here
-      },
-      child: Scaffold(
-        backgroundColor: ThemeUtils.$accentColor,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: Builder(
-            builder: (context) => GestureDetector(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: const Icon(Icons.reorder),
-            ),
+    return Scaffold(
+      backgroundColor: ThemeUtils.$accentColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Builder(
+          builder: (context) => GestureDetector(
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
+            child: const Icon(Icons.reorder),
           ),
         ),
-        body: SizedBox(
+      ),
+      drawer: UtakulaSideNavigation(),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // Hook up your refresh logic here
+        },
+        child: SizedBox(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
@@ -174,7 +175,7 @@ class Homepage extends StatelessWidget {
       ),
       child: isFetchingMealPlan
           ? _buildLoadingState()
-          : myMealPlan.isNotEmpty
+          : myMealPlan.isEmpty
           ? const NoMealPlanAlert()
           : _buildDaysWidget(
               context,
