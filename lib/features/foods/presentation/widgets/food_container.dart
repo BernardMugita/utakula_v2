@@ -64,9 +64,9 @@ class FoodContainer extends HookWidget {
                         child: ClipOval(
                           child: foodDetails.imageUrl != null &&
                                   foodDetails.imageUrl!.isNotEmpty
-                              ? Image.network(
-                                  foodDetails.imageUrl!,
-                                  fit: BoxFit.cover,
+                              ? Image.asset(
+                                  'assets/foods/${foodDetails.imageUrl}',
+                                  fit: BoxFit.contain,
                                   errorBuilder: (context, error, stackTrace) {
                                     return const Icon(
                                       FluentIcons.food_24_regular,
@@ -179,11 +179,11 @@ class FoodContainer extends HookWidget {
       return _buildErrorMessage();
     }
 
-    final breakdown = food.calories!.breakdown;
-
-    if (breakdown.isEmpty) {
-      return _buildErrorMessage();
-    }
+    // final breakdown = food.calories;
+    //
+    // if (breakdown.isEmpty) {
+    //   return _buildErrorMessage();
+    // }
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -261,7 +261,7 @@ class FoodContainer extends HookWidget {
             ),
           ),
           const Gap(12),
-          _buildNutrientTable(breakdown),
+          _buildNutrientTable({}),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
@@ -17,6 +18,7 @@ class Foods extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final foodState = ref.watch(foodStateProvider);
+    Logger logger = Logger();
 
     useEffect(() {
       Future.microtask(() => ref.read(foodStateProvider.notifier).fetchFoods());

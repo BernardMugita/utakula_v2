@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:utakula_v2/routing/routes.dart';
 
 class NoMealPlanAlert extends StatelessWidget {
   const NoMealPlanAlert({super.key});
@@ -71,7 +73,7 @@ class NoMealPlanAlert extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/new_plan');
+                  context.go(Routes.newPlan);
                 },
                 borderRadius: BorderRadius.circular(16),
                 child: Padding(

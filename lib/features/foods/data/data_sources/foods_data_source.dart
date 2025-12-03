@@ -33,11 +33,12 @@ class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
     try {
       final foodModel = FoodModel.fromEntity(foodEntity);
 
+      logger.log(Level.info, foodModel.toJson());
+
       final response = await dioClient.post(
         ApiEndpoints.addNewFood,
         data: foodModel.toJson(),
       );
-
       final payload = response.data['payload'];
 
       return FoodModel.fromJson(payload).toEntity();
@@ -55,7 +56,6 @@ class FoodRemoteDataSourceImpl implements FoodRemoteDataSource {
   Future<List<FoodEntity>> getAllFoods() async {
     try {
       final response = await dioClient.post(ApiEndpoints.getAllFoods);
-
       final List<dynamic> list = response.data['payload'];
 
       return list.map((item) => FoodModel.fromJson(item).toEntity()).toList();

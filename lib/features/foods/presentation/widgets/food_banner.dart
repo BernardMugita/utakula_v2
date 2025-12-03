@@ -1,7 +1,9 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/routing/routes.dart';
 
 class FoodBanner extends HookWidget {
   const FoodBanner({super.key});
@@ -194,39 +196,30 @@ class FoodBanner extends HookWidget {
                         ),
                       ),
 
-                      // Optional: Filter Button (uncomment if needed)
-                      // Container(
-                      //   padding: const EdgeInsets.symmetric(
-                      //     horizontal: 16,
-                      //     vertical: 10,
-                      //   ),
-                      //   decoration: BoxDecoration(
-                      //     color: ThemeUtils.$secondaryColor.withOpacity(0.2),
-                      //     borderRadius: BorderRadius.circular(12),
-                      //     border: Border.all(
-                      //       color: ThemeUtils.$secondaryColor.withOpacity(0.3),
-                      //     ),
-                      //   ),
-                      //   child: Row(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     children: [
-                      //       Icon(
-                      //         FluentIcons.filter_20_regular,
-                      //         color: ThemeUtils.$secondaryColor,
-                      //         size: 18,
-                      //       ),
-                      //       const SizedBox(width: 6),
-                      //       Text(
-                      //         "Filter",
-                      //         style: TextStyle(
-                      //           color: ThemeUtils.$secondaryColor,
-                      //           fontWeight: FontWeight.w600,
-                      //           fontSize: 13,
-                      //         ),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
+                      GestureDetector(
+                        onTap: () {
+                          context.go("${Routes.foods}${Routes.addFoods}");
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: ThemeUtils.$secondaryColor,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            FluentIcons.add_circle_24_filled,
+                            color: ThemeUtils.$primaryColor,
+                            size: 24,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

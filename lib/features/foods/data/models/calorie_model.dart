@@ -1,24 +1,68 @@
 import 'package:utakula_v2/features/foods/domain/entities/calorie_entity.dart';
 
+class NutrientBreakdown {
+  final double amount;
+  final double calories;
+  final String unit;
+
+  const NutrientBreakdown({
+    required this.amount,
+    required this.calories,
+    required this.unit,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {'amount': amount, 'calories': calories, 'unit': unit};
+  }
+
+  factory NutrientBreakdown.fromJson(Map<String, dynamic> json) {
+    return NutrientBreakdown(
+      amount: (json['amount'] as num).toDouble(),
+      calories: (json['calories'] as num).toDouble(),
+      unit: json['unit'] as String,
+    );
+  }
+}
+
 class CalorieModel {
   final String id;
   final String foodId;
   final int total;
-  final Map<String, dynamic> breakdown;
+  final NutrientBreakdown? carbohydrate;
+  final NutrientBreakdown? protein;
+  final NutrientBreakdown? fat;
+  final NutrientBreakdown? fiber;
 
   const CalorieModel({
     required this.id,
     required this.foodId,
     required this.total,
-    required this.breakdown,
+    this.carbohydrate,
+    this.protein,
+    this.fat,
+    this.fiber,
   });
 
   factory CalorieModel.fromJson(Map<String, dynamic> json) {
+    final breakdown = json['breakdown'] as Map<String, dynamic>?;
+
     return CalorieModel(
-      id: json['calorie_id'] as String,
+      // Handle both 'calorie_id' and 'id' fields
+      id: (json['calorie_id'] ?? json['id']) as String,
       foodId: json['food_id'] as String,
       total: json['total'] as int,
-      breakdown: json['breakdown'] as Map<String, dynamic>,
+      carbohydrate: breakdown?['carbohydrate'] != null
+          ? NutrientBreakdown.fromJson(breakdown!['carbohydrate'])
+          : null,
+      protein: breakdown?['protein'] != null
+          ? NutrientBreakdown.fromJson(breakdown!['protein'])
+          : null,
+      fat: breakdown?['fat'] != null
+          ? NutrientBreakdown.fromJson(breakdown!['fat'])
+          : null,
+      fiber: breakdown?['fiber'] != null
+          ? NutrientBreakdown.fromJson(breakdown!['fiber'])
+          : null,
     );
   }
 
@@ -27,7 +71,12 @@ class CalorieModel {
       'calorie_id': id,
       'food_id': foodId,
       'total': total,
-      'breakdown': breakdown,
+      'breakdown': {
+        if (carbohydrate != null) 'carbohydrate': carbohydrate!.toJson(),
+        if (protein != null) 'protein': protein!.toJson(),
+        if (fat != null) 'fat': fat!.toJson(),
+        if (fiber != null) 'fiber': fiber!.toJson(),
+      },
     };
   }
 
@@ -36,7 +85,10 @@ class CalorieModel {
       id: entity.id,
       foodId: entity.foodId,
       total: entity.total,
-      breakdown: entity.breakdown,
+      carbohydrate: entity.carbohydrate,
+      protein: entity.protein,
+      fat: entity.fat,
+      fiber: entity.fiber,
     );
   }
 
@@ -45,7 +97,10 @@ class CalorieModel {
       id: id,
       foodId: foodId,
       total: total,
-      breakdown: breakdown,
+      carbohydrate: carbohydrate,
+      protein: protein,
+      fat: fat,
+      fiber: fiber,
     );
   }
 }
