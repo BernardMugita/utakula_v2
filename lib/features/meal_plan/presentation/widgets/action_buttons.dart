@@ -47,19 +47,8 @@ class ActionButtons extends StatelessWidget {
                 ThemeUtils.$primaryColor,
               ),
             ),
-            onPressed: isLoading ? null : onSaveMealPlan,
-            child: isLoading
-                ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        ThemeUtils.$secondaryColor,
-                      ),
-                    ),
-                  )
-                : const Text(
+            onPressed: onSaveMealPlan,
+            child: const Text(
                     "Save Meal Plan",
                     style: TextStyle(color: ThemeUtils.$secondaryColor),
                   ),

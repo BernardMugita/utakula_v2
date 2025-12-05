@@ -34,9 +34,14 @@ class DayCard extends StatelessWidget {
   }
 
   void _navigateToEditDay(BuildContext context) {
-    context.go(
+    context.push(
       "${Routes.newPlan}${Routes.dayMealPlan}",
-      extra: {"day": day, "meals": meals, "onUpdate": onUpdate},
+      extra: {
+        "day": day,
+        "meals": meals,
+        "totalCalories": totalCalories,
+        "onSave": onUpdate, // Changed from onUpdate to onSave to match router
+      },
     );
   }
 
@@ -69,7 +74,6 @@ class DayCard extends StatelessWidget {
                     ..moveTo(0, size.height)
                     ..relativeLineTo(size.width, 0),
                 ),
-
                 child: Container(
                   width: double.infinity,
                   height: 190,
@@ -139,16 +143,37 @@ class DayCard extends StatelessWidget {
   Widget _buildCaloriesBadge() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.$primaryColor,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text("Calories", style: TextStyle(fontSize: 12)),
-          Text("$totalCalories cal", style: const TextStyle(fontSize: 12)),
+          Row(
+            children: [
+              Icon(
+                FluentIcons.fire_24_filled,
+                size: 14,
+                color: ThemeUtils.$secondaryColor,
+              ),
+              const Text(
+                "Calories",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: ThemeUtils.$secondaryColor,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            "$totalCalories cal",
+            style: const TextStyle(
+              fontSize: 14,
+              color: ThemeUtils.$secondaryColor,
+            ),
+          ),
         ],
       ),
     );

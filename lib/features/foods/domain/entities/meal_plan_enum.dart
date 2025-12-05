@@ -2,7 +2,8 @@ enum MealTypeEnum {
   breakfastOrSnack,
   lunchOrSupper,
   fruit,
-  beverage;
+  beverage,
+  sideDish;
 
   factory MealTypeEnum.fromString(String value) {
     switch (value) {
@@ -14,6 +15,8 @@ enum MealTypeEnum {
         return MealTypeEnum.fruit;
       case "beverage":
         return MealTypeEnum.beverage;
+      case "side dish":
+        return MealTypeEnum.sideDish;
       default:
         throw Exception("Unknown meal type: $value");
     }
@@ -29,6 +32,8 @@ enum MealTypeEnum {
         return "fruit";
       case MealTypeEnum.beverage:
         return "beverage";
+      case MealTypeEnum.sideDish:
+        return "side dish";
     }
   }
 }

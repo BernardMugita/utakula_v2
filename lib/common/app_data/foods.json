@@ -1,0 +1,1883 @@
+[
+  {
+    "image_url": "nyama-choma.png",
+    "name": "Nyama Choma (Goat)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "b7c8d9e0-1f2g-3h4i-5j6k-7l8m9n0o1p2q",
+      "food_id": "88990011-ddee-ffaa-bbcc-dd28eeffaabb",
+      "total": 143,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 27.1,
+          "calories": 108.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 3.0,
+          "calories": 27.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "irio.png",
+    "name": "Irio (Mashed Potatoes with Peas and Corn)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "c8d9e0f1-2g3h-4i5j-6k7l-8m9n0o1p2q3r",
+      "food_id": "99001122-eeff-aabb-ccdd-ee29ffaabbcc",
+      "total": 127,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 17.0,
+          "calories": 68.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 4.0,
+          "calories": 16.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 5.0,
+          "calories": 45.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 3.0,
+          "calories": 6.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "kunde.png",
+    "name": "Kunde (Cowpea Leaves)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "d9e0f1g2-3h4i-5j6k-7l8m-9n0o1p2q3r4s",
+      "food_id": "00112233-ffaa-bbcc-ddee-ff30aabbccdd",
+      "total": 42,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 7.6,
+          "calories": 30.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.8,
+          "calories": 11.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.4,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.2,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "terere.png",
+    "name": "Terere (Amaranth Leaves)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "e0f1g2h3-4i5j-6k7l-8m9n-0o1p2q3r4s5t",
+      "food_id": "11223344-aabb-ccdd-eeff-aa31bbccddee",
+      "total": 23,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 4.0,
+          "calories": 16.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.5,
+          "calories": 10.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.3,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.1,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "managu.png",
+    "name": "Managu (African Nightshade)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "f1g2h3i4-5j6k-7l8m-9n0o-1p2q3r4s5t6u",
+      "food_id": "22334455-bbcc-ddee-ffaa-bb32ccddeeaa",
+      "total": 36,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 6.2,
+          "calories": 25.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 3.2,
+          "calories": 13.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.5,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.8,
+          "calories": 6.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mchicha.png",
+    "name": "Mchicha (African Spinach)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "g2h3i4j5-6k7l-8m9n-0o1p-2q3r4s5t6u7v",
+      "food_id": "33445566-ccdd-eeff-aabb-cc33ddeeffbb",
+      "total": 23,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 3.6,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.9,
+          "calories": 12.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.4,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.2,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "ndengu.png",
+    "name": "Ndengu (Green Grams/Mung Beans)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "h3i4j5k6-7l8m-9n0o-1p2q-3r4s5t6u7v8w",
+      "food_id": "44556677-ddee-ffaa-bbcc-dd34eeffaabb",
+      "total": 105,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 19.2,
+          "calories": 77.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 7.0,
+          "calories": 28.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.4,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 7.6,
+          "calories": 15.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "njahi.png",
+    "name": "Njahi (Black Beans)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "i4j5k6l7-8m9n-0o1p-2q3r-4s5t6u7v8w9x",
+      "food_id": "55667788-eeff-aabb-ccdd-ee35ffaabbcc",
+      "total": 132,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 23.7,
+          "calories": 95.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 8.9,
+          "calories": 36.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.5,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 8.7,
+          "calories": 17.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "chicken.png",
+    "name": "Kuku (Chicken Grilled)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "j5k6l7m8-9n0o-1p2q-3r4s-5t6u7v8w9x0y",
+      "food_id": "66778899-ffaa-bbcc-ddee-ff36aabbccdd",
+      "total": 165,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 31.0,
+          "calories": 124.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 3.6,
+          "calories": 32.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "tilapia.png",
+    "name": "Tilapia (Grilled)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "k6l7m8n9-0o1p-2q3r-4s5t-6u7v8w9x0y1z",
+      "food_id": "77889900-aabb-ccdd-eeff-aa37bbccddee",
+      "total": 128,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 26.2,
+          "calories": 105.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 2.7,
+          "calories": 24.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "samaki.png",
+    "name": "Samaki (Fish with Coconut)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "l7m8n9o0-1p2q-3r4s-5t6u-7v8w9x0y1z2a",
+      "food_id": "88990011-bbcc-ddee-ffaa-bb38ccddeeaa",
+      "total": 185,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 3.2,
+          "calories": 13.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 22.0,
+          "calories": 88.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 9.5,
+          "calories": 86.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.5,
+          "calories": 1.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "viazi-karai.png",
+    "name": "Viazi Karai (Spiced Potato)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or snack",
+    "calories": {
+      "id": "m8n9o0p1-2q3r-4s5t-6u7v-8w9x0y1z2a3b",
+      "food_id": "99001122-ccdd-eeff-aabb-cc39ddeeffbb",
+      "total": 195,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 28.0,
+          "calories": 112.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 3.5,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 8.0,
+          "calories": 72.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.8,
+          "calories": 6.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "bhajia.png",
+    "name": "Bhajia (Potato Fritters)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or snack",
+    "calories": {
+      "id": "n9o0p1q2-3r4s-5t6u-7v8w-9x0y1z2a3b4c",
+      "food_id": "00112233-ddee-ffaa-bbcc-dd40eeffaabb",
+      "total": 245,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 32.0,
+          "calories": 128.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 5.2,
+          "calories": 21.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 11.0,
+          "calories": 99.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.4,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mkate-wa-kumimina.png",
+    "name": "Mkate wa Kumimina (Coastal Bread)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "o0p1q2r3-4s5t-6u7v-8w9x-0y1z2a3b4c5d",
+      "food_id": "11223344-eeff-aabb-ccdd-ee41ffaabbcc",
+      "total": 280,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 52.0,
+          "calories": 208.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 7.5,
+          "calories": 30.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 4.8,
+          "calories": 43.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.8,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mahamri.png",
+    "name": "Mahamri (Coconut Doughnut)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "p1q2r3s4-5t6u-7v8w-9x0y-1z2a3b4c5d6e",
+      "food_id": "22334455-ffaa-bbcc-ddee-ff42aabbccdd",
+      "total": 315,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 45.0,
+          "calories": 180.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 6.2,
+          "calories": 25.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 12.5,
+          "calories": 113.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.5,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "uji.png",
+    "name": "Uji (Porridge)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast",
+    "calories": {
+      "id": "q2r3s4t5-6u7v-8w9x-0y1z-2a3b4c5d6e7f",
+      "food_id": "33445566-aabb-ccdd-eeff-aa43bbccddee",
+      "total": 85,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 18.5,
+          "calories": 74.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.2,
+          "calories": 9.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.8,
+          "calories": 7.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.5,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "kachumbari.png",
+    "name": "Kachumbari (Tomato Onion Salad)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "side dish",
+    "calories": {
+      "id": "r3s4t5u6-7v8w-9x0y-1z2a-3b4c5d6e7f8g",
+      "food_id": "44556677-bbcc-ddee-ffaa-bb44ccddeeaa",
+      "total": 35,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 7.8,
+          "calories": 31.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.2,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.0,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "chai.png",
+    "name": "Chai (Kenyan Spiced Tea with Milk)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "beverage",
+    "calories": {
+      "id": "s4t5u6v7-8w9x-0y1z-2a3b-4c5d6e7f8g9h",
+      "food_id": "55667788-ccdd-eeff-aabb-cc45ddeeffbb",
+      "total": 65,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 10.5,
+          "calories": 42.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.5,
+          "calories": 10.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 1.5,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "madafu.png",
+    "name": "Madafu (Coconut Water)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "beverage",
+    "calories": {
+      "id": "t5u6v7w8-9x0y-1z2a-3b4c-5d6e7f8g9h0i",
+      "food_id": "66778899-ddee-ffaa-bbcc-dd46eeffaabb",
+      "total": 19,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 3.7,
+          "calories": 15.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.7,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.1,
+          "calories": 2.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mkate-mayai.png",
+    "name": "Mkate Mayai (Egg Bread)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or snack",
+    "calories": {
+      "id": "u6v7w8x9-0y1z-2a3b-4c5d-6e7f8g9h0i1j",
+      "food_id": "77889900-eeff-aabb-ccdd-ee47ffaabbcc",
+      "total": 290,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 35.0,
+          "calories": 140.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 12.5,
+          "calories": 50.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 11.0,
+          "calories": 99.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.5,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "chips-mayai.png",
+    "name": "Chips Mayai (French Fries Omelette)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "v7w8x9y0-1z2a-3b4c-5d6e-7f8g9h0i1j2k",
+      "food_id": "88990011-ffaa-bbcc-ddee-ff48aabbccdd",
+      "total": 365,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 42.0,
+          "calories": 168.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 14.5,
+          "calories": 58.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 16.0,
+          "calories": 144.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 3.2,
+          "calories": 6.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mutura.png",
+    "name": "Mutura (Kenyan Sausage)",
+    "macro_nutrient": "Protein",
+    "meal_type": "breakfast or snack",
+    "calories": {
+      "id": "w8x9y0z1-2a3b-4c5d-6e7f-8g9h0i1j2k3l",
+      "food_id": "99001122-aabb-ccdd-eeff-aa49bbccddee",
+      "total": 285,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 8.0,
+          "calories": 32.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 22.0,
+          "calories": 88.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 18.0,
+          "calories": 162.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.2,
+          "calories": 2.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "matumbo.png",
+    "name": "Matumbo (Tripe Stew)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "x9y0z1a2-3b4c-5d6e-7f8g-9h0i1j2k3l4m",
+      "food_id": "00112233-bbcc-ddee-ffaa-bb50ccddeeaa",
+      "total": 94,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 18.0,
+          "calories": 72.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 2.5,
+          "calories": 23.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "maharagwe.png",
+    "name": "Maharagwe (Red Beans)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "y0z1a2b3-4c5d-6e7f-8g9h-0i1j2k3l4m5n",
+      "food_id": "11223344-ccdd-eeff-aabb-cc51ddeeffbb",
+      "total": 127,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 22.8,
+          "calories": 91.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 8.7,
+          "calories": 35.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.5,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 6.4,
+          "calories": 13.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "arrow-roots.png",
+    "name": "Arrow Roots (Boiled)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "z1a2b3c4-5d6e-7f8g-9h0i-1j2k3l4m5n6o",
+      "food_id": "22334455-ddee-ffaa-bbcc-dd52eeffaabb",
+      "total": 112,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 26.0,
+          "calories": 104.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.2,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 4.1,
+          "calories": 8.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "sweet-potato.png",
+    "name": "Sweet Potato (Boiled)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "a2b3c4d5-6e7f-8g9h-0i1j-2k3l4m5n6o7p",
+      "food_id": "33445566-eeff-aabb-ccdd-ee53ffaabbcc",
+      "total": 90,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 20.7,
+          "calories": 83.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.0,
+          "calories": 8.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 3.3,
+          "calories": 7.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "cassava.png",
+    "name": "Cassava (Boiled)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "b3c4d5e6-7f8g-9h0i-1j2k-3l4m5n6o7p8q",
+      "food_id": "44556677-ffaa-bbcc-ddee-ff54aabbccdd",
+      "total": 160,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 38.1,
+          "calories": 152.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.4,
+          "calories": 6.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.3,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.8,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "yams.png",
+    "name": "Yams (Boiled)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "c4d5e6f7-8g9h-0i1j-2k3l-4m5n6o7p8q9r",
+      "food_id": "55667788-aabb-ccdd-eeff-aa55bbccddee",
+      "total": 116,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 27.5,
+          "calories": 110.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.5,
+          "calories": 6.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.1,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 4.1,
+          "calories": 8.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "avocado.png",
+    "name": "Avocado",
+    "macro_nutrient": "Fat",
+    "meal_type": "breakfast or snack or side dish",
+    "calories": {
+      "id": "d5e6f7g8-9h0i-1j2k-3l4m-5n6o7p8q9r0s",
+      "food_id": "66778899-bbcc-ddee-ffaa-bb56ccddeeaa",
+      "total": 160,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 8.5,
+          "calories": 34.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.0,
+          "calories": 8.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 14.7,
+          "calories": 132.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 6.7,
+          "calories": 13.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "samosa.png",
+    "name": "Samosa",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "f490ebd7-6eb8-4035-9e97-96ba37781cf8",
+      "food_id": "92794301-52ad-4ce1-9d0b-ffe923f621cf",
+      "total": 217,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 38.0,
+          "calories": 152.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 5.4,
+          "calories": 22.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 13.0,
+          "calories": 117.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.6,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "melon.png",
+    "name": "Watermelon",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "calories": {
+      "id": "a1b2c3d4-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+      "food_id": "11223344-5566-7788-99aa-bbccddee01ff",
+      "total": 30,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 7.6,
+          "calories": 30.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.6,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.4,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "cinnamon-rolls.png",
+    "name": "Cinnamon Roll",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "b2c3d4e5-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
+      "food_id": "22334455-6677-8899-aabb-ccddeeaa02bb",
+      "total": 286,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 47.0,
+          "calories": 188.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 4.5,
+          "calories": 18.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 12.0,
+          "calories": 108.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.5,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mandazi.png",
+    "name": "Mandazi",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "c3d4e5f6-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
+      "food_id": "33445566-7788-99aa-bbcc-ddeeaa03bbcc",
+      "total": 320,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 48.0,
+          "calories": 192.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 7.7,
+          "calories": 31.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 10.3,
+          "calories": 93.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.6,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mango.png",
+    "name": "Mango",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "calories": {
+      "id": "d4e5f6g7-8h9i-0j1k-2l3m-4n5o6p7q8r9s",
+      "food_id": "44556677-8899-aabb-ccdd-eeaa04bbccdd",
+      "total": 60,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 15.0,
+          "calories": 60.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.8,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.4,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.6,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "banana.png",
+    "name": "Banana",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "calories": {
+      "id": "e5f6g7h8-9i0j-1k2l-3m4n-5o6p7q8r9s0t",
+      "food_id": "55667788-99aa-bbcc-ddee-aa05bbccddee",
+      "total": 89,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 23.0,
+          "calories": 92.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.1,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.3,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.6,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "orange.png",
+    "name": "Orange",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "calories": {
+      "id": "f6g7h8i9-0j1k-2l3m-4n5o-6p7q8r9s0t1u",
+      "food_id": "66778899-aabb-ccdd-eeff-aa06bbccddee",
+      "total": 47,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 12.0,
+          "calories": 48.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.9,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.1,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.4,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "apple.png",
+    "name": "Apple",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "calories": {
+      "id": "g7h8i9j0-1k2l-3m4n-5o6p-7q8r9s0t1u2v",
+      "food_id": "77889900-bbcc-ddee-ffaa-bb07ccddeeaa",
+      "total": 52,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 14.0,
+          "calories": 56.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.3,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.4,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "croissant.png",
+    "name": "Croissant",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "h8i9j0k1-2l3m-4n5o-6p7q-8r9s0t1u2v3w",
+      "food_id": "88990011-ccdd-eeff-aabb-cc08ddeeffbb",
+      "total": 231,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 26.0,
+          "calories": 104.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 4.9,
+          "calories": 20.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 12.0,
+          "calories": 108.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.6,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "muffin.png",
+    "name": "Blueberry Muffin",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "i9j0k1l2-3m4n-5o6p-7q8r-9s0t1u2v3w4x",
+      "food_id": "99001122-ddee-ffaa-bbcc-dd09eeffaabb",
+      "total": 337,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 50.0,
+          "calories": 200.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 6.8,
+          "calories": 27.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 12.5,
+          "calories": 113.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.7,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "tea-scones.png",
+    "name": "Scone",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "j0k1l2m3-4n5o-6p7q-8r9s-0t1u2v3w4x5y",
+      "food_id": "00112233-eeff-aabb-ccdd-ee10ffaabbcc",
+      "total": 353,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 45.0,
+          "calories": 180.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 9.2,
+          "calories": 37.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 14.9,
+          "calories": 134.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.6,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "bread.png",
+    "name": "White Bread",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "breakfast or breakfast or snack",
+    "calories": {
+      "id": "k1l2m3n4-5o6p-7q8r-9s0t-1u2v3w4x5y6z",
+      "food_id": "11223344-ffaa-bbcc-ddee-ff11aabbccdd",
+      "total": 266,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 49.0,
+          "calories": 196.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 9.0,
+          "calories": 36.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 3.3,
+          "calories": 30.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.4,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "milk.png",
+    "name": "Whole Milk",
+    "macro_nutrient": "Protein",
+    "meal_type": "beverage",
+    "calories": {
+      "id": "l2m3n4o5-6p7q-8r9s-0t1u-2v3w4x5y6z7a",
+      "food_id": "22334455-aabb-ccdd-eeff-aa12bbccddee",
+      "total": 61,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 4.8,
+          "calories": 19.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 3.3,
+          "calories": 13.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 3.3,
+          "calories": 30.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "orange-juice.png",
+    "name": "Orange Juice",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "beverage",
+    "calories": {
+      "id": "m3n4o5p6-7q8r-9s0t-1u2v-3w4x5y6z7a8b",
+      "food_id": "33445566-bbcc-ddee-ffaa-bb13ccddeeaa",
+      "total": 45,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 10.4,
+          "calories": 42.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.7,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.2,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mango-juice.png",
+    "name": "Mango Juice",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "beverage",
+    "calories": {
+      "id": "n4o5p6q7-8r9s-0t1u-2v3w-4x5y6z7a8b9c",
+      "food_id": "44556677-ccdd-eeff-aabb-cc14ddeeffbb",
+      "total": 54,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 13.0,
+          "calories": 52.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.4,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.2,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "tea.png",
+    "name": "Tea with Milk",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "beverage",
+    "calories": {
+      "id": "o5p6q7r8-9s0t-1u2v-3w4x-5y6z7a8b9c0d",
+      "food_id": "55667788-ddee-ffaa-bbcc-dd15eeffaabb",
+      "total": 10,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 1.5,
+          "calories": 6.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.4,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.4,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "coffee.png",
+    "name": "Black Coffee",
+    "macro_nutrient": "Protein",
+    "meal_type": "beverage",
+    "calories": {
+      "id": "p6q7r8s9-0t1u-2v3w-4x5y-6z7a8b9c0d1e",
+      "food_id": "66778899-eeff-aabb-ccdd-ee16ffaabbcc",
+      "total": 2,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.3,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "omena.png",
+    "name": "Omena (Silver Cyprinid)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "q7r8s9t0-1u2v-3w4x-5y6z-7a8b9c0d1e2f",
+      "food_id": "77889900-ffaa-bbcc-ddee-ff17aabbccdd",
+      "total": 210,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 29.0,
+          "calories": 116.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 10.0,
+          "calories": 90.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "nduma.png",
+    "name": "Nduma (Arrowroot)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "r8s9t0u1-2v3w-4x5y-6z7a-8b9c0d1e2f3g",
+      "food_id": "88990011-aabb-ccdd-eeff-aa18bbccddee",
+      "total": 65,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 13.4,
+          "calories": 54.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 4.2,
+          "calories": 17.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.3,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "spaghetti.png",
+    "name": "Spaghetti (Cooked)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "s9t0u1v2-3w4x-5y6z-7a8b-9c0d1e2f3g4h",
+      "food_id": "99001122-bbcc-ddee-ffaa-bb19ccddeeaa",
+      "total": 158,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 31.0,
+          "calories": 124.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 5.8,
+          "calories": 23.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.9,
+          "calories": 8.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.8,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "matoke.png",
+    "name": "Matoke (Plantain)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "t0u1v2w3-4x5y-6z7a-8b9c-0d1e2f3g4h5i",
+      "food_id": "00112233-ccdd-eeff-aabb-cc20ddeeffbb",
+      "total": 122,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 31.9,
+          "calories": 128.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.3,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.4,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.3,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mukimo.png",
+    "name": "Mukimo",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "u1v2w3x4-5y6z-7a8b-9c0d-1e2f3g4h5i6j",
+      "food_id": "11223344-ddee-ffaa-bbcc-dd21eeffaabb",
+      "total": 130,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 24.0,
+          "calories": 96.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 4.5,
+          "calories": 18.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 2.0,
+          "calories": 18.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 3.5,
+          "calories": 7.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "pilau.png",
+    "name": "Pilau (Spiced Rice)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "v2w3x4y5-6z7a-8b9c-0d1e-2f3g4h5i6j7k",
+      "food_id": "22334455-eeff-aabb-ccdd-ee22ffaabbcc",
+      "total": 150,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 28.0,
+          "calories": 112.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 3.5,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 3.5,
+          "calories": 32.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.8,
+          "calories": 2.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "githeri.png",
+    "name": "Githeri (Maize & Beans)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "w3x4y5z6-7a8b-9c0d-1e2f-3g4h5i6j7k8l",
+      "food_id": "33445566-ffaa-bbcc-ddee-ff23aabbccdd",
+      "total": 140,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 25.0,
+          "calories": 100.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 6.5,
+          "calories": 26.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 1.5,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 5.0,
+          "calories": 10.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "chapati.png",
+    "name": "Chapati",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "x4y5z6a7-8b9c-0d1e-2f3g-4h5i6j7k8l9m",
+      "food_id": "44556677-aabb-ccdd-eeff-aa24bbccddee",
+      "total": 273,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 45.0,
+          "calories": 180.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 6.0,
+          "calories": 24.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 7.0,
+          "calories": 63.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 3.0,
+          "calories": 6.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "meat.png",
+    "name": "Beef (Cooked)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "y5z6a7b8-9c0d-1e2f-3g4h-5i6j7k8l9m0n",
+      "food_id": "55667788-bbcc-ddee-ffaa-bb25ccddeeaa",
+      "total": 250,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 26.0,
+          "calories": 104.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 15.0,
+          "calories": 135.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "ugali.png",
+    "name": "Ugali (Maize Meal)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "z6a7b8c9-0d1e-2f3g-4h5i-6j7k8l9m0n1o",
+      "food_id": "66778899-ccdd-eeff-aabb-cc26ddeeffbb",
+      "total": 124,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 25.6,
+          "calories": 102.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.7,
+          "calories": 11.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 1.2,
+          "calories": 11.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.4,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "kales.png",
+    "name": "Kale (Sukuma Wiki)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "calories": {
+      "id": "a7b8c9d0-1e2f-3g4h-5i6j-7k8l9m0n1o2p",
+      "food_id": "77889900-ddee-ffaa-bbcc-dd27eeffaabb",
+      "total": 28,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 5.6,
+          "calories": 22.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.9,
+          "calories": 8.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.4,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.0,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  }
+]

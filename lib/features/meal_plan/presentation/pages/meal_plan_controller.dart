@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:logger/logger.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/features/meal_plan/data/models/meal_plan_model.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/single_meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/presentation/providers/meal_plan_provider.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/action_buttons.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/day_card.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/info_banner.dart';
@@ -68,6 +75,8 @@ class MealPlanController extends HookConsumerWidget {
       isLoading.value = false;
     }
 
+    Logger logger = Logger();
+
     // Handle save meal plan
     Future<void> handleSaveMealPlan() async {
       // Validate meal plan
@@ -86,14 +95,85 @@ class MealPlanController extends HookConsumerWidget {
         }
       }
 
-      isLoading.value = true;
-      // TODO: Implement save meal plan logic with your API
-      await Future.delayed(const Duration(seconds: 1));
-      isLoading.value = false;
+      // No need for a local isLoading. The provider will handle the submission state.
+      // isLoading.value = true;
 
-      // TODO: Show success message and navigate back
-      // _showSuccessSnackBar(context, 'Meal plan saved successfully');
-      // Navigator.pop(context);
+      try {
+        final newMealPlan = mealPlan.value.map((plan) {
+          // Helper function to convert meal list
+          List<MealTypeFoodEntity> convertMealList(List<dynamic>? mealList) {
+            if (mealList == null || mealList.isEmpty) {
+              return [];
+            }
+
+            return mealList.map((food) {
+              // Generate an ID if it doesn't exist
+              final foodId =
+                  food['id']?.toString() ??
+                  food['food_id']?.toString() ??
+                  ''; // Empty string or generate a UUID
+
+              return MealTypeFoodEntity(
+                id: foodId,
+                foodName: food['name']?.toString() ?? 'Unknown',
+                imageUrl:
+                    food['imageUrl']?.toString() ??
+                    food['image_url']?.toString() ??
+                    '',
+                calories: (food['calories'] is int)
+                    ? food['calories'] as int
+                    : (food['calories'] as num?)?.toInt() ?? 0,
+              );
+            }).toList();
+          }
+
+          final meals = plan['meals'] as Map<String, dynamic>;
+
+          return DayMealPlanEntity(
+            day: plan['day'],
+            mealPlan: SingleMealPlanEntity(
+              breakfast: convertMealList(meals['breakfast']),
+              lunch: convertMealList(meals['lunch']),
+              supper: convertMealList(meals['supper']),
+            ),
+            totalCalories: plan['total_calories'] as int,
+          );
+        }).toList();
+
+        final mealPlanEntity = MealPlanEntity(
+          id: '', // The backend should generate the ID
+          members: [],
+          mealPlan: newMealPlan,
+        );
+
+        final notifier = ref.read(mealPlanStateProvider.notifier);
+        final success = await notifier.createMealPlan(mealPlanEntity);
+
+        if (success) {
+          if (context.mounted) {
+            _showSuccessSnackBar(context, 'Meal plan created successfully!');
+            Navigator.pop(context);
+          }
+        } else {
+          // The error state is already set by the notifier.
+          // We can listen to the provider state to show the error.
+          // For simplicity here, we'll just show a generic error.
+          if (context.mounted) {
+            final errorMessage =
+                ref.read(mealPlanStateProvider).errorMessage ??
+                'Failed to save meal plan.';
+            _showErrorSnackBar(context, errorMessage);
+          }
+        }
+      } catch (e) {
+        logger.log(Level.error, 'Error creating meal plan object: $e');
+        if (context.mounted) {
+          _showErrorSnackBar(
+            context,
+            'An unexpected error occurred: ${e.toString()}',
+          );
+        }
+      }
     }
 
     // Handle back button press
@@ -104,6 +184,8 @@ class MealPlanController extends HookConsumerWidget {
         Navigator.pop(context);
       }
     }
+
+    // logger.log(Level.info, mealPlan.value);
 
     return PopScope(
       canPop: !hasUnsavedChanges(),
@@ -173,6 +255,7 @@ class MealPlanController extends HookConsumerWidget {
     Function(String, Map, int) updateMealPlan,
     String validationMessage,
   ) {
+    Logger logger = Logger();
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -184,9 +267,10 @@ class MealPlanController extends HookConsumerWidget {
         runSpacing: 5,
         alignment: WrapAlignment.center,
         children: mealPlan.map((plan) {
+          // logger.d(plan);
           return DayCard(
             day: plan['day'],
-            meals: plan['meals'],
+            meals: plan['meals'] as Map,
             totalCalories: plan['total_calories'],
             hasError:
                 validationMessage.startsWith("Please") && plan['meals'].isEmpty,
@@ -272,8 +356,8 @@ class MealPlanController extends HookConsumerWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
-                Navigator.of(context).pop(); // Close page
+                context.pop();
+                context.pop();
               },
               child: const Text(
                 'Discard Changes',

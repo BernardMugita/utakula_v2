@@ -55,11 +55,35 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: Routes.dayMealPlan,
-            builder: (context, state) => DayMealPlan(
-              day: "",
-              meals: state.extra as Map<String, dynamic>,
-              onSave: (meals) {},
-            ),
+            name: '/new-meal-plan/day-meal-plan',
+            builder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>;
+              final day = extra['day'] as String;
+              final meals = extra['meals'] as Map;
+              final onSaveCallback =
+                  extra['onSave'] as Function(Map<dynamic, dynamic>, int);
+
+              return DayMealPlan(
+                day: day,
+                meals: meals,
+                onSave: (Map<String, dynamic> updatedMeals) {
+                  // Calculate total calories from the updated meals
+                  int totalCalories = 0;
+
+                  for (var mealType in updatedMeals.values) {
+                    if (mealType is List) {
+                      for (var item in mealType) {
+                        if (item is Map && item.containsKey('calories')) {
+                          totalCalories += (item['calories'] as int? ?? 0);
+                        }
+                      }
+                    }
+                  }
+
+                  onSaveCallback(updatedMeals, totalCalories);
+                },
+              );
+            },
           ),
         ],
       ),

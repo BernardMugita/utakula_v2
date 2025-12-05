@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/food_avatar.dart';
 
@@ -28,7 +29,7 @@ class MealTypeRow extends StatelessWidget {
               children: meals.map<Widget>((meal) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 2),
-                  child: FoodAvatar(imageUrl: meal['image_url'] ?? ''),
+                  child: FoodAvatar(imageUrl: meal['imageUrl'] ?? ''),
                 );
               }).toList(),
             ),

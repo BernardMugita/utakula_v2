@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:gap/gap.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/foods/domain/entities/food_entity.dart';
@@ -10,7 +11,7 @@ import 'package:utakula_v2/features/foods/presentation/providers/foods_provider.
 
 class DayMealPlan extends HookConsumerWidget {
   final String day;
-  final Map<String, dynamic> meals;
+  final Map meals;
   final Function(Map<String, dynamic>) onSave;
 
   const DayMealPlan({
@@ -52,6 +53,8 @@ class DayMealPlan extends HookConsumerWidget {
       onSave(Map<String, dynamic>.from(mealPlan.value));
       Navigator.pop(context);
     }
+
+    Logger logger = Logger();
 
     return Scaffold(
       backgroundColor: ThemeUtils.$backgroundColor,
@@ -281,12 +284,25 @@ class DayMealPlan extends HookConsumerWidget {
                               child: MealSection(
                                 mealType: mealType,
                                 mealItems: mealPlan.value[mealType]!,
-                                onAccept: (food) {
+                                onAccept: (FoodEntity food) {
+                                  // Convert FoodEntity to Map format with all required fields
+                                  final foodMap = {
+                                    'id': food.id ?? '',
+                                    // Include the food ID
+                                    'name': food.name ?? 'Unknown',
+                                    'emoji': '🍽️',
+                                    // Default emoji, you might want to add emoji field to FoodEntity
+                                    'calories': food.calories?.total ?? 0,
+                                    'imageUrl': food.imageUrl ?? '',
+                                    'image_url': food.imageUrl ?? '',
+                                    // Include both formats for compatibility
+                                  };
+
                                   mealPlan.value = {
                                     ...mealPlan.value,
                                     mealType: [
                                       ...mealPlan.value[mealType]!,
-                                      food,
+                                      foodMap,
                                     ],
                                   };
                                 },
@@ -337,7 +353,7 @@ class DraggableFoodItem extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(food.name ?? '🍽️', style: const TextStyle(fontSize: 8)),
+              Text('🍽️', style: const TextStyle(fontSize: 8)),
               const Gap(4),
               Text(
                 food.name ?? 'Unknown',
@@ -378,9 +394,9 @@ class DraggableFoodItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
-              child: Image.asset(
-                "assets/foods/${food.imageUrl}"
-              )
+              child: food.imageUrl != null
+                  ? Image.asset("assets/foods/${food.imageUrl}")
+                  : const Text('🍽️', style: TextStyle(fontSize: 24)),
             ),
           ),
           const Gap(12),
@@ -418,7 +434,7 @@ class DraggableFoodItem extends StatelessWidget {
 class MealSection extends StatelessWidget {
   final String mealType;
   final List<Map<String, dynamic>> mealItems;
-  final Function(Map<String, dynamic>) onAccept;
+  final Function(FoodEntity) onAccept;
   final Function(int) onRemove;
 
   const MealSection({
@@ -455,7 +471,7 @@ class MealSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DragTarget<Map<String, dynamic>>(
+    return DragTarget<FoodEntity>(
       onAccept: onAccept,
       builder: (context, candidateData, rejectedData) {
         final isHovering = candidateData.isNotEmpty;
@@ -533,41 +549,46 @@ class MealSection extends StatelessWidget {
                 ),
               ),
               // Content
-              Container(
-                padding: const EdgeInsets.all(16),
-                constraints: const BoxConstraints(minHeight: 120),
-                child: mealItems.isEmpty
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              FluentIcons.add_circle_24_regular,
-                              color: ThemeUtils.$primaryColor.withOpacity(0.3),
-                              size: 32,
-                            ),
-                            const Gap(8),
-                            Text(
-                              "Drag foods here",
-                              style: TextStyle(
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  child: mealItems.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                FluentIcons.add_circle_24_regular,
                                 color: ThemeUtils.$primaryColor.withOpacity(
-                                  0.5,
+                                  0.3,
                                 ),
-                                fontSize: 12,
+                                size: 32,
                               ),
-                            ),
-                          ],
+                              const Gap(8),
+                              Text(
+                                "Drag foods here",
+                                style: TextStyle(
+                                  color: ThemeUtils.$primaryColor.withOpacity(
+                                    0.5,
+                                  ),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: mealItems.asMap().entries.map((entry) {
+                              final index = entry.key;
+                              final item = entry.value;
+                              return _buildMealItem(item, index);
+                            }).toList(),
+                          ),
                         ),
-                      )
-                    : Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: mealItems.asMap().entries.map((entry) {
-                          final index = entry.key;
-                          final item = entry.value;
-                          return _buildMealItem(item, index);
-                        }).toList(),
-                      ),
+                ),
               ),
             ],
           ),
@@ -593,12 +614,17 @@ class MealSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                item['name'] ?? 'Unknown',
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: ThemeUtils.$primaryColor,
+              SizedBox(
+                width: 120,
+                child: Text(
+                  item['name'] ?? 'Unknown',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: ThemeUtils.$primaryColor,
+                  ),
                 ),
               ),
               Text(
