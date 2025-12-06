@@ -8,6 +8,8 @@ import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.d
 
 abstract class MealPlanDataSource {
   Future<MealPlanEntity> createMealPlan(MealPlanEntity mealPlanEntity);
+
+  Future<MealPlanEntity> getUserMealPlan();
 }
 
 class MealPlanDataSourceImpl implements MealPlanDataSource {
@@ -15,6 +17,10 @@ class MealPlanDataSourceImpl implements MealPlanDataSource {
   Logger logger = Logger();
 
   MealPlanDataSourceImpl(this.dioClient);
+
+  // ---------------------------------------------------------------------------
+  // Create Meal plan data source
+  // ---------------------------------------------------------------------------
 
   @override
   Future<MealPlanEntity> createMealPlan(MealPlanEntity mealPlanEntity) async {
@@ -35,6 +41,29 @@ class MealPlanDataSourceImpl implements MealPlanDataSource {
       throw ServerException("Unexpected error: $e");
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // Get Meal plan data source
+  // ---------------------------------------------------------------------------
+
+  @override
+  Future<MealPlanEntity> getUserMealPlan() async {
+    try {
+      final response = await dioClient.post(ApiEndpoints.getUserMealPlan);
+
+      final payload = response.data['payload'];
+
+      return MealPlanModel.fromJson(payload).toEntity();
+    } on DioException catch (e) {
+      throw _handleException(e);
+    } catch (e) {
+      throw ServerException("Unexpected error: $e");
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Handle exceptions
+  // ---------------------------------------------------------------------------
 
   Exception _handleException(DioException e) {
     if (e.response != null) {

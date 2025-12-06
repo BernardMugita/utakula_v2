@@ -235,12 +235,6 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         route: Routes.home,
                         icon: FluentIcons.home_24_filled,
                       ),
-                      _buildNavigationItem(
-                        context: context,
-                        title: 'New Meal Plan',
-                        route: Routes.newPlan,
-                        icon: FluentIcons.table_add_24_filled,
-                      ),
                       const Gap(8),
                       _buildNavigationItem(
                         context: context,

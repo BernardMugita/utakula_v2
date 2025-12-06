@@ -1,22 +1,30 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/features/homepage/presentation/providers/homepage_providers.dart';
+import 'package:utakula_v2/features/homepage/presentation/widgets/day_item.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 
-class DaysWidget extends StatelessWidget {
-  final Map selectedPlan;
-  final List myMealPlan;
+class DaysWidget extends HookConsumerWidget {
+  final DayMealPlanEntity? selectedPlan;
+  final MealPlanEntity myMealPlan;
   final List sharedPlans;
 
   const DaysWidget({
-    Key? key,
-    this.selectedPlan = const {},
-    this.myMealPlan = const [],
-    this.sharedPlans = const [],
-  }) : super(key: key);
+    super.key,
+    required this.selectedPlan,
+    required this.myMealPlan,
+    required this.sharedPlans,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homePageState = ref.watch(homepageStateProvider);
+    final homepageNotifier = ref.read(homepageStateProvider.notifier);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -35,18 +43,14 @@ class DaysWidget extends StatelessWidget {
             runSpacing: 5,
             spacing: 5,
             children: [
-              if (selectedPlan.isNotEmpty)
-                _buildDayCard(
-                  context,
-                  Map<String, dynamic>.from(selectedPlan),
-                  isExpanded: true,
-                )
+              if (homePageState.isExpanded && selectedPlan != null)
+                DayItem(plan: selectedPlan!, isExpanded: true, isActive: true)
               else
-                for (var plan in myMealPlan)
-                  _buildDayCard(
-                    context,
-                    Map<String, dynamic>.from(plan),
+                for (var plan in myMealPlan.mealPlan)
+                  DayItem(
+                    plan: plan,
                     isExpanded: false,
+                    isActive: homepageNotifier.isDayActive(plan.day),
                   ),
             ],
           ),
@@ -67,7 +71,6 @@ class DaysWidget extends StatelessWidget {
                       OutlinedButton(
                         onPressed: () {
                           // TODO: Navigate to MemberMealPlans screen
-                          // This will be handled when you add navigation
                         },
                         style: ButtonStyle(
                           side: const WidgetStatePropertyAll(
@@ -125,7 +128,6 @@ class DaysWidget extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         // TODO: Navigate to NewMealPlan screen
-                        // This will be handled when you add navigation
                       },
                       child: CircleAvatar(
                         backgroundColor: ThemeUtils.$blacks.withOpacity(0.1),
@@ -149,180 +151,6 @@ class DaysWidget extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildDayCard(
-    BuildContext context,
-    Map<String, dynamic> plan, {
-    required bool isExpanded,
-  }) {
-    // TODO: This will be replaced with actual day checking logic
-    final bool isActive = false; // Placeholder for day active state
-    final String dayName = plan['day'] ?? 'Day';
-
-    return GestureDetector(
-      onTap: () {
-        // TODO: Handle plan selection
-        // This will be handled through Riverpod state management
-      },
-      child: Container(
-        width: isExpanded
-            ? double.infinity
-            : MediaQuery.of(context).size.width / 4,
-        height: isExpanded ? 300 : 100,
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: isActive || isExpanded
-              ? ThemeUtils.$secondaryColor
-              : ThemeUtils.$primaryColor,
-          boxShadow: [
-            BoxShadow(
-              color: ThemeUtils.$blacks.withOpacity(0.3),
-              offset: const Offset(5.0, 5.0),
-              blurRadius: 10.0,
-              spreadRadius: 2.0,
-            ),
-          ],
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: isExpanded
-            ? _buildExpandedDayContent(context, plan, isActive)
-            : _buildCollapsedDayContent(dayName, isActive),
-      ),
-    );
-  }
-
-  Widget _buildExpandedDayContent(
-    BuildContext context,
-    Map<String, dynamic> plan,
-    bool isActive,
-  ) {
-    final String dayName = plan['day'] ?? 'Day';
-
-    return Column(
-      children: [
-        // Header with day name and close button
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              dayName,
-              style: TextStyle(
-                color: isActive
-                    ? ThemeUtils.$primaryColor
-                    : ThemeUtils.$primaryColor,
-                fontSize: 22,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                // TODO: Reset to default view
-                // This will be handled through Riverpod state management
-              },
-              child: const Icon(
-                Icons.fullscreen_exit,
-                color: ThemeUtils.$primaryColor,
-              ),
-            ),
-          ],
-        ),
-        const Gap(10),
-
-        // Meal carousel placeholder
-        Expanded(
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: ThemeUtils.$backgroundColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Center(
-              child: Text(
-                'Meal carousel will go here',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-            ),
-          ),
-        ),
-        const Gap(10),
-
-        // Action buttons
-        SizedBox(
-          width: double.infinity,
-          child: Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: Show calorie stats dialog
-                  },
-                  style: ButtonStyle(
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    elevation: const WidgetStatePropertyAll(0),
-                    backgroundColor: WidgetStatePropertyAll(
-                      ThemeUtils.$blacks.withOpacity(0.1),
-                    ),
-                  ),
-                  child: const Text(
-                    "Calorie Stats",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: ThemeUtils.$primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const Gap(10),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: Navigate to prepare/how-to screen
-                  },
-                  style: ButtonStyle(
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    elevation: const WidgetStatePropertyAll(0),
-                    backgroundColor: const WidgetStatePropertyAll(
-                      ThemeUtils.$blacks,
-                    ),
-                  ),
-                  child: const Text(
-                    "Prepare",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: ThemeUtils.$secondaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCollapsedDayContent(String dayName, bool isActive) {
-    return Center(
-      child: Text(
-        dayName.substring(0, 3),
-        style: TextStyle(
-          color: isActive
-              ? ThemeUtils.$primaryColor
-              : ThemeUtils.$secondaryColor,
-          fontSize: 22,
-        ),
       ),
     );
   }

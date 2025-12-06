@@ -29,9 +29,10 @@ final createMealPlanProvider = Provider<CreateMealPlan>((ref) {
   return CreateMealPlan(ref.read(mealPlanRepositoryProvider));
 });
 
-// final getMealPlanProvider = Provider<GetMealPlan>((ref) {
-//   return GetMealPlan(ref.read(mealPlanRepositoryProvider));
-// });
+final getMealPlanProvider = Provider<GetUserMealPlan>((ref) {
+  return GetUserMealPlan(ref.read(mealPlanRepositoryProvider));
+});
+
 //
 // final updateMealPlanProvider = Provider<UpdateMealPlan>((ref) {
 //   return UpdateMealPlan(ref.read(mealPlanRepositoryProvider));
@@ -95,7 +96,10 @@ class MealPlanNotifier extends Notifier<MealPlanState> {
 
   final Logger logger = Logger();
 
-  /// Create a new meal plan
+  // ---------------------------------------------------------------------------
+  // Create a new meal plan
+  // ---------------------------------------------------------------------------
+
   Future<bool> createMealPlan(MealPlanEntity mealPlanEntity) async {
     state = state.copyWith(
       isSubmitting: true,
@@ -128,34 +132,32 @@ class MealPlanNotifier extends Notifier<MealPlanState> {
     );
   }
 
-  // /// Fetch the current user's meal plan
-  // Future<void> fetchMealPlan() async {
-  //   state = state.copyWith(
-  //     isLoading: true,
-  //     errorMessage: null,
-  //     clearError: true,
-  //   );
-  //
-  //   final getMealPlan = ref.read(getMealPlanProvider);
-  //   final result = await getMealPlan();
-  //
-  //   result.fold(
-  //         (failure) {
-  //       logger.e('Failed to fetch meal plan: ${failure.message}');
-  //       state = state.copyWith(
-  //         isLoading: false,
-  //         errorMessage: failure.message,
-  //       );
-  //     },
-  //         (mealPlan) {
-  //       logger.i('Meal plan fetched successfully');
-  //       state = state.copyWith(
-  //         isLoading: false,
-  //         currentMealPlan: mealPlan,
-  //       );
-  //     },
-  //   );
-  // }
+  // ---------------------------------------------------------------------------
+  // Fetch the current user's meal plan
+  // ---------------------------------------------------------------------------
+
+  Future<void> fetchMealPlan() async {
+    state = state.copyWith(
+      isLoading: true,
+      errorMessage: null,
+      clearError: true,
+    );
+
+    final getMealPlan = ref.read(getMealPlanProvider);
+    final result = await getMealPlan();
+
+    result.fold(
+      (failure) {
+        logger.e('Failed to fetch meal plan: ${failure.message}');
+        state = state.copyWith(isLoading: false, errorMessage: failure.message);
+      },
+      (mealPlan) {
+        logger.i('Meal plan fetched successfully');
+        state = state.copyWith(isLoading: false, currentMealPlan: mealPlan);
+      },
+    );
+  }
+
   //
   // /// Update an existing meal plan
   // Future<bool> updateMealPlan(MealPlanEntity mealPlanEntity) async {

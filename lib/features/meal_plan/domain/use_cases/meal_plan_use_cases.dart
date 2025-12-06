@@ -12,3 +12,13 @@ class CreateMealPlan {
     return await repository.createMealPlan(mealPlan);
   }
 }
+
+class GetUserMealPlan {
+  final MealPlanRepository repository;
+
+  GetUserMealPlan(this.repository);
+
+  Future<Either<Failure, MealPlanEntity>> call() async {
+    return await repository.getUserMealPlan();
+  }
+}

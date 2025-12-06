@@ -25,4 +25,20 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
       return Left(ServerFailure("Unexpected error: $e"));
     }
   }
+
+  @override
+  Future<Either<Failure, MealPlanEntity>> getUserMealPlan(
+
+  ) async {
+    try {
+      final result = await mealPlanDataSource.getUserMealPlan();
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure("Unexpected error: $e"));
+    }
+  }
 }

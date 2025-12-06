@@ -2,9 +2,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 
 class ActionItem extends StatelessWidget {
-  final Map<String, dynamic> myMealPlan;
+  final MealPlanEntity myMealPlan;
 
   const ActionItem({super.key, required this.myMealPlan});
 
@@ -12,8 +13,7 @@ class ActionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (myMealPlan.isNotEmpty &&
-            myMealPlan['meal_plan']?.isNotEmpty == true)
+        if (myMealPlan.mealPlan == null)
           _buildActionButton(
             context: context,
             icon: FluentIcons.people_add_24_regular,
@@ -25,9 +25,7 @@ class ActionItem extends StatelessWidget {
               // Navigation logic
             },
           ),
-        if (myMealPlan.isNotEmpty &&
-            myMealPlan['meal_plan']?.isNotEmpty == true)
-          const Gap(12),
+        if (myMealPlan.mealPlan == null) const Gap(12),
         _buildActionButton(
           context: context,
           icon: FluentIcons.image_24_regular,

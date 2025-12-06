@@ -1,21 +1,47 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/features/homepage/presentation/providers/homepage_providers.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/action_item.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/days_widget.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/no_meal_plan_alert.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/presentation/providers/meal_plan_provider.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends HookConsumerWidget {
   const Homepage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final bool isFetchingMealPlan = false;
-    final Map<String, dynamic> myMealPlan = {};
-    final Map selectedPlan = {};
-    final List sharedMealPlans = [];
+  Widget build(BuildContext context, WidgetRef ref) {
+    Logger logger = Logger();
+    final mealPlanState = ref.watch(mealPlanStateProvider);
+    final homePageState = ref.watch(homepageStateProvider);
+
+    useEffect(() {
+      Future.microtask(() async {
+        await ref.read(mealPlanStateProvider.notifier).fetchMealPlan();
+
+        // Initialize homepage state with first day after meal plan loads
+        final currentMealPlan = ref.read(mealPlanStateProvider).currentMealPlan;
+        if (currentMealPlan != null && currentMealPlan.mealPlan.isNotEmpty) {
+          ref
+              .read(homepageStateProvider.notifier)
+              .initializeWithFirstDay(currentMealPlan.mealPlan.first);
+        }
+      });
+      return null;
+    }, []);
+
+    final bool isFetchingMealPlan = mealPlanState.isLoading;
+    final MealPlanEntity? myMealPlan = mealPlanState.currentMealPlan;
+    final DayMealPlanEntity? selectedPlan = homePageState.selectedMealPlan;
+    final List sharedMealPlans = []; // TODO: Implement shared plans
 
     return Scaffold(
       backgroundColor: ThemeUtils.$accentColor,
@@ -34,7 +60,7 @@ class Homepage extends StatelessWidget {
       drawer: UtakulaSideNavigation(),
       body: RefreshIndicator(
         onRefresh: () async {
-          // Hook up your refresh logic here
+          await ref.read(mealPlanStateProvider.notifier).fetchMealPlan();
         },
         child: SizedBox(
           width: double.infinity,
@@ -44,7 +70,7 @@ class Homepage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Column(
               children: [
-                // Welcome Banner (Hamburger + User greeting)
+                // Welcome Banner
                 _buildWelcomeBanner(),
                 const Gap(15),
 
@@ -59,11 +85,13 @@ class Homepage extends StatelessWidget {
                   myMealPlan,
                   selectedPlan,
                   sharedMealPlans,
+                  ref,
                 ),
                 const Gap(25),
 
                 // Action Items
-                if (!isFetchingMealPlan) _buildActionItems(context, myMealPlan),
+                if (!isFetchingMealPlan && myMealPlan != null)
+                  _buildActionItems(context, myMealPlan),
                 const Gap(20),
               ],
             ),
@@ -79,10 +107,7 @@ class Homepage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFF2D5016), // Dark green
-            Color(0xFF4A7C2C), // Medium green
-          ],
+          colors: [Color(0xFF2D5016), Color(0xFF4A7C2C)],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -153,9 +178,10 @@ class Homepage extends StatelessWidget {
   Widget _buildMainContent(
     BuildContext context,
     bool isFetchingMealPlan,
-    Map<String, dynamic> myMealPlan,
-    Map selectedPlan,
+    MealPlanEntity? myMealPlan,
+    DayMealPlanEntity? selectedPlan,
     List sharedMealPlans,
+    WidgetRef ref,
   ) {
     return Container(
       width: double.infinity,
@@ -175,13 +201,14 @@ class Homepage extends StatelessWidget {
       ),
       child: isFetchingMealPlan
           ? _buildLoadingState()
-          : myMealPlan.isEmpty
+          : myMealPlan == null || myMealPlan.mealPlan.isEmpty
           ? const NoMealPlanAlert()
           : _buildDaysWidget(
               context,
               selectedPlan,
               myMealPlan,
               sharedMealPlans,
+              ref,
             ),
     );
   }
@@ -213,17 +240,19 @@ class Homepage extends StatelessWidget {
 
   Widget _buildDaysWidget(
     BuildContext context,
-    Map selectedPlan,
-    Map<String, dynamic> myMealPlan,
+    DayMealPlanEntity? selectedPlan,
+    MealPlanEntity myMealPlan,
     List sharedMealPlans,
+    WidgetRef ref,
   ) {
-    return DaysWidget();
+    return DaysWidget(
+      selectedPlan: selectedPlan,
+      myMealPlan: myMealPlan,
+      sharedPlans: sharedMealPlans,
+    );
   }
 
-  Widget _buildActionItems(
-    BuildContext context,
-    Map<String, dynamic> myMealPlan,
-  ) {
+  Widget _buildActionItems(BuildContext context, MealPlanEntity myMealPlan) {
     return ActionItem(myMealPlan: myMealPlan);
   }
 }

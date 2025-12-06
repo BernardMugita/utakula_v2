@@ -155,9 +155,6 @@ class MealPlanController extends HookConsumerWidget {
             Navigator.pop(context);
           }
         } else {
-          // The error state is already set by the notifier.
-          // We can listen to the provider state to show the error.
-          // For simplicity here, we'll just show a generic error.
           if (context.mounted) {
             final errorMessage =
                 ref.read(mealPlanStateProvider).errorMessage ??

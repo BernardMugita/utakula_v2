@@ -6,4 +6,6 @@ abstract class MealPlanRepository {
   Future<Either<Failure, MealPlanEntity>> createMealPlan(
     MealPlanEntity mealPlanEntity,
   );
+
+  Future<Either<Failure, MealPlanEntity>> getUserMealPlan();
 }
