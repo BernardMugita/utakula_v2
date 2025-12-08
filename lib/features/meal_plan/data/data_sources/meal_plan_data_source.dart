@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/core/error/exceptions.dart';
 import 'package:utakula_v2/core/network/api_endpoints.dart';
 import 'package:utakula_v2/core/network/dio_client.dart';
@@ -17,6 +18,7 @@ abstract class MealPlanDataSource {
 class MealPlanDataSourceImpl implements MealPlanDataSource {
   final DioClient dioClient;
   Logger logger = Logger();
+  HelperUtils helperUtils = HelperUtils();
 
   MealPlanDataSourceImpl(this.dioClient);
 
@@ -38,7 +40,7 @@ class MealPlanDataSourceImpl implements MealPlanDataSource {
 
       return MealPlanModel.fromJson(payload).toEntity();
     } on DioException catch (e) {
-      throw _handleException(e);
+      throw helperUtils.handleException(e);
     } catch (e) {
       throw ServerException("Unexpected error: $e");
     }
@@ -57,7 +59,7 @@ class MealPlanDataSourceImpl implements MealPlanDataSource {
 
       return MealPlanModel.fromJson(payload).toEntity();
     } on DioException catch (e) {
-      throw _handleException(e);
+      throw helperUtils.handleException(e);
     } catch (e) {
       throw ServerException("Unexpected error: $e");
     }
@@ -82,32 +84,9 @@ class MealPlanDataSourceImpl implements MealPlanDataSource {
 
       return MealPlanModel.fromJson(payload).toEntity();
     } on DioException catch (e) {
-      throw _handleException(e);
+      throw helperUtils.handleException(e);
     } catch (e) {
       throw ServerException("Unexpected error: $e");
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-  // Handle exceptions
-  // ---------------------------------------------------------------------------
-
-  Exception _handleException(DioException e) {
-    if (e.response != null) {
-      logger.e("Server error: ${e.response?.data}");
-      return ServerException(
-        e.response?.data['message'] ?? e.message ?? "Server error",
-      );
-    } else if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
-      logger.e("Connection timeout: ${e.message}");
-      return NetworkException("Connection timeout");
-    } else if (e.type == DioExceptionType.connectionError) {
-      logger.e("No internet: ${e.message}");
-      return NetworkException("No internet connection");
-    } else {
-      logger.e("Unknown error: ${e.message}");
-      return ServerException(e.message ?? "Unknown error occurred");
     }
   }
 }

@@ -6,9 +6,11 @@ import 'package:utakula_v2/features/foods/presentation/pages/add_foods.dart';
 import 'package:utakula_v2/features/foods/presentation/pages/food.dart';
 import 'package:utakula_v2/features/homepage/presentation/pages/homepage.dart';
 import 'package:utakula_v2/features/login/presentation/pages/login.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/pages/day_meal_plan.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/pages/meal_plan_controller.dart';
+import 'package:utakula_v2/features/preparation/presentation/pages/how_to_prepare.dart';
 import 'package:utakula_v2/features/register/presentation/pages/register.dart';
 import 'package:utakula_v2/routing/routes.dart';
 
@@ -85,6 +87,15 @@ final routerProvider = Provider<GoRouter>((ref) {
                 },
               ),
             ],
+          ),
+          GoRoute(
+            path: Routes.preparation,
+            name: '/how-to-prepare',
+            builder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>?;
+              final selectedPlan = extra?['selectedPlan'] as DayMealPlanEntity?;
+              return HowToPrepare(selectedPlan: selectedPlan!);
+            },
           ),
         ],
       ),

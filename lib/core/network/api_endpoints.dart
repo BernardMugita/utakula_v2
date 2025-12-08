@@ -33,5 +33,6 @@ class ApiEndpoints {
   static const String sendOutInvites = "/invite/send_out_invites";
 
   // -------------------- AI --------------------
+  static const String preparationInstructions = "/genai/preparation_instructions";
   static const String generateCustomRecipe = "/genai/custom_recipe";
 }
