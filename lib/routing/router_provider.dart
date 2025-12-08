@@ -39,7 +39,55 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.register,
         builder: (context, state) => const Register(),
       ),
-      GoRoute(path: Routes.home, builder: (context, state) => const Homepage()),
+      GoRoute(
+        path: Routes.home,
+        builder: (context, state) => const Homepage(),
+        routes: [
+          GoRoute(
+            path: Routes.newPlan,
+            name: '/new-meal-plan',
+            builder: (context, state) {
+              final extra = state.extra as Map<String, dynamic>?;
+              final userMealPlan = extra?['userMealPlan'] as MealPlanEntity?;
+
+              return MealPlanController(userMealPlan: userMealPlan);
+            },
+            routes: [
+              GoRoute(
+                path: Routes.dayMealPlan,
+                name: '/new-meal-plan/day-meal-plan',
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>;
+                  final day = extra['day'] as String;
+                  final meals = extra['meals'] as Map;
+                  final onSaveCallback =
+                      extra['onSave'] as Function(Map<dynamic, dynamic>, int);
+
+                  return DayMealPlan(
+                    day: day,
+                    meals: meals,
+                    onSave: (Map<String, dynamic> updatedMeals) {
+                      int totalCalories = 0;
+
+                      for (var mealType in updatedMeals.values) {
+                        if (mealType is List) {
+                          for (var item in mealType) {
+                            if (item is Map && item.containsKey('calories')) {
+                              totalCalories += (item['calories'] as int? ?? 0);
+                            }
+                          }
+                        }
+                      }
+
+                      onSaveCallback(updatedMeals, totalCalories);
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
       GoRoute(
         path: Routes.foods,
         builder: (context, state) => const Foods(),
@@ -47,49 +95,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: Routes.addFoods,
             builder: (context, state) => const AddFoods(),
-          ),
-        ],
-      ),
-      GoRoute(
-        path: Routes.newPlan,
-        name: '/new-meal-plan',
-        builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
-          final userMealPlan = extra?['userMealPlan'] as MealPlanEntity?;
-
-          return MealPlanController(userMealPlan: userMealPlan);
-        },
-        routes: [
-          GoRoute(
-            path: Routes.dayMealPlan,
-            name: '/new-meal-plan/day-meal-plan',
-            builder: (context, state) {
-              final extra = state.extra as Map<String, dynamic>;
-              final day = extra['day'] as String;
-              final meals = extra['meals'] as Map;
-              final onSaveCallback =
-                  extra['onSave'] as Function(Map<dynamic, dynamic>, int);
-
-              return DayMealPlan(
-                day: day,
-                meals: meals,
-                onSave: (Map<String, dynamic> updatedMeals) {
-                  int totalCalories = 0;
-
-                  for (var mealType in updatedMeals.values) {
-                    if (mealType is List) {
-                      for (var item in mealType) {
-                        if (item is Map && item.containsKey('calories')) {
-                          totalCalories += (item['calories'] as int? ?? 0);
-                        }
-                      }
-                    }
-                  }
-
-                  onSaveCallback(updatedMeals, totalCalories);
-                },
-              );
-            },
           ),
         ],
       ),

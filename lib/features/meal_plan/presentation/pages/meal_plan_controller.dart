@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -180,13 +181,9 @@ class MealPlanController extends HookConsumerWidget {
               color: ThemeUtils.$primaryColor,
             ),
           ),
-          leading: Builder(
-            builder: (context) => GestureDetector(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: const Icon(Icons.reorder),
-            ),
+          leading: IconButton(
+            icon: const Icon(FluentIcons.arrow_left_24_filled),
+            onPressed: handleBackPress,
           ),
         ),
         drawer: UtakulaSideNavigation(),
