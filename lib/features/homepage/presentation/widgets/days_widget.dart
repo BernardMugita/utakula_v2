@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/homepage/presentation/providers/homepage_providers.dart';
@@ -127,7 +128,10 @@ class DaysWidget extends HookConsumerWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // TODO: Navigate to NewMealPlan screen
+                        context.pushNamed(
+                          '/new-meal-plan',
+                          extra: {'userMealPlan': myMealPlan},
+                        );
                       },
                       child: CircleAvatar(
                         backgroundColor: ThemeUtils.$blacks.withOpacity(0.1),

@@ -6,6 +6,7 @@ import 'package:utakula_v2/features/foods/presentation/pages/add_foods.dart';
 import 'package:utakula_v2/features/foods/presentation/pages/food.dart';
 import 'package:utakula_v2/features/homepage/presentation/pages/homepage.dart';
 import 'package:utakula_v2/features/login/presentation/pages/login.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/pages/day_meal_plan.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/pages/meal_plan_controller.dart';
 import 'package:utakula_v2/features/register/presentation/pages/register.dart';
@@ -51,7 +52,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: Routes.newPlan,
-        builder: (context, state) => const MealPlanController(),
+        name: '/new-meal-plan',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final userMealPlan = extra?['userMealPlan'] as MealPlanEntity?;
+
+          return MealPlanController(userMealPlan: userMealPlan);
+        },
         routes: [
           GoRoute(
             path: Routes.dayMealPlan,
@@ -67,7 +74,6 @@ final routerProvider = Provider<GoRouter>((ref) {
                 day: day,
                 meals: meals,
                 onSave: (Map<String, dynamic> updatedMeals) {
-                  // Calculate total calories from the updated meals
                   int totalCalories = 0;
 
                   for (var mealType in updatedMeals.values) {

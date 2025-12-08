@@ -9,6 +9,7 @@ import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/homepage/presentation/providers/homepage_providers.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/action_item.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/days_widget.dart';
+import 'package:utakula_v2/features/homepage/presentation/widgets/meal_plan_error.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/no_meal_plan_alert.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
@@ -39,6 +40,7 @@ class Homepage extends HookConsumerWidget {
     }, []);
 
     final bool isFetchingMealPlan = mealPlanState.isLoading;
+    final String? errorMessage = mealPlanState.errorMessage;
     final MealPlanEntity? myMealPlan = mealPlanState.currentMealPlan;
     final DayMealPlanEntity? selectedPlan = homePageState.selectedMealPlan;
     final List sharedMealPlans = []; // TODO: Implement shared plans
@@ -82,6 +84,7 @@ class Homepage extends HookConsumerWidget {
                 _buildMainContent(
                   context,
                   isFetchingMealPlan,
+                  errorMessage,
                   myMealPlan,
                   selectedPlan,
                   sharedMealPlans,
@@ -178,6 +181,7 @@ class Homepage extends HookConsumerWidget {
   Widget _buildMainContent(
     BuildContext context,
     bool isFetchingMealPlan,
+    String? errorMessage,
     MealPlanEntity? myMealPlan,
     DayMealPlanEntity? selectedPlan,
     List sharedMealPlans,
@@ -201,7 +205,9 @@ class Homepage extends HookConsumerWidget {
       ),
       child: isFetchingMealPlan
           ? _buildLoadingState()
-          : myMealPlan == null || myMealPlan.mealPlan.isEmpty
+          : myMealPlan == null || errorMessage != null
+          ? MealPlanError()
+          : myMealPlan.mealPlan.isEmpty
           ? const NoMealPlanAlert()
           : _buildDaysWidget(
               context,
