@@ -8,4 +8,8 @@ abstract class MealPlanRepository {
   );
 
   Future<Either<Failure, MealPlanEntity>> getUserMealPlan();
+
+  Future<Either<Failure, MealPlanEntity>> updateUserMealPlan(
+    MealPlanEntity mealPlanEntity,
+  );
 }

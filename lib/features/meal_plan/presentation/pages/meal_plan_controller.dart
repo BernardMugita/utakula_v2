@@ -6,6 +6,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:logger/logger.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
+import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
@@ -23,13 +24,14 @@ class MealPlanController extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final logger = Logger();
+    final helperUtils = HelperUtils();
 
     // State management using hooks
     final mealPlan = useState<List<Map<String, dynamic>>>(
-      _getInitialMealPlan(),
+      helperUtils.getInitialMealPlan(),
     );
     final originalMealPlan = useState<List<Map<String, dynamic>>>(
-      _getInitialMealPlan(),
+      helperUtils.getInitialMealPlan(),
     );
     final isLoading = useState(false);
     final validationMessage = useState('');
@@ -39,9 +41,9 @@ class MealPlanController extends HookConsumerWidget {
     useEffect(() {
       if (userMealPlan != null) {
         logger.i('Initializing with user meal plan: ${userMealPlan!.id}');
-        final convertedPlan = _convertEntityToMap(userMealPlan!);
+        final convertedPlan = helperUtils.convertEntityToMap(userMealPlan!);
         mealPlan.value = convertedPlan;
-        originalMealPlan.value = _deepCopyMapList(convertedPlan);
+        originalMealPlan.value = helperUtils.deepCopyMapList(convertedPlan);
         mealPlanId.value = userMealPlan!.id;
         logger.d('Converted meal plan: ${mealPlan.value}');
       }
@@ -50,7 +52,10 @@ class MealPlanController extends HookConsumerWidget {
 
     // Check if meal plan has unsaved changes
     bool hasUnsavedChanges() {
-      return _hasMealPlanChanged(originalMealPlan.value, mealPlan.value);
+      return helperUtils.hasMealPlanChanged(
+        originalMealPlan.value,
+        mealPlan.value,
+      );
     }
 
     // Update meal plan for a specific day
@@ -103,7 +108,7 @@ class MealPlanController extends HookConsumerWidget {
       }
 
       try {
-        final mealPlanEntity = _convertMapToEntity(
+        final mealPlanEntity = helperUtils.convertMapToEntity(
           mealPlan.value,
           mealPlanId.value ?? '',
           userMealPlan?.members ?? [],
@@ -114,10 +119,7 @@ class MealPlanController extends HookConsumerWidget {
         // Decide whether to create or update
         final bool success;
         if (userMealPlan != null && mealPlanId.value != null) {
-          // TODO: Implement update logic when you have the updateMealPlan use case
-          // success = await notifier.updateMealPlan(mealPlanEntity);
-          // For now, just create a new one
-          success = await notifier.createMealPlan(mealPlanEntity);
+          success = await notifier.updateMealPlan(mealPlanEntity);
           logger.w('Update not implemented, creating new meal plan instead');
         } else {
           success = await notifier.createMealPlan(mealPlanEntity);
@@ -247,182 +249,6 @@ class MealPlanController extends HookConsumerWidget {
         }).toList(),
       ),
     );
-  }
-
-  // Get initial empty meal plan
-  List<Map<String, dynamic>> _getInitialMealPlan() {
-    return [
-      {"day": "Monday", "meals": {}, "total_calories": 0},
-      {"day": "Tuesday", "meals": {}, "total_calories": 0},
-      {"day": "Wednesday", "meals": {}, "total_calories": 0},
-      {"day": "Thursday", "meals": {}, "total_calories": 0},
-      {"day": "Friday", "meals": {}, "total_calories": 0},
-      {"day": "Saturday", "meals": {}, "total_calories": 0},
-      {"day": "Sunday", "meals": {}, "total_calories": 0},
-    ];
-  }
-
-  // Convert MealPlanEntity to Map format for editing
-  List<Map<String, dynamic>> _convertEntityToMap(MealPlanEntity entity) {
-    return entity.mealPlan.map((dayPlan) {
-      // Convert breakfast foods
-      final breakfastList = dayPlan.mealPlan.breakfast.map((food) {
-        return {
-          'id': food.id,
-          'name': food.foodName,
-          'image_url': food.imageUrl,
-          'imageUrl': food.imageUrl, // Keep both formats for compatibility
-          'calories': food.calories,
-        };
-      }).toList();
-
-      // Convert lunch foods
-      final lunchList = dayPlan.mealPlan.lunch.map((food) {
-        return {
-          'id': food.id,
-          'name': food.foodName,
-          'image_url': food.imageUrl,
-          'imageUrl': food.imageUrl,
-          'calories': food.calories,
-        };
-      }).toList();
-
-      // Convert supper foods
-      final supperList = dayPlan.mealPlan.supper.map((food) {
-        return {
-          'id': food.id,
-          'name': food.foodName,
-          'image_url': food.imageUrl,
-          'imageUrl': food.imageUrl,
-          'calories': food.calories,
-        };
-      }).toList();
-
-      return {
-        'day': dayPlan.day,
-        'meals': {
-          'breakfast': breakfastList,
-          'lunch': lunchList,
-          'supper': supperList,
-        },
-        'total_calories': dayPlan.totalCalories,
-      };
-    }).toList();
-  }
-
-  // Convert Map format back to MealPlanEntity
-  MealPlanEntity _convertMapToEntity(
-    List<Map<String, dynamic>> mapList,
-    String id,
-    List members,
-  ) {
-    final dayMealPlans = mapList.map((plan) {
-      // Helper function to convert meal list
-      List<MealTypeFoodEntity> convertMealList(List<dynamic>? mealList) {
-        if (mealList == null || mealList.isEmpty) {
-          return [];
-        }
-
-        return mealList.map((food) {
-          final foodId =
-              food['id']?.toString() ?? food['food_id']?.toString() ?? '';
-
-          return MealTypeFoodEntity(
-            id: foodId,
-            foodName: food['name']?.toString() ?? 'Unknown',
-            imageUrl:
-                food['imageUrl']?.toString() ??
-                food['image_url']?.toString() ??
-                '',
-            calories: (food['calories'] is int)
-                ? food['calories'] as int
-                : (food['calories'] as num?)?.toInt() ?? 0,
-          );
-        }).toList();
-      }
-
-      final meals = plan['meals'] as Map<String, dynamic>;
-
-      return DayMealPlanEntity(
-        day: plan['day'],
-        mealPlan: SingleMealPlanEntity(
-          breakfast: convertMealList(meals['breakfast']),
-          lunch: convertMealList(meals['lunch']),
-          supper: convertMealList(meals['supper']),
-        ),
-        totalCalories: plan['total_calories'] as int,
-      );
-    }).toList();
-
-    return MealPlanEntity(id: id, members: members, mealPlan: dayMealPlans);
-  }
-
-  // Deep copy a list of maps
-  List<Map<String, dynamic>> _deepCopyMapList(
-    List<Map<String, dynamic>> original,
-  ) {
-    return original.map((item) {
-      final meals = item['meals'] as Map<String, dynamic>;
-      final copiedMeals = <String, dynamic>{};
-
-      // Deep copy each meal list
-      meals.forEach((key, value) {
-        if (value is List) {
-          copiedMeals[key] = List<Map<String, dynamic>>.from(
-            value.map((food) => Map<String, dynamic>.from(food as Map)),
-          );
-        }
-      });
-
-      return {
-        'day': item['day'],
-        'meals': copiedMeals,
-        'total_calories': item['total_calories'],
-      };
-    }).toList();
-  }
-
-  // Check if meal plan has changed
-  bool _hasMealPlanChanged(
-    List<Map<String, dynamic>> original,
-    List<Map<String, dynamic>> current,
-  ) {
-    if (original.length != current.length) return true;
-
-    for (int i = 0; i < original.length; i++) {
-      if (original[i]['day'] != current[i]['day']) return true;
-      if (original[i]['total_calories'] != current[i]['total_calories']) {
-        return true;
-      }
-
-      final originalMeals = original[i]['meals'] as Map;
-      final currentMeals = current[i]['meals'] as Map;
-
-      if (originalMeals.length != currentMeals.length) return true;
-
-      for (var key in originalMeals.keys) {
-        if (!currentMeals.containsKey(key)) return true;
-
-        final origList = originalMeals[key] as List;
-        final currList = currentMeals[key] as List;
-
-        if (origList.length != currList.length) return true;
-
-        // Check if individual items changed
-        for (int j = 0; j < origList.length; j++) {
-          final origItem = origList[j] as Map;
-          final currItem = currList[j] as Map;
-
-          if (origItem['id'] != currItem['id'] ||
-              origItem['name'] != currItem['name'] ||
-              origItem['calories'] != currItem['calories']) {
-            return true;
-          }
-        }
-      }
-    }
-
-    return false;
   }
 
   // Show discard changes dialog

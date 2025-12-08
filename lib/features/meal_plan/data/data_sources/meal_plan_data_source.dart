@@ -10,6 +10,8 @@ abstract class MealPlanDataSource {
   Future<MealPlanEntity> createMealPlan(MealPlanEntity mealPlanEntity);
 
   Future<MealPlanEntity> getUserMealPlan();
+
+  Future<MealPlanEntity> updateUserMealPlan(MealPlanEntity mealPlanEntity);
 }
 
 class MealPlanDataSourceImpl implements MealPlanDataSource {
@@ -51,6 +53,31 @@ class MealPlanDataSourceImpl implements MealPlanDataSource {
     try {
       final response = await dioClient.post(ApiEndpoints.getUserMealPlan);
 
+      final payload = response.data['payload'];
+
+      return MealPlanModel.fromJson(payload).toEntity();
+    } on DioException catch (e) {
+      throw _handleException(e);
+    } catch (e) {
+      throw ServerException("Unexpected error: $e");
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Update Meal plan data source
+  // ---------------------------------------------------------------------------
+
+  @override
+  Future<MealPlanEntity> updateUserMealPlan(
+    MealPlanEntity mealPlanEntity,
+  ) async {
+    final updatedUserMealPlanModel = MealPlanModel.fromEntity(mealPlanEntity);
+
+    try {
+      final response = await dioClient.post(
+        ApiEndpoints.updateMealPlan,
+        data: updatedUserMealPlanModel.toJson(),
+      );
       final payload = response.data['payload'];
 
       return MealPlanModel.fromJson(payload).toEntity();

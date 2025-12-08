@@ -22,3 +22,13 @@ class GetUserMealPlan {
     return await repository.getUserMealPlan();
   }
 }
+
+class UpdateUserMealPlan {
+  final MealPlanRepository repository;
+
+  UpdateUserMealPlan(this.repository);
+
+  Future<Either<Failure, MealPlanEntity>> call(MealPlanEntity mealPlan) async {
+    return await repository.updateUserMealPlan(mealPlan);
+  }
+}

@@ -33,11 +33,10 @@ final getMealPlanProvider = Provider<GetUserMealPlan>((ref) {
   return GetUserMealPlan(ref.read(mealPlanRepositoryProvider));
 });
 
-//
-// final updateMealPlanProvider = Provider<UpdateMealPlan>((ref) {
-//   return UpdateMealPlan(ref.read(mealPlanRepositoryProvider));
-// });
-//
+final updateMealPlanProvider = Provider<UpdateUserMealPlan>((ref) {
+  return UpdateUserMealPlan(ref.read(mealPlanRepositoryProvider));
+});
+
 // final deleteMealPlanProvider = Provider<DeleteMealPlan>((ref) {
 //   return DeleteMealPlan(ref.read(mealPlanRepositoryProvider));
 // });
@@ -158,41 +157,42 @@ class MealPlanNotifier extends Notifier<MealPlanState> {
     );
   }
 
-  //
-  // /// Update an existing meal plan
-  // Future<bool> updateMealPlan(MealPlanEntity mealPlanEntity) async {
-  //   state = state.copyWith(
-  //     isSubmitting: true,
-  //     errorMessage: null,
-  //     successMessage: null,
-  //     clearError: true,
-  //     clearSuccess: true,
-  //   );
-  //
-  //   final updateMealPlan = ref.read(updateMealPlanProvider);
-  //   final result = await updateMealPlan(mealPlanEntity);
-  //
-  //   return result.fold(
-  //         (failure) {
-  //       logger.e('Failed to update meal plan: ${failure.message}');
-  //       state = state.copyWith(
-  //         isSubmitting: false,
-  //         errorMessage: failure.message,
-  //       );
-  //       return false;
-  //     },
-  //         (mealPlan) {
-  //       logger.i('Meal plan updated successfully');
-  //       state = state.copyWith(
-  //         isSubmitting: false,
-  //         currentMealPlan: mealPlan,
-  //         successMessage: 'Meal plan updated successfully',
-  //       );
-  //       return true;
-  //     },
-  //   );
-  // }
-  //
+  // ---------------------------------------------------------------------------
+  // Update the current meal plan
+  // ---------------------------------------------------------------------------
+  Future<bool> updateMealPlan(MealPlanEntity mealPlanEntity) async {
+    state = state.copyWith(
+      isSubmitting: true,
+      errorMessage: null,
+      successMessage: null,
+      clearError: true,
+      clearSuccess: true,
+    );
+
+    final updateMealPlan = ref.read(updateMealPlanProvider);
+    final result = await updateMealPlan(mealPlanEntity);
+
+    return result.fold(
+      (failure) {
+        logger.e('Failed to update meal plan: ${failure.message}');
+        state = state.copyWith(
+          isSubmitting: false,
+          errorMessage: failure.message,
+        );
+        return false;
+      },
+      (mealPlan) {
+        logger.i('Meal plan updated successfully');
+        state = state.copyWith(
+          isSubmitting: false,
+          currentMealPlan: mealPlan,
+          successMessage: 'Meal plan updated successfully',
+        );
+        return true;
+      },
+    );
+  }
+
   // /// Delete the current meal plan
   // Future<bool> deleteMealPlan() async {
   //   state = state.copyWith(
