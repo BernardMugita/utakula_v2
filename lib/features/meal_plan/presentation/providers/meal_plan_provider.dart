@@ -170,7 +170,7 @@ class MealPlanNotifier extends Notifier<MealPlanState> {
   // Suggest a meal plan
   // ---------------------------------------------------------------------------
 
-  Future<void> suggestMealPlan(UserMealPlanPrefsEntity prefsEntity) async {
+  Future<bool> suggestMealPlan(UserMealPlanPrefsEntity prefsEntity) async {
     state = state.copyWith(
       isSubmitting: true,
       errorMessage: null,
@@ -182,21 +182,25 @@ class MealPlanNotifier extends Notifier<MealPlanState> {
     final suggestMealPlan = ref.read(suggestMealPlanProvider);
     final result = await suggestMealPlan(prefsEntity);
 
-    result.fold(
-      (failure) => {
-        logger.e('Failed to suggest meal plan: ${failure.message}'),
+    print(result);
+
+    return result.fold(
+      (failure) {
+        logger.e('Failed to suggest meal plan: ${failure.message}');
         state = state.copyWith(
           isSubmitting: false,
           errorMessage: failure.message,
-        ),
+        );
+        return false;
       },
-      (suggestedMealPlan) => {
-        logger.i('Meal plan suggested successfully'),
+      (suggestedMealPlan) {
+        logger.i('Meal plan suggested successfully ${suggestedMealPlan.mealPlan}');
         state = state.copyWith(
           isSubmitting: false,
           currentMealPlan: suggestedMealPlan,
           successMessage: 'Meal plan suggested successfully',
-        ),
+        );
+        return true;
       },
     );
   }

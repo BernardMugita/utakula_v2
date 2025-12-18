@@ -187,8 +187,6 @@ class Homepage extends HookConsumerWidget {
     List sharedMealPlans,
     WidgetRef ref,
   ) {
-    print(myMealPlan);
-
     return Container(
       width: double.infinity,
       constraints: BoxConstraints(
@@ -207,7 +205,9 @@ class Homepage extends HookConsumerWidget {
       ),
       child: isFetchingMealPlan
           ? _buildLoadingState()
-          : myMealPlan == null || errorMessage!.startsWith("Unexpected error")
+          : myMealPlan == null ||
+                errorMessage != null &&
+                    errorMessage.startsWith("Unexpected error")
           ? MealPlanError()
           : errorMessage == "User does not have meal plan!"
           ? const NoMealPlanAlert()

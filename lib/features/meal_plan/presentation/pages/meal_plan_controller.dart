@@ -13,6 +13,7 @@ import 'package:utakula_v2/features/meal_plan/presentation/providers/meal_plan_p
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/action_buttons.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/day_card.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/info_banner.dart';
+import 'package:utakula_v2/features/meal_plan/presentation/widgets/meal_plan_suggestion_dialog.dart';
 
 class MealPlanController extends HookConsumerWidget {
   final MealPlanEntity? userMealPlan;
@@ -34,8 +35,9 @@ class MealPlanController extends HookConsumerWidget {
     final isLoading = useState(false);
     final validationMessage = useState('');
     final mealPlanId = useState<String?>(null);
+    final dialogShown = useState(false);
 
-    // Initialize meal plan from user data
+    // Initialize meal plan from user data OR show suggestion dialog
     useEffect(() {
       if (userMealPlan != null) {
         logger.i('Initializing with user meal plan: ${userMealPlan!.id}');
@@ -44,6 +46,47 @@ class MealPlanController extends HookConsumerWidget {
         originalMealPlan.value = helperUtils.deepCopyMapList(convertedPlan);
         mealPlanId.value = userMealPlan!.id;
         logger.d('Converted meal plan: ${mealPlan.value}');
+      }
+      return null;
+    }, []);
+
+    // Show suggestion dialog after frame is built (only if no userMealPlan and not shown yet)
+    useEffect(() {
+      if (userMealPlan == null && !dialogShown.value) {
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          if (context.mounted && !dialogShown.value) {
+            dialogShown.value = true;
+
+            // Show the dialog and wait for the result
+            final MealPlanEntity? suggestedMealPlan =
+                await showDialog<MealPlanEntity>(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => const MealPlanSuggestionDialog(),
+                );
+
+            // If a meal plan was suggested, initialize with it
+            if (suggestedMealPlan != null && context.mounted) {
+              logger.i(
+                'Initializing with suggested meal plan: ${suggestedMealPlan.id}',
+              );
+              final convertedPlan = helperUtils.convertEntityToMap(
+                suggestedMealPlan,
+              );
+              mealPlan.value = convertedPlan;
+              originalMealPlan.value = helperUtils.deepCopyMapList(
+                convertedPlan,
+              );
+              mealPlanId.value = suggestedMealPlan.id;
+              logger.d('Converted suggested meal plan: ${mealPlan.value}');
+            } else {
+              // User cancelled the dialog, go back
+              if (context.mounted) {
+                context.pop();
+              }
+            }
+          }
+        });
       }
       return null;
     }, []);
@@ -118,8 +161,8 @@ class MealPlanController extends HookConsumerWidget {
         final bool success;
         if (userMealPlan != null && mealPlanId.value != null) {
           success = await notifier.updateMealPlan(mealPlanEntity);
-          logger.w('Update not implemented, creating new meal plan instead');
         } else {
+          // For suggested meal plans, we're creating a new one (not updating the suggestion)
           success = await notifier.createMealPlan(mealPlanEntity);
         }
 

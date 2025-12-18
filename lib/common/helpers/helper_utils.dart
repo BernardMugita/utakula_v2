@@ -5,6 +5,7 @@ import 'package:utakula_v2/core/error/exceptions.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/single_meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/user_meal_plan_prefs_entity.dart';
 
 class HelperUtils {
   Logger logger = Logger();
@@ -182,6 +183,16 @@ class HelperUtils {
     }).toList();
 
     return MealPlanEntity(id: id, members: members, mealPlan: dayMealPlans);
+  }
+
+  convertUserPrefsToEntity(Map<String, dynamic> userPrefs) {
+    return UserMealPlanPrefsEntity(
+      bodyGoal: userPrefs['body_goal'],
+      dailyCalorieTarget: userPrefs['daily_calorie_target'] as int,
+      dietaryRestrictions: userPrefs['dietary_restrictions'],
+      allergies: userPrefs['allergies'],
+      medicalConditions: userPrefs['medical_conditions'],
+    );
   }
 
   // Deep copy a list of maps
