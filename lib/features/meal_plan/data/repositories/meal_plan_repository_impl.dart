@@ -3,6 +3,7 @@ import 'package:utakula_v2/core/error/exceptions.dart';
 import 'package:utakula_v2/core/error/failures.dart';
 import 'package:utakula_v2/features/meal_plan/data/data_sources/meal_plan_data_source.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/user_meal_plan_prefs_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/repositories/meal_plan_repository.dart';
 
 class MealPlanRepositoryImpl implements MealPlanRepository {
@@ -27,9 +28,7 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
   }
 
   @override
-  Future<Either<Failure, MealPlanEntity>> getUserMealPlan(
-
-  ) async {
+  Future<Either<Failure, MealPlanEntity>> getUserMealPlan() async {
     try {
       final result = await mealPlanDataSource.getUserMealPlan();
       return Right(result);
@@ -43,11 +42,29 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
   }
 
   @override
-  Future<Either<Failure, MealPlanEntity>> updateUserMealPlan(
-      MealPlanEntity mealPlanEntity,
-      ) async {
+  Future<Either<Failure, MealPlanEntity>> suggestMealPlan(
+    UserMealPlanPrefsEntity prefsEntity,
+  ) async {
     try {
-      final result = await mealPlanDataSource.updateUserMealPlan(mealPlanEntity);
+      final result = await mealPlanDataSource.suggestMealPlan(prefsEntity);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure("Unexpected error: $e"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MealPlanEntity>> updateUserMealPlan(
+    MealPlanEntity mealPlanEntity,
+  ) async {
+    try {
+      final result = await mealPlanDataSource.updateUserMealPlan(
+        mealPlanEntity,
+      );
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

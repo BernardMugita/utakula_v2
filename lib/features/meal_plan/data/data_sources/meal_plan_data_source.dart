@@ -5,12 +5,16 @@ import 'package:utakula_v2/core/error/exceptions.dart';
 import 'package:utakula_v2/core/network/api_endpoints.dart';
 import 'package:utakula_v2/core/network/dio_client.dart';
 import 'package:utakula_v2/features/meal_plan/data/models/meal_plan_model.dart';
+import 'package:utakula_v2/features/meal_plan/data/models/user_meal_plan_prefs_model.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/user_meal_plan_prefs_entity.dart';
 
 abstract class MealPlanDataSource {
   Future<MealPlanEntity> createMealPlan(MealPlanEntity mealPlanEntity);
 
   Future<MealPlanEntity> getUserMealPlan();
+
+  Future<MealPlanEntity> suggestMealPlan(UserMealPlanPrefsEntity prefsEntity);
 
   Future<MealPlanEntity> updateUserMealPlan(MealPlanEntity mealPlanEntity);
 }
@@ -54,6 +58,32 @@ class MealPlanDataSourceImpl implements MealPlanDataSource {
   Future<MealPlanEntity> getUserMealPlan() async {
     try {
       final response = await dioClient.post(ApiEndpoints.getUserMealPlan);
+
+      final payload = response.data['payload'];
+
+      return MealPlanModel.fromJson(payload).toEntity();
+    } on DioException catch (e) {
+      throw helperUtils.handleException(e);
+    } catch (e) {
+      throw ServerException("Unexpected error: $e");
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Get Suggested Meal Plan
+  // ---------------------------------------------------------------------------
+
+  @override
+  Future<MealPlanEntity> suggestMealPlan(
+    UserMealPlanPrefsEntity prefsEntity,
+  ) async {
+    try {
+      final prefsModel = UserMealPlanPrefsModel.fromEntity(prefsEntity);
+
+      final response = await dioClient.post(
+        ApiEndpoints.suggestMealPlan,
+        data: prefsModel.toJson(),
+      );
 
       final payload = response.data['payload'];
 

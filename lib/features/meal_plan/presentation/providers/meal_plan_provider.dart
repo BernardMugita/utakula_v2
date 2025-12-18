@@ -4,6 +4,7 @@ import 'package:utakula_v2/core/network/dio_client.dart';
 import 'package:utakula_v2/features/meal_plan/data/data_sources/meal_plan_data_source.dart';
 import 'package:utakula_v2/features/meal_plan/data/repositories/meal_plan_repository_impl.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/user_meal_plan_prefs_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/repositories/meal_plan_repository.dart';
 import 'package:utakula_v2/features/meal_plan/domain/use_cases/meal_plan_use_cases.dart';
 
@@ -31,6 +32,10 @@ final createMealPlanProvider = Provider<CreateMealPlan>((ref) {
 
 final getMealPlanProvider = Provider<GetUserMealPlan>((ref) {
   return GetUserMealPlan(ref.read(mealPlanRepositoryProvider));
+});
+
+final suggestMealPlanProvider = Provider<SuggestMealPlan>((ref) {
+  return SuggestMealPlan(ref.read(mealPlanRepositoryProvider));
 });
 
 final updateMealPlanProvider = Provider<UpdateUserMealPlan>((ref) {
@@ -148,11 +153,50 @@ class MealPlanNotifier extends Notifier<MealPlanState> {
     result.fold(
       (failure) {
         logger.e('Failed to fetch meal plan: ${failure.message}');
-        state = state.copyWith(isLoading: false, errorMessage: failure.message);
+        state = state.copyWith(
+          isLoading: false,
+          errorMessage: failure.message,
+          currentMealPlan: MealPlanEntity(id: "", members: [], mealPlan: []),
+        );
       },
       (mealPlan) {
         logger.i('Meal plan fetched successfully');
         state = state.copyWith(isLoading: false, currentMealPlan: mealPlan);
+      },
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Suggest a meal plan
+  // ---------------------------------------------------------------------------
+
+  Future<void> suggestMealPlan(UserMealPlanPrefsEntity prefsEntity) async {
+    state = state.copyWith(
+      isSubmitting: true,
+      errorMessage: null,
+      successMessage: null,
+      clearError: true,
+      clearSuccess: true,
+    );
+
+    final suggestMealPlan = ref.read(suggestMealPlanProvider);
+    final result = await suggestMealPlan(prefsEntity);
+
+    result.fold(
+      (failure) => {
+        logger.e('Failed to suggest meal plan: ${failure.message}'),
+        state = state.copyWith(
+          isSubmitting: false,
+          errorMessage: failure.message,
+        ),
+      },
+      (suggestedMealPlan) => {
+        logger.i('Meal plan suggested successfully'),
+        state = state.copyWith(
+          isSubmitting: false,
+          currentMealPlan: suggestedMealPlan,
+          successMessage: 'Meal plan suggested successfully',
+        ),
       },
     );
   }

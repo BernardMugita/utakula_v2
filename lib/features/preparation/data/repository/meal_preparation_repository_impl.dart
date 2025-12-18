@@ -21,8 +21,6 @@ class MealPreparationRepositoryImpl implements MealPreparationRepository {
         mealPrepEntity,
       );
 
-      logger.d(result);
-
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

@@ -25,6 +25,7 @@ class ApiEndpoints {
   // -------------------- MEAL PLANS --------------------
   static const String addMealPlan = "/meal_plans/add_new_plan";
   static const String getUserMealPlan = "/meal_plans/get_user_meal_plan";
+  static const String suggestMealPlan = "/meal_plans/suggest_plan";
   static const String updateMealPlan = "/meal_plans/update_meal_plan";
   static const String fetchMemberMealPlans = "/meal_plans/fetch_plans";
 
