@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
+import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/foods/presentation/providers/foods_provider.dart';
 import 'package:utakula_v2/features/foods/presentation/widgets/food_banner.dart';
@@ -17,9 +18,12 @@ class Foods extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final foodState = ref.watch(foodStateProvider);
-    Logger logger = Logger();
+    // Logger logger = Logger();
 
+    // Watch the current state
+    final foodState = ref.watch(foodStateProvider);
+
+    // Fetch foods on initial load
     useEffect(() {
       Future.microtask(() => ref.read(foodStateProvider.notifier).fetchFoods());
       return null;

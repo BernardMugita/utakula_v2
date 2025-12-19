@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_button.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_input.dart';
+import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/login/presentation/providers/sign_in_provider.dart';
 import 'package:utakula_v2/features/login/presentation/providers/sign_in_state_providers.dart';
@@ -19,6 +20,7 @@ class Login extends HookConsumerWidget {
     final usernameController = useTextEditingController();
     final passwordController = useTextEditingController();
     final formKey = useMemoized(() => GlobalKey<FormState>());
+    HelperUtils helperUtils = HelperUtils();
 
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 1200),
@@ -54,9 +56,9 @@ class Login extends HookConsumerWidget {
 
     ref.listen<LoginState>(loginStateProvider, (previous, next) {
       if (next.errorMessage != null) {
-        _showSnackBar(context, next.errorMessage!, Colors.red);
+        helperUtils.showSnackBar(context, next.errorMessage!, Colors.red);
       } else if (next.isSuccess) {
-        _showSnackBar(context, "Login successful!", Colors.green);
+        helperUtils.showSnackBar(context, "Login successful!", Colors.green);
         Future.delayed(const Duration(seconds: 1), () {
           if (context.mounted) {
             context.go(Routes.home);
@@ -344,27 +346,6 @@ class Login extends HookConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  void _showSnackBar(BuildContext context, String message, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: color,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.all(16),
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-        duration: const Duration(seconds: 3),
       ),
     );
   }

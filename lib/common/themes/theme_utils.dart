@@ -8,5 +8,6 @@ class ThemeUtils {
   static const $blacks = Color(0xFF000000);
 
   static const $error = Colors.red;
+  static const $success = Colors.green;
   static const $backgroundColor = Color.fromARGB(255, 243, 227, 237);
 }

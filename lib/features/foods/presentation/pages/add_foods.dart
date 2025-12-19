@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/foods/domain/entities/calorie_entity.dart';
 import 'package:utakula_v2/features/foods/domain/entities/food_entity.dart';
@@ -20,6 +21,7 @@ class AddFoods extends HookConsumerWidget {
     final imageUrlController = useTextEditingController();
     final selectedMacroNutrient = useState<String?>(null);
     final selectedMealType = useState<MealTypeEnum?>(null);
+    HelperUtils helperUtils = HelperUtils();
 
     // Calorie breakdown controllers
     final totalCaloriesController = useTextEditingController();
@@ -109,13 +111,11 @@ class AddFoods extends HookConsumerWidget {
             isSubmitting.value = false;
 
             if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Food added successfully!'),
-                  backgroundColor: Colors.green,
-                ),
+              helperUtils.showSnackBar(
+                context,
+                "Food Added Successfully",
+                ThemeUtils.$success,
               );
-              Navigator.pop(context);
             }
           } else {
             isSubmitting.value = false;
@@ -123,11 +123,10 @@ class AddFoods extends HookConsumerWidget {
         } catch (e) {
           isSubmitting.value = false;
           if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Error: ${e.toString()}'),
-                backgroundColor: Colors.red,
-              ),
+            helperUtils.showSnackBar(
+              context,
+              'Error: ${e.toString()}',
+              ThemeUtils.$error,
             );
           }
         }

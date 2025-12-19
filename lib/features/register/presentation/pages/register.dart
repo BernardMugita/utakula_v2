@@ -4,94 +4,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_input.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_button.dart';
+import 'package:utakula_v2/features/register/helpers/registration_helpers.dart';
 import 'package:utakula_v2/features/register/presentation/providers/sign_up_provider.dart';
 import 'package:utakula_v2/features/register/presentation/providers/sign_up_state_provider.dart';
 import 'package:utakula_v2/routing/routes.dart';
 
 class Register extends HookConsumerWidget {
   const Register({super.key});
-
-  void _showSnackBar(
-    BuildContext context,
-    String message,
-    Color backgroundColor,
-  ) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: backgroundColor,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        margin: const EdgeInsets.all(16),
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: ThemeUtils.$secondaryColor,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
-          ),
-        ),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your email';
-    }
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email address';
-    }
-    return null;
-  }
-
-  String? _validateUsername(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter a username';
-    }
-    if (value.length < 3) {
-      return 'Username must be at least 3 characters';
-    }
-    if (value.length > 20) {
-      return 'Username must be less than 20 characters';
-    }
-    final usernameRegex = RegExp(r'^[a-zA-Z0-9_]+$');
-    if (!usernameRegex.hasMatch(value)) {
-      return 'Username can only contain letters, numbers, and underscore';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter a password';
-    }
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters';
-    }
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Password must contain at least one uppercase letter';
-    }
-    if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'Password must contain at least one number';
-    }
-    return null;
-  }
-
-  String? _validateConfirmPassword(String? value, String password) {
-    if (value == null || value.isEmpty) {
-      return 'Please confirm your password';
-    }
-    if (value != password) {
-      return 'Passwords do not match';
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -100,6 +23,8 @@ class Register extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final confirmPasswordController = useTextEditingController();
     final formKey = useMemoized(() => GlobalKey<FormState>());
+    HelperUtils helperUtils = HelperUtils();
+    RegistrationHelpers registrationHelpers = RegistrationHelpers();
 
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 1200),
@@ -135,9 +60,13 @@ class Register extends HookConsumerWidget {
 
     ref.listen<RegisterState>(registerStateProvider, (previous, next) {
       if (next.errorMessage != null) {
-        _showSnackBar(context, next.errorMessage!, Colors.red);
+        helperUtils.showSnackBar(context, next.errorMessage!, Colors.red);
       } else if (next.isSuccess) {
-        _showSnackBar(context, "Registration successful!", Colors.green);
+        helperUtils.showSnackBar(
+          context,
+          "Registration successful!",
+          Colors.green,
+        );
         Future.delayed(const Duration(seconds: 1), () {
           if (context.mounted) {
             context.go(Routes.login);
@@ -197,6 +126,7 @@ class Register extends HookConsumerWidget {
                             confirmPasswordController,
                             ref,
                             registerState.isLoading,
+                            registrationHelpers,
                           ),
                           const Gap(30),
                           _buildDivider(),
@@ -314,6 +244,7 @@ class Register extends HookConsumerWidget {
     TextEditingController confirmPasswordController,
     WidgetRef ref,
     bool isLoading,
+    RegistrationHelpers registrationHelpers,
   ) {
     return Container(
       padding: const EdgeInsets.all(28),
@@ -335,7 +266,7 @@ class Register extends HookConsumerWidget {
             controller: usernameController,
             hintText: "Please enter your username",
             prefixIcon: FluentIcons.person_24_regular,
-            validator: _validateUsername,
+            validator: registrationHelpers.validateUsername,
           ),
           const Gap(16),
           UtakulaInput(
@@ -343,7 +274,7 @@ class Register extends HookConsumerWidget {
             hintText: "Enter you Email address",
             prefixIcon: FluentIcons.mail_24_regular,
             keyboardType: TextInputType.emailAddress,
-            validator: _validateEmail,
+            validator: registrationHelpers.validateEmail,
           ),
           const Gap(16),
           UtakulaInput(
@@ -352,7 +283,7 @@ class Register extends HookConsumerWidget {
             prefixIcon: FluentIcons.lock_closed_24_regular,
             obscureText: true,
             showPasswordToggle: true,
-            validator: _validatePassword,
+            validator: registrationHelpers.validatePassword,
           ),
           const Gap(16),
           UtakulaInput(
@@ -361,8 +292,10 @@ class Register extends HookConsumerWidget {
             prefixIcon: FluentIcons.lock_closed_24_regular,
             obscureText: true,
             showPasswordToggle: true,
-            validator: (value) =>
-                _validateConfirmPassword(value, passwordController.text),
+            validator: (value) => registrationHelpers.validateConfirmPassword(
+              value,
+              passwordController.text,
+            ),
           ),
           const Gap(8),
           _buildPasswordRequirements(),

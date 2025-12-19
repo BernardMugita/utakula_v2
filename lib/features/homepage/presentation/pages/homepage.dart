@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
+import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/homepage/presentation/providers/homepage_providers.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/action_item.dart';
@@ -23,6 +24,42 @@ class Homepage extends HookConsumerWidget {
     Logger logger = Logger();
     final mealPlanState = ref.watch(mealPlanStateProvider);
     final homePageState = ref.watch(homepageStateProvider);
+
+    HelperUtils helperUtils = HelperUtils();
+
+    // Listen to state changes and show snackbars accordingly
+    ref.listen<MealPlanState>(mealPlanStateProvider, (previous, next) {
+      // Only show snackbar if context is mounted
+      if (!context.mounted) return;
+
+      // Show success message
+      if (next.currentMealPlan!.mealPlan.isNotEmpty &&
+          next.currentMealPlan != previous?.currentMealPlan) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (context.mounted) {
+            helperUtils.showSnackBar(
+              context,
+              "Meal plan loaded Successfully",
+              ThemeUtils.$success,
+            );
+          }
+        });
+      }
+
+      // Show error message
+      if (next.errorMessage != null &&
+          next.errorMessage != previous?.errorMessage) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (context.mounted) {
+            helperUtils.showSnackBar(
+              context,
+              next.errorMessage!,
+              ThemeUtils.$error,
+            );
+          }
+        });
+      }
+    });
 
     useEffect(() {
       Future.microtask(() async {
@@ -43,7 +80,7 @@ class Homepage extends HookConsumerWidget {
     final String? errorMessage = mealPlanState.errorMessage;
     final MealPlanEntity? myMealPlan = mealPlanState.currentMealPlan;
     final DayMealPlanEntity? selectedPlan = homePageState.selectedMealPlan;
-    final List sharedMealPlans = []; // TODO: Implement shared plans
+    final List sharedMealPlans = [];
 
     return Scaffold(
       backgroundColor: ThemeUtils.$accentColor,
