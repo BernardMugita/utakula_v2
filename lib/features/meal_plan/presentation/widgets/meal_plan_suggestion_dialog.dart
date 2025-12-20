@@ -22,6 +22,7 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
     final selectedAllergies = useState<Set<FoodAllergy>>({});
     final selectedConditions = useState<Set<MedicalDietaryCondition>>({});
     final isLoading = useState(false);
+    HelperUtils helperUtils = HelperUtils();
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -190,6 +191,7 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
                                   selectedConditions.value,
                                   isLoading,
                                   ref,
+                                  helperUtils,
                                 );
                               },
                         style: ElevatedButton.styleFrom(
@@ -247,6 +249,7 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
     Set<MedicalDietaryCondition> conditions,
     ValueNotifier<bool> isLoading,
     WidgetRef ref,
+    HelperUtils helperUtils,
   ) async {
     isLoading.value = true;
     HelperUtils helperUtils = HelperUtils();
@@ -266,18 +269,21 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
       final userMealPlanPrefs = helperUtils.convertUserPrefsToEntity(
         requestBody,
       );
-      final result = await notifier.suggestMealPlan(userMealPlanPrefs);
 
-      if (result) {
+      // This method will be changed in the provider to return the entity directly
+      // without updating the state.
+      final MealPlanEntity? suggestedMealPlan = await notifier.suggestMealPlan(
+        userMealPlanPrefs,
+      );
+
+      if (suggestedMealPlan != null) {
         if (context.mounted) {
-          // Get the suggested meal plan from the provider
-          final suggestedMealPlan = ref
-              .read(mealPlanStateProvider)
-              .currentMealPlan;
-
-          logger.i('Suggested meal plan received: ${suggestedMealPlan?.id}');
-
-          _showSuccessSnackBar(context, 'Meal plan suggested successfully!');
+          logger.i('Suggested meal plan received: ${suggestedMealPlan.id}');
+          helperUtils.showSnackBar(
+            context,
+            'Meal plan suggested successfully!',
+            ThemeUtils.$success,
+          );
 
           // Close the dialog and pass the suggested meal plan back
           Navigator.of(context).pop(suggestedMealPlan);
@@ -287,53 +293,21 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
           final errorMessage =
               ref.read(mealPlanStateProvider).errorMessage ??
               'Failed to suggest meal plan.';
-          _showErrorSnackBar(context, errorMessage);
+          helperUtils.showSnackBar(context, errorMessage, ThemeUtils.$success);
         }
       }
     } catch (e) {
       logger.e('Error suggesting meal plan: $e');
       if (context.mounted) {
-        _showErrorSnackBar(
+        helperUtils.showSnackBar(
           context,
           'An unexpected error occurred: ${e.toString()}',
+          ThemeUtils.$success,
         );
       }
     }
 
     isLoading.value = false;
-  }
-
-  void _showSuccessSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: ThemeUtils.$primaryColor,
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: ThemeUtils.$secondaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: ThemeUtils.$error,
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: ThemeUtils.$blacks,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        duration: const Duration(seconds: 3),
-      ),
-    );
   }
 }
 

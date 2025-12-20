@@ -20,6 +20,32 @@ class MealPlanController extends HookConsumerWidget {
 
   const MealPlanController({super.key, this.userMealPlan});
 
+  // Add this helper function to the MealPlanController class
+  Future<void> _showSuggestMealPlanDialog(
+    BuildContext context,
+    ValueNotifier<List<Map<String, dynamic>>> mealPlan,
+    ValueNotifier<String?> mealPlanId,
+    HelperUtils helperUtils,
+    Logger logger,
+  ) async {
+    final MealPlanEntity? suggestedMealPlan = await showDialog<MealPlanEntity>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const MealPlanSuggestionDialog(),
+    );
+
+    if (suggestedMealPlan != null && context.mounted) {
+      logger.i(
+        'Initializing with suggested meal plan: ${suggestedMealPlan.id}',
+      );
+      final convertedPlan = helperUtils.convertEntityToMap(suggestedMealPlan);
+      mealPlan.value = convertedPlan;
+      // DO NOT update originalMealPlan, so it's treated as a change
+      mealPlanId.value = suggestedMealPlan.id;
+      logger.d('Converted suggested meal plan: ${mealPlan.value}');
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final logger = Logger();
@@ -50,41 +76,20 @@ class MealPlanController extends HookConsumerWidget {
       return null;
     }, []);
 
-    // Show suggestion dialog after frame is built (only if no userMealPlan and not shown yet)
     useEffect(() {
       if (userMealPlan == null && !dialogShown.value) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
+          await Future.delayed(const Duration(seconds: 1));
+
           if (context.mounted && !dialogShown.value) {
             dialogShown.value = true;
-
-            // Show the dialog and wait for the result
-            final MealPlanEntity? suggestedMealPlan =
-                await showDialog<MealPlanEntity>(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) => const MealPlanSuggestionDialog(),
-                );
-
-            // If a meal plan was suggested, initialize with it
-            if (suggestedMealPlan != null && context.mounted) {
-              logger.i(
-                'Initializing with suggested meal plan: ${suggestedMealPlan.id}',
-              );
-              final convertedPlan = helperUtils.convertEntityToMap(
-                suggestedMealPlan,
-              );
-              mealPlan.value = convertedPlan;
-              originalMealPlan.value = helperUtils.deepCopyMapList(
-                convertedPlan,
-              );
-              mealPlanId.value = suggestedMealPlan.id;
-              logger.d('Converted suggested meal plan: ${mealPlan.value}');
-            } else {
-              // User cancelled the dialog, go back
-              if (context.mounted) {
-                context.pop();
-              }
-            }
+            await _showSuggestMealPlanDialog(
+              context,
+              mealPlan,
+              mealPlanId,
+              helperUtils,
+              logger,
+            );
           }
         });
       }
@@ -126,7 +131,11 @@ class MealPlanController extends HookConsumerWidget {
       await Future.delayed(const Duration(milliseconds: 500));
       isLoading.value = false;
       if (context.mounted) {
-        _showSuccessSnackBar(context, 'Draft saved successfully!');
+        helperUtils.showSnackBar(
+          context,
+          "Draft saved successfully!",
+          ThemeUtils.$success,
+        );
       }
     }
 
@@ -135,7 +144,11 @@ class MealPlanController extends HookConsumerWidget {
       // Validate meal plan
       if (mealPlan.value.isEmpty) {
         validationMessage.value = 'Meal plan is empty';
-        _showErrorSnackBar(context, 'Meal plan is empty');
+        helperUtils.showSnackBar(
+          context,
+          "Meal plan is empty",
+          ThemeUtils.$success,
+        );
         return;
       }
 
@@ -143,7 +156,11 @@ class MealPlanController extends HookConsumerWidget {
         if (meal['meals'].isEmpty) {
           validationMessage.value =
               "Please finish preparing your meal plan. Missing meals for ${meal['day']}";
-          _showErrorSnackBar(context, validationMessage.value);
+          helperUtils.showSnackBar(
+            context,
+            "Please finish preparing your meal plan. Missing meals for ${meal['day']}",
+            ThemeUtils.$success,
+          );
           return;
         }
       }
@@ -168,11 +185,12 @@ class MealPlanController extends HookConsumerWidget {
 
         if (success) {
           if (context.mounted) {
-            _showSuccessSnackBar(
+            helperUtils.showSnackBar(
               context,
               userMealPlan != null
                   ? 'Meal plan updated successfully!'
                   : 'Meal plan created successfully!',
+              ThemeUtils.$success,
             );
             context.pop();
           }
@@ -181,15 +199,16 @@ class MealPlanController extends HookConsumerWidget {
             final errorMessage =
                 ref.read(mealPlanStateProvider).errorMessage ??
                 'Failed to save meal plan.';
-            _showErrorSnackBar(context, errorMessage);
+            helperUtils.showSnackBar(context, errorMessage, ThemeUtils.$error);
           }
         }
       } catch (e) {
         logger.e('Error saving meal plan: $e');
         if (context.mounted) {
-          _showErrorSnackBar(
+          helperUtils.showSnackBar(
             context,
             'An unexpected error occurred: ${e.toString()}',
+            ThemeUtils.$success,
           );
         }
       }
@@ -198,7 +217,7 @@ class MealPlanController extends HookConsumerWidget {
     // Handle back button press
     void handleBackPress() {
       if (hasUnsavedChanges()) {
-        _showDiscardDialog(context);
+        _showDiscardDialog(context, ref);
       } else {
         context.pop();
       }
@@ -208,7 +227,7 @@ class MealPlanController extends HookConsumerWidget {
       canPop: !hasUnsavedChanges(),
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop && hasUnsavedChanges()) {
-          _showDiscardDialog(context);
+          _showDiscardDialog(context, ref);
         }
       },
       child: Scaffold(
@@ -239,6 +258,15 @@ class MealPlanController extends HookConsumerWidget {
                     ? "Click on the '+' on a single item to prepare a day's meal plan."
                     : "Select the 'edit' on each day's plan to edit the foods.",
               ),
+              const Gap(10), // Add a small gap
+              Text(
+                'Tap the magic wand button to get meal plan suggestions!',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: ThemeUtils.$primaryColor.withOpacity(0.7),
+                ),
+                textAlign: TextAlign.center,
+              ),
               const Gap(20),
               _buildMealPlanGrid(
                 context,
@@ -255,6 +283,21 @@ class MealPlanController extends HookConsumerWidget {
             ],
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _showSuggestMealPlanDialog(
+            context,
+            mealPlan,
+            mealPlanId,
+            helperUtils,
+            logger,
+          ),
+          backgroundColor: ThemeUtils.$primaryColor,
+          child: const Icon(
+            FluentIcons.sparkle_24_filled,
+            color: ThemeUtils.$secondaryColor,
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       ),
     );
   }
@@ -293,7 +336,7 @@ class MealPlanController extends HookConsumerWidget {
   }
 
   // Show discard changes dialog
-  void _showDiscardDialog(BuildContext context) {
+  void _showDiscardDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -313,6 +356,8 @@ class MealPlanController extends HookConsumerWidget {
             ),
             TextButton(
               onPressed: () {
+                // Clear the current meal plan from the state provider
+                ref.read(mealPlanStateProvider.notifier).clearCurrentMealPlan();
                 context.pop(); // Close dialog
                 context.pop(); // Close meal plan controller
               },
@@ -324,42 +369,6 @@ class MealPlanController extends HookConsumerWidget {
           ],
         );
       },
-    );
-  }
-
-  // Show error snackbar
-  void _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: ThemeUtils.$error,
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: ThemeUtils.$blacks,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        duration: const Duration(seconds: 3),
-      ),
-    );
-  }
-
-  // Show success snackbar
-  void _showSuccessSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: ThemeUtils.$primaryColor,
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: ThemeUtils.$secondaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        duration: const Duration(seconds: 3),
-      ),
     );
   }
 }

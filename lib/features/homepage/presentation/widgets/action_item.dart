@@ -1,98 +1,246 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:utakula_v2/common/helpers/helper_utils.dart';
+import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 
 class ActionItem extends StatelessWidget {
-  final MealPlanEntity myMealPlan;
-
-  const ActionItem({super.key, required this.myMealPlan});
+  const ActionItem({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (myMealPlan.mealPlan == null)
-          _buildActionButton(
-            context: context,
-            icon: FluentIcons.people_add_24_regular,
-            label: 'Invite your family/friends',
-            backgroundColor: Colors.white,
-            textColor: const Color(0xFF2D5016),
-            iconColor: const Color(0xFF2D5016),
-            onPressed: () {
-              // Navigation logic
-            },
-          ),
-        if (myMealPlan.mealPlan == null) const Gap(12),
-        _buildActionButton(
-          context: context,
-          icon: FluentIcons.image_24_regular,
-          label: 'Meal Templates',
-          backgroundColor: Colors.white,
-          textColor: const Color(0xFF2D5016),
-          iconColor: const Color(0xFF2D5016),
-          onPressed: () {
-            // Navigation logic
-          },
-        ),
-      ],
-    );
-  }
+    HelperUtils helperUtils = HelperUtils();
 
-  Widget _buildActionButton({
-    required BuildContext context,
-    required IconData icon,
-    required String label,
-    required Color backgroundColor,
-    required Color textColor,
-    required Color iconColor,
-    required VoidCallback onPressed,
-  }) {
     return Container(
-      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.black, width: 2),
+        color: ThemeUtils.$secondaryColor,
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 12,
+            offset: const Offset(0, -5),
           ),
         ],
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(20),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: textColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE8E8E8),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(icon, color: iconColor, size: 24),
-                ),
-              ],
+      child: SafeArea(
+        top: false,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: _buildNavButton(
+                context: context,
+                icon: FluentIcons.image_24_filled,
+                label: "Templates",
+                color: ThemeUtils.$primaryColor,
+                onPressed: () {
+                  // TODO: Navigate to templates screen
+                  // context.push('/meal-templates');
+                  helperUtils.showSnackBar(
+                    context,
+                    "Templates feature coming soon!",
+                    ThemeUtils.$info,
+                  );
+                },
+              ),
             ),
+            const Gap(12),
+            Expanded(
+              child: _buildNavButton(
+                context: context,
+                icon: FluentIcons.people_24_filled,
+                label: "Shared",
+                color: const Color(0xFF6B4FA0),
+                onPressed: () {
+                  // TODO: Navigate to shared meal plans screen
+                  // context.push('/shared-meal-plans');
+                  helperUtils.showSnackBar(
+                    context,
+                    "Shared feature coming soon!",
+                    ThemeUtils.$info,
+                  );
+                },
+              ),
+            ),
+            const Gap(12),
+            Expanded(
+              child: _buildNavButton(
+                context: context,
+                icon: FluentIcons.settings_24_filled,
+                label: "More",
+                color: const Color(0xFF7C6A46),
+                onPressed: () {
+                  _showMoreOptions(context);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavButton({
+    required BuildContext context,
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onPressed,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: color.withOpacity(0.3), width: 1.5),
           ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: color, size: 26),
+              const Gap(6),
+              Text(
+                label,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showMoreOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: ThemeUtils.$secondaryColor,
+      isScrollControlled: false,
+      enableDrag: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) => Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        decoration: const BoxDecoration(
+          color: ThemeUtils.$secondaryColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Drag handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            const Gap(20),
+
+            // Title
+            const Text(
+              'More Options',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: ThemeUtils.$primaryColor,
+              ),
+            ),
+            const Gap(24),
+
+            // Options
+            _buildMoreOption(
+              context: context,
+              icon: FluentIcons.settings_24_regular,
+              label: 'Settings',
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Navigate to settings
+              },
+            ),
+            const Gap(12),
+            _buildMoreOption(
+              context: context,
+              icon: FluentIcons.info_24_regular,
+              label: 'About',
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Navigate to about
+              },
+            ),
+            const Gap(12),
+            _buildMoreOption(
+              context: context,
+              icon: FluentIcons.question_circle_24_regular,
+              label: 'Help & Support',
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Navigate to help
+              },
+            ),
+
+            // Add bottom padding for safe area
+            SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMoreOption({
+    required BuildContext context,
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: ThemeUtils.$backgroundColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: ThemeUtils.$primaryColor, size: 24),
+            const Gap(16),
+            Text(
+              label,
+              style: const TextStyle(
+                color: ThemeUtils.$primaryColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              FluentIcons.chevron_right_24_regular,
+              color: ThemeUtils.$primaryColor.withOpacity(0.5),
+              size: 20,
+            ),
+          ],
         ),
       ),
     );

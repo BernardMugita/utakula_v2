@@ -9,5 +9,6 @@ class ThemeUtils {
 
   static const $error = Colors.red;
   static const $success = Colors.green;
+  static const $info = Colors.orangeAccent;
   static const $backgroundColor = Color.fromARGB(255, 243, 227, 237);
 }

@@ -128,16 +128,19 @@ class Homepage extends HookConsumerWidget {
                   ref,
                 ),
                 const Gap(25),
-
-                // Action Items
-                if (!isFetchingMealPlan && myMealPlan != null)
-                  _buildActionItems(context, myMealPlan),
-                const Gap(20),
+                _buildActionItems(context)
               ],
             ),
           ),
         ),
       ),
+      // bottomNavigationBar: BottomAppBar(
+      //   height: 140,
+      //   color: ThemeUtils.$secondaryColor,
+      //   elevation: 0,
+      //   shape: const CircularNotchedRectangle(),
+      //   child: _buildActionItems(context),
+      // ),
     );
   }
 
@@ -297,7 +300,7 @@ class Homepage extends HookConsumerWidget {
     );
   }
 
-  Widget _buildActionItems(BuildContext context, MealPlanEntity myMealPlan) {
-    return ActionItem(myMealPlan: myMealPlan);
+  Widget _buildActionItems(BuildContext context) {
+    return ActionItem();
   }
 }
