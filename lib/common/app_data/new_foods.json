@@ -2420,5 +2420,1161 @@
         }
       }
     }
+  },
+  {
+    "image_url": "white-rice.png",
+    "name": "Rice (White, Cooked)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 130,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 28.2,
+          "calories": 113.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.7,
+          "calories": 11.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.3,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.4,
+          "calories": 1.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "brown-rice.png",
+    "name": "Rice (Brown, Cooked)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 112,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 23.5,
+          "calories": 94.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.6,
+          "calories": 10.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.9,
+          "calories": 8.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.8,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mursik.png",
+    "name": "Mursik (Fermented Milk)",
+    "macro_nutrient": "Protein",
+    "meal_type": "beverage",
+    "dietary_tags": [
+      "vegetarian",
+      "halal",
+      "kosher"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "suitable_for_conditions": [],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 60,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 3.8,
+          "calories": 15.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 3.3,
+          "calories": 13.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 3.2,
+          "calories": 29.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "cabbage.png",
+    "name": "Cabbage (Cooked)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free",
+      "keto",
+      "paleo"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 23,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 5.5,
+          "calories": 22.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.3,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.1,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.0,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "spinach.png",
+    "name": "Spinach (Cooked)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free",
+      "keto",
+      "paleo"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 23,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 3.8,
+          "calories": 15.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 3.0,
+          "calories": 12.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.3,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.4,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "eggs.png",
+    "name": "Eggs (Boiled)",
+    "macro_nutrient": "Protein",
+    "meal_type": "breakfast or snack",
+    "dietary_tags": [
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free",
+      "keto",
+      "paleo"
+    ],
+    "allergens": [
+      "eggs"
+    ],
+    "suitable_for_conditions": [
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 155,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 1.1,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 12.6,
+          "calories": 50.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 10.6,
+          "calories": 95.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "peanuts.png",
+    "name": "Peanuts (Roasted)",
+    "macro_nutrient": "Protein",
+    "meal_type": "breakfast or snack",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [
+      "peanuts"
+    ],
+    "suitable_for_conditions": [
+      "diabetes",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 567,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 16.1,
+          "calories": 64.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 25.8,
+          "calories": 103.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 49.2,
+          "calories": 443.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 8.5,
+          "calories": 17.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "groundnuts.png",
+    "name": "Groundnuts (Boiled)",
+    "macro_nutrient": "Protein",
+    "meal_type": "breakfast or snack",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [
+      "peanuts"
+    ],
+    "suitable_for_conditions": [
+      "diabetes",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 318,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 21.3,
+          "calories": 85.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 13.5,
+          "calories": 54.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 22.0,
+          "calories": 198.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 6.0,
+          "calories": 12.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "potato.png",
+    "name": "Potato (Boiled)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 87,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 20.1,
+          "calories": 80.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.9,
+          "calories": 8.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.1,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.8,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "passion-fruit.png",
+    "name": "Passion Fruit",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 97,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 23.4,
+          "calories": 94.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.2,
+          "calories": 9.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.7,
+          "calories": 6.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 10.4,
+          "calories": 21.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "papaya.png",
+    "name": "Papaya (Pawpaw)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 43,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 10.8,
+          "calories": 43.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.5,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.3,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.7,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "pineapple.png",
+    "name": "Pineapple (Fresh)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "hypertension",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 50,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 13.1,
+          "calories": 52.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.5,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.1,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 1.4,
+          "calories": 3.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "guava.png",
+    "name": "Guava",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "fruit",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 68,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 14.3,
+          "calories": 57.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.6,
+          "calories": 10.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 1.0,
+          "calories": 9.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 5.4,
+          "calories": 11.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "lentils.png",
+    "name": "Lentils (Cooked)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 116,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 20.1,
+          "calories": 80.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 9.0,
+          "calories": 36.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.4,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 7.9,
+          "calories": 16.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "cowpeas.png",
+    "name": "Cowpeas (Black-eyed Peas, Cooked)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 116,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 20.8,
+          "calories": 83.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 7.7,
+          "calories": 31.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.5,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 6.5,
+          "calories": 13.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "boiled-maize.png",
+    "name": "Maize (Boiled)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 96,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 21.0,
+          "calories": 84.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 3.4,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 1.5,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.4,
+          "calories": 5.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "green-peas.png",
+    "name": "Green Peas (Cooked)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 84,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 15.6,
+          "calories": 62.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 5.4,
+          "calories": 22.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 5.5,
+          "calories": 11.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "carrots.png",
+    "name": "Carrots (Cooked)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free",
+      "paleo"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 35,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 8.2,
+          "calories": 33.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.8,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.2,
+          "calories": 2.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 3.0,
+          "calories": 6.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "pumpkin.png",
+    "name": "Pumpkin (Cooked)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free",
+      "paleo"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 26,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 6.5,
+          "calories": 26.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 1.0,
+          "calories": 4.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.1,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.5,
+          "calories": 1.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "yogurt.png",
+    "name": "Yogurt (Plain)",
+    "macro_nutrient": "Protein",
+    "meal_type": "breakfast or snack",
+    "dietary_tags": [
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [
+      "dairy"
+    ],
+    "suitable_for_conditions": [
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 61,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 4.7,
+          "calories": 19.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 3.5,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 3.3,
+          "calories": 30.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "sausage.png",
+    "name": "Sausage (Pork)",
+    "macro_nutrient": "Protein",
+    "meal_type": "breakfast or snack",
+    "dietary_tags": [],
+    "allergens": [],
+    "suitable_for_conditions": [],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 301,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 1.9,
+          "calories": 8.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 12.0,
+          "calories": 48.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 27.0,
+          "calories": 243.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "bacon.png",
+    "name": "Bacon (Cooked)",
+    "macro_nutrient": "Fat",
+    "meal_type": "breakfast or snack",
+    "dietary_tags": [],
+    "allergens": [],
+    "suitable_for_conditions": [],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 541,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 1.4,
+          "calories": 6.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 37.0,
+          "calories": 148.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 42.0,
+          "calories": 378.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.0,
+          "calories": 0.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "beans.png",
+    "name": "Kidney Beans (Cooked)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 127,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 22.8,
+          "calories": 91.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 8.7,
+          "calories": 35.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.5,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 6.4,
+          "calories": 13.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "mushrooms.png",
+    "name": "Mushrooms (Cooked)",
+    "macro_nutrient": "Protein",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free",
+      "keto",
+      "paleo"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 28,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 5.3,
+          "calories": 21.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 2.2,
+          "calories": 9.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.5,
+          "calories": 5.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 2.0,
+          "calories": 4.0,
+          "unit": "g"
+        }
+      }
+    }
+  },
+  {
+    "image_url": "cucumber.png",
+    "name": "Cucumber (Fresh)",
+    "macro_nutrient": "Carbohydrate",
+    "meal_type": "lunch or supper",
+    "dietary_tags": [
+      "vegan",
+      "vegetarian",
+      "halal",
+      "kosher",
+      "gluten_free",
+      "keto",
+      "paleo"
+    ],
+    "allergens": [],
+    "suitable_for_conditions": [
+      "diabetes",
+      "hypertension",
+      "high_cholesterol",
+      "heart_disease",
+      "celiac_disease"
+    ],
+    "calories": {
+      "id": "",
+      "food_id": "",
+      "total": 15,
+      "breakdown": {
+        "carbohydrate": {
+          "amount": 3.6,
+          "calories": 14.0,
+          "unit": "g"
+        },
+        "protein": {
+          "amount": 0.7,
+          "calories": 3.0,
+          "unit": "g"
+        },
+        "fat": {
+          "amount": 0.1,
+          "calories": 1.0,
+          "unit": "g"
+        },
+        "fiber": {
+          "amount": 0.5,
+          "calories": 1.0,
+          "unit": "g"
+        }
+      }
+    }
   }
 ]

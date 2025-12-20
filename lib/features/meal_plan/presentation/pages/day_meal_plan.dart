@@ -608,7 +608,15 @@ class MealSection extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(item['emoji'] ?? '🍽️', style: const TextStyle(fontSize: 20)),
+          Image.asset(
+            'assets/foods/${item['image_url']}',
+            height: 20,
+            width: 20,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(FluentIcons.food_24_regular, size: 15);
+            },
+          ),
           const Gap(8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
