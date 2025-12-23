@@ -50,6 +50,9 @@ dependencies:
   dotted_border: ^3.1.0
   carousel_slider: ^5.1.1
   markdown_widget: ^2.3.2+8
+  firebase_core: ^4.3.0
+  flutter_local_notifications: ^19.5.0
+  firebase_messaging: ^16.1.0
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,7 @@ class ApiEndpoints {
 
   // -------------------- USERS --------------------
   static const String getAllUsers = "/users/get_all_users";
-  static const String getUserById = "/users/get_user_by_id";
+  static const String getUserAccount = "/users/get_user_account";
   static const String editUserAccount = "/users/edit_account";
   static const String deleteUserAccount = "/users/delete_account";
 

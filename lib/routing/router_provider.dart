@@ -12,6 +12,7 @@ import 'package:utakula_v2/features/meal_plan/presentation/pages/day_meal_plan.d
 import 'package:utakula_v2/features/meal_plan/presentation/pages/meal_plan_controller.dart';
 import 'package:utakula_v2/features/preparation/presentation/pages/how_to_prepare.dart';
 import 'package:utakula_v2/features/register/presentation/pages/register.dart';
+import 'package:utakula_v2/features/reminders/presentation/pages/reminders.dart';
 import 'package:utakula_v2/routing/routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -108,6 +109,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const AddFoods(),
           ),
         ],
+      ),
+      GoRoute(
+        path: Routes.reminders,
+        name: '/reminders',
+        builder: (context, state) => const Reminders(),
       ),
     ],
   );
