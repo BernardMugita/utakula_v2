@@ -36,4 +36,10 @@ class ApiEndpoints {
   // -------------------- AI --------------------
   static const String preparationInstructions = "/genai/preparation_instructions";
   static const String generateCustomRecipe = "/genai/custom_recipe";
+
+  // ------------------- Notifications -------------------
+  static const String getUserNotificationSettings = "/notifications/get_notification_settings";
+  static const String saveUserNotificationSettings = "/notifications/save_settings";
+
+
 }
