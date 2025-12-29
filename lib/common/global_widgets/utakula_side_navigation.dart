@@ -234,6 +234,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         title: 'Home',
                         route: Routes.home,
                         icon: FluentIcons.home_24_filled,
+                        isComingSoon: false,
                       ),
                       const Gap(8),
                       _buildNavigationItem(
@@ -241,6 +242,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         title: 'Foods',
                         route: Routes.foods,
                         icon: FluentIcons.food_24_filled,
+                        isComingSoon: false,
                       ),
                       const Gap(8),
                       _buildNavigationItem(
@@ -248,6 +250,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         title: 'Recipes',
                         route: Routes.recipes,
                         icon: FluentIcons.bowl_salad_24_filled,
+                        isComingSoon: true,
                       ),
                       const Gap(8),
                       _buildNavigationItem(
@@ -255,6 +258,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         title: 'Reminders',
                         route: Routes.reminders,
                         icon: FluentIcons.clock_24_filled,
+                        isComingSoon: false,
                       ),
                       const Gap(20),
                       const Divider(),
@@ -264,6 +268,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         title: 'Account',
                         route: Routes.account,
                         icon: FluentIcons.person_accounts_24_filled,
+                        isComingSoon: false,
                       ),
                       const Gap(8),
                       _buildNavigationItem(
@@ -271,6 +276,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         title: 'Settings',
                         route: Routes.settings,
                         icon: FluentIcons.settings_24_filled,
+                        isComingSoon: false,
                       ),
                     ],
                   ),
@@ -329,14 +335,17 @@ class UtakulaSideNavigation extends HookConsumerWidget {
     required String title,
     required String route,
     required IconData icon,
+    required bool isComingSoon,
   }) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
-          context.go(route);
-          Navigator.pop(context);
-        },
+        onTap: isComingSoon
+            ? null
+            : () {
+                context.go(route);
+                Navigator.pop(context);
+              },
         borderRadius: BorderRadius.circular(12),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -358,6 +367,20 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                   ),
                 ),
               ),
+              if (isComingSoon ?? false) ...[
+                const Gap(8),
+                Material(
+                  color: ThemeUtils.$info.withOpacity(0.2),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: Text(
+                      "Coming Soon",
+                      style: TextStyle(color: ThemeUtils.$info, fontSize: 12),
+                    ),
+                  ),
+                ),
+              ] else ...const [Gap(8)],
               Icon(
                 FluentIcons.chevron_right_24_regular,
                 color: Colors.grey[400],

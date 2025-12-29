@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:utakula_v2/core/providers/session_provider/session_state_provider.dart';
+import 'package:utakula_v2/features/account/presentation/pages/user_account.dart';
 import 'package:utakula_v2/features/foods/presentation/pages/add_foods.dart';
 import 'package:utakula_v2/features/foods/presentation/pages/food.dart';
 import 'package:utakula_v2/features/homepage/presentation/pages/homepage.dart';
@@ -13,6 +14,7 @@ import 'package:utakula_v2/features/meal_plan/presentation/pages/meal_plan_contr
 import 'package:utakula_v2/features/preparation/presentation/pages/how_to_prepare.dart';
 import 'package:utakula_v2/features/register/presentation/pages/register.dart';
 import 'package:utakula_v2/features/reminders/presentation/pages/reminders.dart';
+import 'package:utakula_v2/features/settings/presentation/pages/settings.dart';
 import 'package:utakula_v2/routing/routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -114,6 +116,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.reminders,
         name: '/reminders',
         builder: (context, state) => const Reminders(),
+      ),
+      GoRoute(
+        path: Routes.account,
+        name: '/account',
+        builder: (context, state) => const UserAccount(),
+      ),
+      GoRoute(
+        path: Routes.settings,
+        name: '/settings',
+        builder: (context, state) => const Settings(),
       ),
     ],
   );

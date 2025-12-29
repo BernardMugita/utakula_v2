@@ -50,18 +50,12 @@ class Reminders extends HookConsumerWidget {
       }
       if (lunchEnabled.value) {
         notificationFor.add(
-          MealNotificationEntity(
-            meal: 'lunch',
-            mealTime: lunchTime.value,
-          ),
+          MealNotificationEntity(meal: 'lunch', mealTime: lunchTime.value),
         );
       }
       if (supperEnabled.value) {
         notificationFor.add(
-          MealNotificationEntity(
-            meal: 'supper',
-            mealTime: supperTime.value,
-          ),
+          MealNotificationEntity(meal: 'supper', mealTime: supperTime.value),
         );
       }
 
@@ -199,7 +193,7 @@ class Reminders extends HookConsumerWidget {
                   ),
                   const Gap(16),
                   Text(
-                    "Loading delicious foods...",
+                    "Loading your reminder settings...",
                     style: TextStyle(
                       color: ThemeUtils.$primaryColor.withOpacity(0.6),
                       fontSize: 14,
