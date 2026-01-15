@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_exit_alert.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
@@ -33,84 +34,88 @@ class Foods extends HookConsumerWidget {
         ? foodState.searchResults
         : foodState.foods;
 
-    return Scaffold(
-      backgroundColor: ThemeUtils.$backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Builder(
-          builder: (context) => GestureDetector(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: const Icon(Icons.reorder),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
+      child: Scaffold(
+        backgroundColor: ThemeUtils.$backgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: const Icon(Icons.reorder),
+            ),
           ),
         ),
-      ),
-      drawer: UtakulaSideNavigation(),
-      body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () {
-            return Future.microtask(
-              () => ref.read(foodStateProvider.notifier).fetchFoods(),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                // Fixed header section
-                const FoodBanner(),
-                const Gap(16),
-                FoodSearch(
-                  handleSearch: (query) =>
-                      ref.read(foodStateProvider.notifier).searchFoods(query),
-                ),
-                const Gap(24),
-                Expanded(
-                  child: foodState.isLoading
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: 200,
-                                height: 200,
-                                child: Lottie.asset(
-                                  'assets/animations/Loading.json',
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              const Gap(16),
-                              Text(
-                                "Loading delicious foods...",
-                                style: TextStyle(
-                                  color: ThemeUtils.$primaryColor.withOpacity(
-                                    0.6,
+        drawer: UtakulaSideNavigation(),
+        body: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () {
+              return Future.microtask(
+                () => ref.read(foodStateProvider.notifier).fetchFoods(),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  // Fixed header section
+                  const FoodBanner(),
+                  const Gap(16),
+                  FoodSearch(
+                    handleSearch: (query) =>
+                        ref.read(foodStateProvider.notifier).searchFoods(query),
+                  ),
+                  const Gap(24),
+                  Expanded(
+                    child: foodState.isLoading
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 200,
+                                  height: 200,
+                                  child: Lottie.asset(
+                                    'assets/animations/Loading.json',
+                                    fit: BoxFit.contain,
                                   ),
-                                  fontSize: 14,
                                 ),
-                              ),
-                            ],
+                                const Gap(16),
+                                Text(
+                                  "Loading delicious foods...",
+                                  style: TextStyle(
+                                    color: ThemeUtils.$primaryColor.withOpacity(
+                                      0.6,
+                                    ),
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : displayList.isEmpty
+                        ? Center(child: _buildErrorMessage())
+                        : ListView.builder(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            itemCount: displayList.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: FoodContainer(
+                                  foodDetails: displayList[index],
+                                ),
+                              );
+                            },
                           ),
-                        )
-                      : displayList.isEmpty
-                      ? Center(child: _buildErrorMessage())
-                      : ListView.builder(
-                          padding: const EdgeInsets.only(bottom: 20),
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemCount: displayList.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: FoodContainer(
-                                foodDetails: displayList[index],
-                              ),
-                            );
-                          },
-                        ),
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -164,6 +169,18 @@ class Foods extends HookConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _showExitConfirmationDialog(
+    BuildContext context,
+    void Function(bool) onPop,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return UtakulaExitAlert(dialogContext: dialogContext, onPop: onPop);
+      },
     );
   }
 }

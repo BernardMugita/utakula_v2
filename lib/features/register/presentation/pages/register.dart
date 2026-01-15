@@ -151,7 +151,7 @@ class Register extends HookConsumerWidget {
       alignment: Alignment.centerLeft,
       child: IconButton(
         onPressed: () {
-          Navigator.pop(context);
+          context.go(Routes.login);
         },
         icon: Container(
           padding: const EdgeInsets.all(8),
@@ -194,7 +194,10 @@ class Register extends HookConsumerWidget {
         child: CircleAvatar(
           radius: MediaQuery.of(context).size.width / 8,
           backgroundColor: Colors.transparent,
-          backgroundImage: const AssetImage("assets/images/logo-white.png"),
+          child: Image(
+            fit: BoxFit.contain,
+            image: AssetImage("assets/images/utakula-logo-white.png"),
+          ),
         ),
       ),
     );

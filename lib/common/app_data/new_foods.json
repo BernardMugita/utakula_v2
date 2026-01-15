@@ -583,7 +583,7 @@
     "image_url": "mkate-wa-kumimina.png",
     "name": "Mkate wa Kumimina (Coastal Bread)",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian",
       "halal"
@@ -625,7 +625,7 @@
     "image_url": "mahamri.png",
     "name": "Mahamri (Coconut Doughnut)",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian",
       "halal"
@@ -667,7 +667,7 @@
     "image_url": "uji.png",
     "name": "Uji (Porridge)",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegan",
       "vegetarian",
@@ -1231,7 +1231,7 @@
     "image_url": "avocado.png",
     "name": "Avocado",
     "macro_nutrient": "Fat",
-    "meal_type": "breakfast or snack or side dish",
+    "meal_type": "fruit",
     "dietary_tags": [
       "vegan",
       "vegetarian",
@@ -1277,7 +1277,7 @@
     "image_url": "samosa.png",
     "name": "Samosa",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian",
       "halal"
@@ -1364,7 +1364,7 @@
     "image_url": "cinnamon-rolls.png",
     "name": "Cinnamon Roll",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian"
     ],
@@ -1407,7 +1407,7 @@
     "image_url": "mandazi.png",
     "name": "Mandazi",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian",
       "halal"
@@ -1630,7 +1630,7 @@
     "image_url": "croissant.png",
     "name": "Croissant",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian"
     ],
@@ -1673,7 +1673,7 @@
     "image_url": "muffin.png",
     "name": "Blueberry Muffin",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian"
     ],
@@ -1716,7 +1716,7 @@
     "image_url": "tea-scones.png",
     "name": "Scone",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian"
     ],
@@ -1759,7 +1759,7 @@
     "image_url": "bread.png",
     "name": "White Bread",
     "macro_nutrient": "Carbohydrate",
-    "meal_type": "breakfast or breakfast or snack",
+    "meal_type": "breakfast or snack",
     "dietary_tags": [
       "vegetarian",
       "halal",
@@ -2257,6 +2257,8 @@
       "lactose_intolerance"
     ],
     "calories": {
+			"id": "",
+      "food_id": "",
       "total": 150,
       "breakdown": {
         "carbohydrate": {
@@ -2304,6 +2306,8 @@
       "lactose_intolerance"
     ],
     "calories": {
+			"id": "",
+      "food_id": "",
       "total": 140,
       "breakdown": {
         "carbohydrate": {
@@ -2346,6 +2350,8 @@
       "lactose_intolerance"
     ],
     "calories": {
+			"id": "",
+      "food_id": "",
       "total": 250,
       "breakdown": {
         "carbohydrate": {
@@ -2396,6 +2402,8 @@
       "lactose_intolerance"
     ],
     "calories": {
+			"id": "",
+      "food_id": "",
       "total": 28,
       "breakdown": {
         "carbohydrate": {

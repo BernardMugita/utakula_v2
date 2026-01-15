@@ -187,10 +187,10 @@ class DayItem extends HookConsumerWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    context.pushNamed(
-                      '/how-to-prepare',
-                      extra: {"selectedPlan": plan},
-                    );
+                    // context.pushNamed(
+                    //   '/how-to-prepare',
+                    //   extra: {"selectedPlan": plan},
+                    // );
                   },
                   style: ButtonStyle(
                     shape: WidgetStatePropertyAll(

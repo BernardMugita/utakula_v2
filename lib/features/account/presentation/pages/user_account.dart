@@ -6,6 +6,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_exit_alert.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
@@ -140,368 +141,378 @@ class UserAccount extends HookConsumerWidget {
       );
     }
 
-    return Scaffold(
-      backgroundColor: ThemeUtils.$backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Builder(
-          builder: (context) => GestureDetector(
-            onTap: () => Scaffold.of(context).openDrawer(),
-            child: const Icon(Icons.reorder, color: ThemeUtils.$primaryColor),
-          ),
-        ),
-        title: const Text(
-          'My Account',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: ThemeUtils.$primaryColor,
-          ),
-        ),
-        actions: [
-          if (!isEditMode.value && !userState.isLoading)
-            IconButton(
-              icon: const Icon(
-                FluentIcons.edit_24_regular,
-                color: ThemeUtils.$primaryColor,
-              ),
-              onPressed: () => isEditMode.value = true,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
+      child: Scaffold(
+        backgroundColor: ThemeUtils.$backgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: const Icon(Icons.reorder, color: ThemeUtils.$primaryColor),
             ),
-        ],
-      ),
-      drawer: UtakulaSideNavigation(),
-      body: userState.isLoading
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: Lottie.asset(
-                      'assets/animations/Loading.json',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  const Gap(16),
-                  Text(
-                    "Loading your account...",
-                    style: TextStyle(
-                      color: ThemeUtils.$primaryColor.withOpacity(0.6),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
+          ),
+          title: const Text(
+            'My Account',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: ThemeUtils.$primaryColor,
+            ),
+          ),
+          actions: [
+            if (!isEditMode.value && !userState.isLoading)
+              IconButton(
+                icon: const Icon(
+                  FluentIcons.edit_24_regular,
+                  color: ThemeUtils.$primaryColor,
+                ),
+                onPressed: () => isEditMode.value = true,
               ),
-            )
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Profile Header Card
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(24),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          ThemeUtils.$primaryColor,
-                          ThemeUtils.$primaryColor.withOpacity(0.8),
+          ],
+        ),
+        drawer: UtakulaSideNavigation(),
+        body: userState.isLoading
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 200,
+                      child: Lottie.asset(
+                        'assets/animations/Loading.json',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const Gap(16),
+                    Text(
+                      "Loading your account...",
+                      style: TextStyle(
+                        color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Profile Header Card
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            ThemeUtils.$primaryColor,
+                            ThemeUtils.$primaryColor.withOpacity(0.8),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: ThemeUtils.$primaryColor.withOpacity(0.3),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: ThemeUtils.$primaryColor.withOpacity(0.3),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        // Avatar
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: ThemeUtils.$secondaryColor.withOpacity(0.2),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: ThemeUtils.$secondaryColor,
-                              width: 3,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              userState.user.username
-                                      ?.substring(0, 1)
-                                      .toUpperCase() ??
-                                  'U',
-                              style: const TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
+                      child: Column(
+                        children: [
+                          // Avatar
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: ThemeUtils.$secondaryColor.withOpacity(
+                                0.2,
+                              ),
+                              shape: BoxShape.circle,
+                              border: Border.all(
                                 color: ThemeUtils.$secondaryColor,
+                                width: 3,
                               ),
                             ),
-                          ),
-                        ),
-                        const Gap(16),
-                        Text(
-                          userState.user.username ?? 'User',
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: ThemeUtils.$secondaryColor,
-                          ),
-                        ),
-                        const Gap(8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ThemeUtils.$secondaryColor.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                userState.user.role == 'admin'
-                                    ? FluentIcons.shield_checkmark_24_filled
-                                    : FluentIcons.person_24_regular,
-                                color: ThemeUtils.$secondaryColor,
-                                size: 16,
-                              ),
-                              const Gap(6),
-                              Text(
-                                userState.user.role?.toUpperCase() ?? 'USER',
+                            child: Center(
+                              child: Text(
+                                userState.user.username
+                                        ?.substring(0, 1)
+                                        .toUpperCase() ??
+                                    'U',
                                 style: const TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 40,
                                   fontWeight: FontWeight.bold,
                                   color: ThemeUtils.$secondaryColor,
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                          const Gap(16),
+                          Text(
+                            userState.user.username ?? 'User',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: ThemeUtils.$secondaryColor,
+                            ),
+                          ),
+                          const Gap(8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: ThemeUtils.$secondaryColor.withOpacity(
+                                0.2,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  userState.user.role == 'admin'
+                                      ? FluentIcons.shield_checkmark_24_filled
+                                      : FluentIcons.person_24_regular,
+                                  color: ThemeUtils.$secondaryColor,
+                                  size: 16,
+                                ),
+                                const Gap(6),
+                                Text(
+                                  userState.user.role?.toUpperCase() ?? 'USER',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: ThemeUtils.$secondaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  const Gap(24),
+                    const Gap(24),
 
-                  // Account Information Section
-                  const Text(
-                    'Account Information',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: ThemeUtils.$primaryColor,
+                    // Account Information Section
+                    const Text(
+                      'Account Information',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: ThemeUtils.$primaryColor,
+                      ),
                     ),
-                  ),
-                  const Gap(12),
+                    const Gap(12),
 
-                  // Username Card
-                  _buildInfoCard(
-                    icon: FluentIcons.person_24_regular,
-                    label: 'Username',
-                    value: userState.user.username ?? 'N/A',
-                    isEditable: true,
-                    isEditMode: isEditMode.value,
-                    controller: usernameController,
-                  ),
-
-                  const Gap(12),
-
-                  // Email Card
-                  _buildInfoCard(
-                    icon: FluentIcons.mail_24_regular,
-                    label: 'Email',
-                    value: userState.user.email ?? 'N/A',
-                    isEditable: true,
-                    isEditMode: isEditMode.value,
-                    controller: emailController,
-                  ),
-
-                  const Gap(12),
-
-                  // User ID Card
-                  _buildInfoCard(
-                    icon: FluentIcons.key_24_regular,
-                    label: 'User ID',
-                    value: userState.user.id ?? 'N/A',
-                    isEditable: false,
-                    isEditMode: false,
-                    onTap: () {
-                      Clipboard.setData(
-                        ClipboardData(text: userState.user.id ?? ''),
-                      );
-                      helperUtils.showSnackBar(
-                        context,
-                        'User ID copied to clipboard',
-                        ThemeUtils.$success,
-                      );
-                    },
-                  ),
-
-                  const Gap(12),
-
-                  // Device Token Card (only for admin)
-                  if (userState.user.role == 'admin')
+                    // Username Card
                     _buildInfoCard(
-                      icon: FluentIcons.phone_24_regular,
-                      label: 'Device Token',
-                      value: userState.user.deviceToken != null
-                          ? '${userState.user.deviceToken!.substring(0, 20)}...'
-                          : 'N/A',
+                      icon: FluentIcons.person_24_regular,
+                      label: 'Username',
+                      value: userState.user.username ?? 'N/A',
+                      isEditable: true,
+                      isEditMode: isEditMode.value,
+                      controller: usernameController,
+                    ),
+
+                    const Gap(12),
+
+                    // Email Card
+                    _buildInfoCard(
+                      icon: FluentIcons.mail_24_regular,
+                      label: 'Email',
+                      value: userState.user.email ?? 'N/A',
+                      isEditable: true,
+                      isEditMode: isEditMode.value,
+                      controller: emailController,
+                    ),
+
+                    const Gap(12),
+
+                    // User ID Card
+                    _buildInfoCard(
+                      icon: FluentIcons.key_24_regular,
+                      label: 'User ID',
+                      value: userState.user.id ?? 'N/A',
                       isEditable: false,
                       isEditMode: false,
                       onTap: () {
                         Clipboard.setData(
-                          ClipboardData(text: userState.user.deviceToken ?? ''),
+                          ClipboardData(text: userState.user.id ?? ''),
                         );
                         helperUtils.showSnackBar(
                           context,
-                          'Device token copied to clipboard',
+                          'User ID copied to clipboard',
                           ThemeUtils.$success,
                         );
                       },
                     ),
 
-                  const Gap(32),
+                    const Gap(12),
 
-                  // Action Buttons
-                  if (isEditMode.value) ...[
-                    // Save and Cancel buttons
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: 56,
-                            child: OutlinedButton(
-                              onPressed: userState.isSubmitting
-                                  ? null
-                                  : () {
-                                      isEditMode.value = false;
-                                      usernameController.text =
-                                          userState.user.username ?? '';
-                                      emailController.text =
-                                          userState.user.email ?? '';
-                                    },
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(
-                                  color: ThemeUtils.$primaryColor,
-                                  width: 2,
+                    // Device Token Card (only for admin)
+                    if (userState.user.role == 'admin')
+                      _buildInfoCard(
+                        icon: FluentIcons.phone_24_regular,
+                        label: 'Device Token',
+                        value: userState.user.deviceToken != null
+                            ? '${userState.user.deviceToken!.substring(0, 20)}...'
+                            : 'N/A',
+                        isEditable: false,
+                        isEditMode: false,
+                        onTap: () {
+                          Clipboard.setData(
+                            ClipboardData(
+                              text: userState.user.deviceToken ?? '',
+                            ),
+                          );
+                          helperUtils.showSnackBar(
+                            context,
+                            'Device token copied to clipboard',
+                            ThemeUtils.$success,
+                          );
+                        },
+                      ),
+
+                    const Gap(32),
+
+                    // Action Buttons
+                    if (isEditMode.value) ...[
+                      // Save and Cancel buttons
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 56,
+                              child: OutlinedButton(
+                                onPressed: userState.isSubmitting
+                                    ? null
+                                    : () {
+                                        isEditMode.value = false;
+                                        usernameController.text =
+                                            userState.user.username ?? '';
+                                        emailController.text =
+                                            userState.user.email ?? '';
+                                      },
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                    color: ThemeUtils.$primaryColor,
+                                    width: 2,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                                child: const Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: ThemeUtils.$primaryColor,
+                                  ),
                                 ),
                               ),
-                              child: const Text(
-                                'Cancel',
+                            ),
+                          ),
+                          const Gap(12),
+                          Expanded(
+                            child: SizedBox(
+                              height: 56,
+                              child: ElevatedButton(
+                                onPressed: userState.isSubmitting
+                                    ? null
+                                    : handleSave,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ThemeUtils.$primaryColor,
+                                  foregroundColor: ThemeUtils.$secondaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  elevation: 4,
+                                  shadowColor: ThemeUtils.$primaryColor
+                                      .withOpacity(0.3),
+                                ),
+                                child: userState.isSubmitting
+                                    ? const SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                ThemeUtils.$secondaryColor,
+                                              ),
+                                        ),
+                                      )
+                                    : const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            FluentIcons.save_24_regular,
+                                            size: 20,
+                                          ),
+                                          Gap(8),
+                                          Text(
+                                            'Save Changes',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ] else ...[
+                      // Logout button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: ElevatedButton(
+                          onPressed: handleLogout,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ThemeUtils.$error,
+                            foregroundColor: ThemeUtils.$secondaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            elevation: 4,
+                            shadowColor: ThemeUtils.$error.withOpacity(0.3),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(FluentIcons.sign_out_24_regular, size: 20),
+                              Gap(8),
+                              Text(
+                                'Logout',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: ThemeUtils.$primaryColor,
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ),
-                        const Gap(12),
-                        Expanded(
-                          child: SizedBox(
-                            height: 56,
-                            child: ElevatedButton(
-                              onPressed: userState.isSubmitting
-                                  ? null
-                                  : handleSave,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ThemeUtils.$primaryColor,
-                                foregroundColor: ThemeUtils.$secondaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                elevation: 4,
-                                shadowColor: ThemeUtils.$primaryColor
-                                    .withOpacity(0.3),
-                              ),
-                              child: userState.isSubmitting
-                                  ? const SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                              ThemeUtils.$secondaryColor,
-                                            ),
-                                      ),
-                                    )
-                                  : const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          FluentIcons.save_24_regular,
-                                          size: 20,
-                                        ),
-                                        Gap(8),
-                                        Text(
-                                          'Save Changes',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ] else ...[
-                    // Logout button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: handleLogout,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ThemeUtils.$error,
-                          foregroundColor: ThemeUtils.$secondaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          elevation: 4,
-                          shadowColor: ThemeUtils.$error.withOpacity(0.3),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(FluentIcons.sign_out_24_regular, size: 20),
-                            Gap(8),
-                            Text(
-                              'Logout',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
-                    ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
+      ),
     );
   }
 
@@ -589,6 +600,18 @@ class UserAccount extends HookConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showExitConfirmationDialog(
+    BuildContext context,
+    void Function(bool) onPop,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return UtakulaExitAlert(dialogContext: dialogContext, onPop: onPop);
+      },
     );
   }
 }

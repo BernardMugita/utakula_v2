@@ -1,4 +1,4 @@
-package com.example.utakula_v2
+package com.vante.utakula
 
 import io.flutter.embedding.android.FlutterActivity
 

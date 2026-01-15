@@ -1,0 +1,22 @@
+{
+  "@@locale": "sw",
+  "language": "Swahili",
+  "appTitle": "Utakula!?",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "welcome": "Karibu",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "hello": "Habari {name}",
+  "@hello": {
+    "description": "Greeting message with name parameter",
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "John"
+      }
+    }
+  }
+}

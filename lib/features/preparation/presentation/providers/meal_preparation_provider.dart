@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:utakula_v2/core/network/api_endpoints.dart';
 import 'package:utakula_v2/core/network/dio_client.dart';
 import 'package:utakula_v2/features/preparation/data/data_sources/meal_preparation_data_source.dart';
 import 'package:utakula_v2/features/preparation/data/repository/meal_preparation_repository_impl.dart';
@@ -7,7 +8,7 @@ import 'package:utakula_v2/features/preparation/domain/use_cases/meal_preparatio
 
 final dioClientProvider = Provider<DioClient>((ref) {
   return DioClient(
-    baseUrl: 'https://philanthropically-farsighted-malik.ngrok-free.dev',
+    baseUrl: ApiEndpoints.productionURL
   );
 });
 

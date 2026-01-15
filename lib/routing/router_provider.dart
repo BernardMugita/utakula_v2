@@ -11,6 +11,8 @@ import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_enti
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/pages/day_meal_plan.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/pages/meal_plan_controller.dart';
+import 'package:utakula_v2/features/onboarding/presentation/pages/onboarding_controller.dart';
+import 'package:utakula_v2/features/onboarding/presentation/providers/onboarding_provider.dart';
 import 'package:utakula_v2/features/preparation/presentation/pages/how_to_prepare.dart';
 import 'package:utakula_v2/features/register/presentation/pages/register.dart';
 import 'package:utakula_v2/features/reminders/presentation/pages/reminders.dart';
@@ -19,6 +21,7 @@ import 'package:utakula_v2/routing/routes.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final session = ref.watch(sessionStateProvider);
+  final onboarding = ref.watch(onboardingStateProvider);
 
   return GoRouter(
     initialLocation: Routes.login,
@@ -27,6 +30,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       final bool loggingIn =
           state.matchedLocation == Routes.login ||
           state.matchedLocation == Routes.register;
+
+      final bool isOnboarded =
+          onboarding.status == OnboardingStatus.isOnboarded;
+
+      if (!isOnboarded) {
+        return Routes.onboarding;
+      }
 
       if (!loggedIn) {
         return loggingIn ? null : Routes.login;
@@ -43,6 +53,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: Routes.register,
         builder: (context, state) => const Register(),
+      ),
+      GoRoute(
+        path: Routes.onboarding,
+        name: '/onboarding',
+        builder: (context, state) => const OnboardingController(),
       ),
       GoRoute(
         path: Routes.home,

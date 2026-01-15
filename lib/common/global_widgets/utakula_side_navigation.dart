@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_logout_popup.dart';
 import 'package:utakula_v2/core/providers/session_provider/session_state_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -23,103 +24,16 @@ class UtakulaSideNavigation extends HookConsumerWidget {
       return null;
     }, []);
 
-    Future<void> handleLogout() async {
-      loggingOut.value = true;
-      await ref.read(sessionStateProvider.notifier).logout();
-
-      await Future.delayed(const Duration(seconds: 2));
-
-      if (context.mounted) {
-        Navigator.popAndPushNamed(context, Routes.login);
-      }
-      loggingOut.value = false;
-    }
-
-    void showLogoutDialog() {
+    void showLogoutDialog(ValueNotifier<bool> loggingOut) {
       showDialog(
         context: context,
         barrierDismissible: !loggingOut.value,
         builder: (BuildContext dialogContext) {
-          return HookConsumer(
-            builder: (context, ref, child) {
-              return AlertDialog(
-                backgroundColor: ThemeUtils.$secondaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                title: Row(
-                  children: [
-                    Icon(
-                      loggingOut.value
-                          ? FluentIcons.arrow_sync_circle_24_regular
-                          : FluentIcons.warning_24_regular,
-                      color: loggingOut.value
-                          ? ThemeUtils.$primaryColor
-                          : ThemeUtils.$error,
-                    ),
-                    const Gap(12),
-                    Expanded(
-                      child: Text(
-                        loggingOut.value ? 'Logging out...' : 'Confirm Logout',
-                        style: TextStyle(
-                          color: ThemeUtils.$primaryColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                content: loggingOut.value
-                    ? const SizedBox(
-                        height: 60,
-                        child: Center(child: CircularProgressIndicator()),
-                      )
-                    : const Text(
-                        'Are you sure you want to log out of Utakula?',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                actions: loggingOut.value
-                    ? null
-                    : [
-                        TextButton(
-                          onPressed: () => Navigator.of(dialogContext).pop(),
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 12,
-                            ),
-                          ),
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await handleLogout();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ThemeUtils.$error,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            'Logout',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-              );
+          return UtakulaLogoutPopup(
+            loggingOut: loggingOut,
+            dialogContext: dialogContext,
+            onPop: () async {
+              // This can be used for additional cleanup if needed
             },
           );
         },
@@ -191,10 +105,13 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                       child: CircleAvatar(
                         radius: 45,
                         backgroundColor: ThemeUtils.$backgroundColor,
-                        child: const Icon(
-                          FluentIcons.person_24_filled,
-                          size: 50,
-                          color: ThemeUtils.$primaryColor,
+                        child: Image(
+                          height: 50,
+                          width: 50,
+                          fit: BoxFit.contain,
+                          image: AssetImage(
+                            "assets/images/utakula-logo-green.png",
+                          ),
                         ),
                       ),
                     ),
@@ -295,7 +212,9 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                   ),
                 ),
                 child: ElevatedButton(
-                  onPressed: loggingOut.value ? null : showLogoutDialog,
+                  onPressed: loggingOut.value
+                      ? null
+                      : () => showLogoutDialog(loggingOut),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ThemeUtils.$primaryColor,
                     foregroundColor: ThemeUtils.$secondaryColor,

@@ -4,9 +4,12 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_exit_alert.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_logout_popup.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/features/account/presentation/providers/user_providers.dart';
 import 'package:utakula_v2/features/homepage/presentation/providers/homepage_providers.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/action_item.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/days_widget.dart';
@@ -24,6 +27,7 @@ class Homepage extends HookConsumerWidget {
     Logger logger = Logger();
     final mealPlanState = ref.watch(mealPlanStateProvider);
     final homePageState = ref.watch(homepageStateProvider);
+    final userState = ref.watch(userStateProvider);
 
     HelperUtils helperUtils = HelperUtils();
 
@@ -63,6 +67,7 @@ class Homepage extends HookConsumerWidget {
 
     useEffect(() {
       Future.microtask(() async {
+        await ref.read(userStateProvider.notifier).getUserAccountDetails();
         await ref.read(mealPlanStateProvider.notifier).fetchMealPlan();
 
         // Initialize homepage state with first day after meal plan loads
@@ -77,74 +82,88 @@ class Homepage extends HookConsumerWidget {
     }, []);
 
     final bool isFetchingMealPlan = mealPlanState.isLoading;
+    final bool isLoadingUser = userState.isLoading;
     final String? errorMessage = mealPlanState.errorMessage;
     final MealPlanEntity? myMealPlan = mealPlanState.currentMealPlan;
     final DayMealPlanEntity? selectedPlan = homePageState.selectedMealPlan;
     final List sharedMealPlans = [];
 
-    return Scaffold(
-      backgroundColor: ThemeUtils.$accentColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Builder(
-          builder: (context) => GestureDetector(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: const Icon(Icons.reorder),
-          ),
-        ),
-      ),
-      drawer: UtakulaSideNavigation(),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          await ref.read(mealPlanStateProvider.notifier).fetchMealPlan();
-        },
-        child: SizedBox(
-          width: double.infinity,
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Column(
-              children: [
-                // Welcome Banner
-                _buildWelcomeBanner(),
-                const Gap(15),
-
-                // Info Banner
-                _buildInfoBanner(),
-                const Gap(20),
-
-                // Main Content Area
-                _buildMainContent(
-                  context,
-                  isFetchingMealPlan,
-                  errorMessage,
-                  myMealPlan,
-                  selectedPlan,
-                  sharedMealPlans,
-                  ref,
-                ),
-                const Gap(25),
-                _buildActionItems(context)
-              ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
+      child: Scaffold(
+        backgroundColor: ThemeUtils.$accentColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: const Icon(Icons.reorder),
             ),
           ),
         ),
+        drawer: UtakulaSideNavigation(),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await ref.read(mealPlanStateProvider.notifier).fetchMealPlan();
+          },
+          child: SizedBox(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Column(
+                children: [
+                  // Welcome Banner
+                  _buildWelcomeBanner(
+                    context: context,
+                    isLoadingUser: isLoadingUser,
+                    userState: userState,
+                  ),
+                  const Gap(15),
+                  // Info Banner
+                  _buildInfoBanner(),
+                  const Gap(20),
+                  // Main Content Area
+                  _buildMainContent(
+                    context,
+                    isFetchingMealPlan,
+                    errorMessage,
+                    myMealPlan,
+                    selectedPlan,
+                    sharedMealPlans,
+                    ref,
+                  ),
+                  const Gap(25),
+                  _buildActionItems(context),
+                ],
+              ),
+            ),
+          ),
+        ),
+        // bottomNavigationBar: BottomAppBar(
+        //   height: 140,
+        //   color: ThemeUtils.$secondaryColor,
+        //   elevation: 0,
+        //   shape: const CircularNotchedRectangle(),
+        //   child: _buildActionItems(context),
+        // ),
       ),
-      // bottomNavigationBar: BottomAppBar(
-      //   height: 140,
-      //   color: ThemeUtils.$secondaryColor,
-      //   elevation: 0,
-      //   shape: const CircularNotchedRectangle(),
-      //   child: _buildActionItems(context),
-      // ),
     );
   }
 
-  Widget _buildWelcomeBanner() {
+  Widget _buildWelcomeBanner({
+    required BuildContext context,
+    required bool isLoadingUser,
+    required UserState userState,
+  }) {
+    // Use useState for slider position
+    final sliderPosition = useState(0.0);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
@@ -161,33 +180,80 @@ class Homepage extends HookConsumerWidget {
           ),
         ],
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12),
+      child: GestureDetector(
+        onHorizontalDragUpdate: (details) {
+          sliderPosition.value += details.delta.dx;
+
+          // Get context width for threshold calculation
+          final screenWidth = MediaQuery.of(context).size.width;
+
+          // Trigger logout prompt if slider reaches end (60% of screen width)
+          if (sliderPosition.value > screenWidth * 0.5) {
+            showLogoutDialog(ValueNotifier(false), context);
+            sliderPosition.value = 0.0; // Reset slider
+          }
+        },
+        onHorizontalDragEnd: (_) {
+          sliderPosition.value = 0.0; // Reset slider on drag end
+        },
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            // Background with username
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Opacity(
+                  opacity: 0.3,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      'Welcome Back!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                Text(
+                  isLoadingUser
+                      ? 'Loading . . .'
+                      : userState.user.username ?? 'User',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            child: const Text(
-              'Welcome Back!',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
+            // Sliding "Welcome Back!" container
+            Positioned(
+              left: sliderPosition.value,
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  'Welcome Back!',
+                  style: TextStyle(
+                    color: Color(0xFF2D5016),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
-          ),
-          const Text(
-            'JeromeMugita',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -302,5 +368,33 @@ class Homepage extends HookConsumerWidget {
 
   Widget _buildActionItems(BuildContext context) {
     return ActionItem();
+  }
+
+  Future<void> _showExitConfirmationDialog(
+    BuildContext context,
+    void Function(bool) onPop,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return UtakulaExitAlert(dialogContext: dialogContext, onPop: onPop);
+      },
+    );
+  }
+
+  void showLogoutDialog(ValueNotifier<bool> loggingOut, BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: !loggingOut.value,
+      builder: (BuildContext dialogContext) {
+        return UtakulaLogoutPopup(
+          loggingOut: loggingOut,
+          dialogContext: dialogContext,
+          onPop: () async {
+            // This can be used for additional cleanup if needed
+          },
+        );
+      },
+    );
   }
 }

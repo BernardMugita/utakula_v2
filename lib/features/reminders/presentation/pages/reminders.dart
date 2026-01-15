@@ -5,6 +5,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:gap/gap.dart';
 import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_exit_alert.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
@@ -155,353 +156,367 @@ class Reminders extends HookConsumerWidget {
       return null;
     }, [reminderState.reminder]);
 
-    return Scaffold(
-      backgroundColor: ThemeUtils.$backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Builder(
-          builder: (context) => GestureDetector(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: const Icon(Icons.reorder),
-          ),
-        ),
-        title: const Text(
-          'Meal Reminders',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: ThemeUtils.$primaryColor,
-          ),
-        ),
-      ),
-      drawer: UtakulaSideNavigation(),
-      body: reminderState.isLoading
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: Lottie.asset(
-                      'assets/animations/Loading.json',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  const Gap(16),
-                  Text(
-                    "Loading your reminder settings...",
-                    style: TextStyle(
-                      color: ThemeUtils.$primaryColor.withOpacity(0.6),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Master toggle card
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          ThemeUtils.$primaryColor,
-                          ThemeUtils.$primaryColor.withOpacity(0.8),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: ThemeUtils.$primaryColor.withOpacity(0.3),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: ThemeUtils.$secondaryColor.withOpacity(0.2),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(
-                            FluentIcons.alert_24_filled,
-                            color: ThemeUtils.$secondaryColor,
-                            size: 28,
-                          ),
-                        ),
-                        const Gap(16),
-                        const Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Notifications',
-                                style: TextStyle(
-                                  color: ThemeUtils.$secondaryColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Gap(4),
-                              Text(
-                                'Get reminded before meals',
-                                style: TextStyle(
-                                  color: ThemeUtils.$secondaryColor,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Switch(
-                          value: notificationsEnabled.value,
-                          onChanged: (value) =>
-                              notificationsEnabled.value = value,
-                          activeColor: ThemeUtils.$secondaryColor,
-                          activeTrackColor: ThemeUtils.$secondaryColor
-                              .withOpacity(0.5),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const Gap(24),
-
-                  // Timing settings
-                  AnimatedOpacity(
-                    opacity: notificationsEnabled.value ? 1.0 : 0.5,
-                    duration: const Duration(milliseconds: 300),
-                    child: IgnorePointer(
-                      ignoring: !notificationsEnabled.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Reminder Settings',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: ThemeUtils.$primaryColor,
-                            ),
-                          ),
-                          const Gap(12),
-
-                          // Time before meals slider
-                          _buildSettingCard(
-                            icon: FluentIcons.clock_24_regular,
-                            title: 'Remind me before meal',
-                            subtitle:
-                                '${timeBeforeMeals.value} hour${timeBeforeMeals.value > 1 ? "s" : ""}',
-                            child: Column(
-                              children: [
-                                const Gap(8),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      FluentIcons.subtract_circle_24_regular,
-                                      color: ThemeUtils.$primaryColor,
-                                      size: 20,
-                                    ),
-                                    Expanded(
-                                      child: Slider(
-                                        value: timeBeforeMeals.value.toDouble(),
-                                        min: 1,
-                                        max: 5,
-                                        divisions: 4,
-                                        activeColor: ThemeUtils.$primaryColor,
-                                        inactiveColor: ThemeUtils.$primaryColor
-                                            .withOpacity(0.2),
-                                        onChanged: (value) {
-                                          timeBeforeMeals.value = value.toInt();
-                                        },
-                                      ),
-                                    ),
-                                    const Icon(
-                                      FluentIcons.add_circle_24_regular,
-                                      color: ThemeUtils.$primaryColor,
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          const Gap(12),
-
-                          // Frequency slider
-                          _buildSettingCard(
-                            icon: FluentIcons.arrow_repeat_all_24_regular,
-                            title: 'Reminder frequency',
-                            subtitle:
-                                '${frequencyBeforeMeals.value} time${frequencyBeforeMeals.value > 1 ? "s" : ""}',
-                            child: Column(
-                              children: [
-                                const Gap(8),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      FluentIcons.subtract_circle_24_regular,
-                                      color: ThemeUtils.$primaryColor,
-                                      size: 20,
-                                    ),
-                                    Expanded(
-                                      child: Slider(
-                                        value: frequencyBeforeMeals.value
-                                            .toDouble(),
-                                        min: 1,
-                                        max: 5,
-                                        divisions: 4,
-                                        activeColor: ThemeUtils.$primaryColor,
-                                        inactiveColor: ThemeUtils.$primaryColor
-                                            .withOpacity(0.2),
-                                        onChanged: (value) {
-                                          frequencyBeforeMeals.value = value
-                                              .toInt();
-                                        },
-                                      ),
-                                    ),
-                                    const Icon(
-                                      FluentIcons.add_circle_24_regular,
-                                      color: ThemeUtils.$primaryColor,
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          const Gap(24),
-
-                          // Meal times section
-                          const Text(
-                            'Meal Times',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: ThemeUtils.$primaryColor,
-                            ),
-                          ),
-                          const Gap(12),
-
-                          // Breakfast
-                          _buildMealTimeCard(
-                            context: context,
-                            icon: FluentIcons.food_24_regular,
-                            mealName: 'Breakfast',
-                            time: breakfastTime.value,
-                            enabled: breakfastEnabled.value,
-                            onToggle: (value) => breakfastEnabled.value = value,
-                            onTimeSelect: () => selectTime(
-                              context,
-                              breakfastTime.value,
-                              breakfastTime,
-                            ),
-                          ),
-
-                          const Gap(12),
-
-                          // Lunch
-                          _buildMealTimeCard(
-                            context: context,
-                            icon: FluentIcons.bowl_salad_24_regular,
-                            mealName: 'Lunch',
-                            time: lunchTime.value,
-                            enabled: lunchEnabled.value,
-                            onToggle: (value) => lunchEnabled.value = value,
-                            onTimeSelect: () =>
-                                selectTime(context, lunchTime.value, lunchTime),
-                          ),
-
-                          const Gap(12),
-
-                          // Supper
-                          _buildMealTimeCard(
-                            context: context,
-                            icon: FluentIcons.food_24_filled,
-                            mealName: 'Supper',
-                            time: supperTime.value,
-                            enabled: supperEnabled.value,
-                            onToggle: (value) => supperEnabled.value = value,
-                            onTimeSelect: () => selectTime(
-                              context,
-                              supperTime.value,
-                              supperTime,
-                            ),
-                          ),
-
-                          const Gap(32),
-
-                          // Save button
-                          SizedBox(
-                            width: double.infinity,
-                            height: 56,
-                            child: ElevatedButton(
-                              onPressed: reminderState.isSubmitting
-                                  ? null
-                                  : handleSaveSettings,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: ThemeUtils.$primaryColor,
-                                foregroundColor: ThemeUtils.$secondaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                elevation: 4,
-                                shadowColor: ThemeUtils.$primaryColor
-                                    .withOpacity(0.3),
-                              ),
-                              child: reminderState.isSubmitting
-                                  ? const SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                              ThemeUtils.$secondaryColor,
-                                            ),
-                                      ),
-                                    )
-                                  : const Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          FluentIcons.save_24_regular,
-                                          size: 20,
-                                        ),
-                                        Gap(8),
-                                        Text(
-                                          'Save Settings',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
+      child: Scaffold(
+        backgroundColor: ThemeUtils.$backgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: const Icon(Icons.reorder),
             ),
+          ),
+          title: const Text(
+            'Meal Reminders',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: ThemeUtils.$primaryColor,
+            ),
+          ),
+        ),
+        drawer: UtakulaSideNavigation(),
+        body: reminderState.isLoading
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 200,
+                      child: Lottie.asset(
+                        'assets/animations/Loading.json',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const Gap(16),
+                    Text(
+                      "Loading your reminder settings...",
+                      style: TextStyle(
+                        color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Master toggle card
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            ThemeUtils.$primaryColor,
+                            ThemeUtils.$primaryColor.withOpacity(0.8),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: ThemeUtils.$primaryColor.withOpacity(0.3),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: ThemeUtils.$secondaryColor.withOpacity(
+                                0.2,
+                              ),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              FluentIcons.alert_24_filled,
+                              color: ThemeUtils.$secondaryColor,
+                              size: 28,
+                            ),
+                          ),
+                          const Gap(16),
+                          const Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Notifications',
+                                  style: TextStyle(
+                                    color: ThemeUtils.$secondaryColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Gap(4),
+                                Text(
+                                  'Get reminded before meals',
+                                  style: TextStyle(
+                                    color: ThemeUtils.$secondaryColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Switch(
+                            value: notificationsEnabled.value,
+                            onChanged: (value) =>
+                                notificationsEnabled.value = value,
+                            activeColor: ThemeUtils.$secondaryColor,
+                            activeTrackColor: ThemeUtils.$secondaryColor
+                                .withOpacity(0.5),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const Gap(24),
+
+                    // Timing settings
+                    AnimatedOpacity(
+                      opacity: notificationsEnabled.value ? 1.0 : 0.5,
+                      duration: const Duration(milliseconds: 300),
+                      child: IgnorePointer(
+                        ignoring: !notificationsEnabled.value,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Reminder Settings',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: ThemeUtils.$primaryColor,
+                              ),
+                            ),
+                            const Gap(12),
+
+                            // Time before meals slider
+                            _buildSettingCard(
+                              icon: FluentIcons.clock_24_regular,
+                              title: 'Remind me before meal',
+                              subtitle:
+                                  '${timeBeforeMeals.value} hour${timeBeforeMeals.value > 1 ? "s" : ""}',
+                              child: Column(
+                                children: [
+                                  const Gap(8),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        FluentIcons.subtract_circle_24_regular,
+                                        color: ThemeUtils.$primaryColor,
+                                        size: 20,
+                                      ),
+                                      Expanded(
+                                        child: Slider(
+                                          value: timeBeforeMeals.value
+                                              .toDouble(),
+                                          min: 1,
+                                          max: 5,
+                                          divisions: 4,
+                                          activeColor: ThemeUtils.$primaryColor,
+                                          inactiveColor: ThemeUtils
+                                              .$primaryColor
+                                              .withOpacity(0.2),
+                                          onChanged: (value) {
+                                            timeBeforeMeals.value = value
+                                                .toInt();
+                                          },
+                                        ),
+                                      ),
+                                      const Icon(
+                                        FluentIcons.add_circle_24_regular,
+                                        color: ThemeUtils.$primaryColor,
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const Gap(12),
+
+                            // Frequency slider
+                            _buildSettingCard(
+                              icon: FluentIcons.arrow_repeat_all_24_regular,
+                              title: 'Reminder frequency',
+                              subtitle:
+                                  '${frequencyBeforeMeals.value} time${frequencyBeforeMeals.value > 1 ? "s" : ""}',
+                              child: Column(
+                                children: [
+                                  const Gap(8),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        FluentIcons.subtract_circle_24_regular,
+                                        color: ThemeUtils.$primaryColor,
+                                        size: 20,
+                                      ),
+                                      Expanded(
+                                        child: Slider(
+                                          value: frequencyBeforeMeals.value
+                                              .toDouble(),
+                                          min: 1,
+                                          max: 5,
+                                          divisions: 4,
+                                          activeColor: ThemeUtils.$primaryColor,
+                                          inactiveColor: ThemeUtils
+                                              .$primaryColor
+                                              .withOpacity(0.2),
+                                          onChanged: (value) {
+                                            frequencyBeforeMeals.value = value
+                                                .toInt();
+                                          },
+                                        ),
+                                      ),
+                                      const Icon(
+                                        FluentIcons.add_circle_24_regular,
+                                        color: ThemeUtils.$primaryColor,
+                                        size: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const Gap(24),
+
+                            // Meal times section
+                            const Text(
+                              'Meal Times',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: ThemeUtils.$primaryColor,
+                              ),
+                            ),
+                            const Gap(12),
+
+                            // Breakfast
+                            _buildMealTimeCard(
+                              context: context,
+                              icon: FluentIcons.food_24_regular,
+                              mealName: 'Breakfast',
+                              time: breakfastTime.value,
+                              enabled: breakfastEnabled.value,
+                              onToggle: (value) =>
+                                  breakfastEnabled.value = value,
+                              onTimeSelect: () => selectTime(
+                                context,
+                                breakfastTime.value,
+                                breakfastTime,
+                              ),
+                            ),
+
+                            const Gap(12),
+
+                            // Lunch
+                            _buildMealTimeCard(
+                              context: context,
+                              icon: FluentIcons.bowl_salad_24_regular,
+                              mealName: 'Lunch',
+                              time: lunchTime.value,
+                              enabled: lunchEnabled.value,
+                              onToggle: (value) => lunchEnabled.value = value,
+                              onTimeSelect: () => selectTime(
+                                context,
+                                lunchTime.value,
+                                lunchTime,
+                              ),
+                            ),
+
+                            const Gap(12),
+
+                            // Supper
+                            _buildMealTimeCard(
+                              context: context,
+                              icon: FluentIcons.food_24_filled,
+                              mealName: 'Supper',
+                              time: supperTime.value,
+                              enabled: supperEnabled.value,
+                              onToggle: (value) => supperEnabled.value = value,
+                              onTimeSelect: () => selectTime(
+                                context,
+                                supperTime.value,
+                                supperTime,
+                              ),
+                            ),
+
+                            const Gap(32),
+
+                            // Save button
+                            SizedBox(
+                              width: double.infinity,
+                              height: 56,
+                              child: ElevatedButton(
+                                onPressed: reminderState.isSubmitting
+                                    ? null
+                                    : handleSaveSettings,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: ThemeUtils.$primaryColor,
+                                  foregroundColor: ThemeUtils.$secondaryColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  elevation: 4,
+                                  shadowColor: ThemeUtils.$primaryColor
+                                      .withOpacity(0.3),
+                                ),
+                                child: reminderState.isSubmitting
+                                    ? const SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                ThemeUtils.$secondaryColor,
+                                              ),
+                                        ),
+                                      )
+                                    : const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            FluentIcons.save_24_regular,
+                                            size: 20,
+                                          ),
+                                          Gap(8),
+                                          Text(
+                                            'Save Settings',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      ),
     );
   }
 
@@ -683,6 +698,18 @@ class Reminders extends HookConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showExitConfirmationDialog(
+    BuildContext context,
+    void Function(bool) onPop,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return UtakulaExitAlert(dialogContext: dialogContext, onPop: onPop);
+      },
     );
   }
 }

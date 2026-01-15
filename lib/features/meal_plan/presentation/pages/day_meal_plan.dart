@@ -623,7 +623,7 @@ class MealSection extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: 120,
+                width: 100,
                 child: Text(
                   item['name'] ?? 'Unknown',
                   overflow: TextOverflow.ellipsis,
