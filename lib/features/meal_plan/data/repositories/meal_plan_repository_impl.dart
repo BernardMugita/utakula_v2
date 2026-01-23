@@ -47,7 +47,6 @@ class MealPlanRepositoryImpl implements MealPlanRepository {
   ) async {
     try {
       final result = await mealPlanDataSource.suggestMealPlan(prefsEntity);
-      print("-----------------------------------The result: $result--------------------------------");
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

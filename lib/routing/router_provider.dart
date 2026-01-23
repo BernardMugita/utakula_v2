@@ -86,7 +86,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                   return DayMealPlan(
                     day: day,
                     meals: meals,
-                    onSave: (Map<String, dynamic> updatedMeals) {
+                    onSave: (Map<String, dynamic> updatedMeals, double calories) {
                       int totalCalories = 0;
 
                       for (var mealType in updatedMeals.values) {

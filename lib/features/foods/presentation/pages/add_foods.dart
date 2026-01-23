@@ -95,10 +95,12 @@ class AddFoods extends HookConsumerWidget {
               foodId: '',
               // Will be set by backend
               total: totalCalculated.round(),
-              carbohydrate: carbohydrateBreakdown,
-              protein: proteinBreakdown,
-              fat: fatBreakdown,
-              fiber: fiberBreakdown,
+              breakDown: {
+                'carbohydrate': carbohydrateBreakdown,
+                'protein': proteinBreakdown,
+                'fat': fatBreakdown,
+                'fiber': fiberBreakdown,
+              },
             ),
           );
 

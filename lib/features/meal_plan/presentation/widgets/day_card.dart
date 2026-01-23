@@ -10,7 +10,7 @@ import 'package:utakula_v2/routing/routes.dart';
 class DayCard extends StatelessWidget {
   final String day;
   final Map<dynamic, dynamic> meals;
-  final int totalCalories;
+  final double totalCalories;
   final bool hasError;
   final Function(Map<dynamic, dynamic> meals, int calories) onUpdate;
 
@@ -143,7 +143,7 @@ class DayCard extends StatelessWidget {
   Widget _buildCaloriesBadge() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: ThemeUtils.$primaryColor,
         borderRadius: BorderRadius.circular(10),
@@ -157,13 +157,6 @@ class DayCard extends StatelessWidget {
                 FluentIcons.fire_24_filled,
                 size: 14,
                 color: ThemeUtils.$secondaryColor,
-              ),
-              const Text(
-                "Calories",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: ThemeUtils.$secondaryColor,
-                ),
               ),
             ],
           ),

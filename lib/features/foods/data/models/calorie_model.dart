@@ -28,19 +28,13 @@ class CalorieModel {
   final String id;
   final String foodId;
   final int total;
-  final NutrientBreakdown? carbohydrate;
-  final NutrientBreakdown? protein;
-  final NutrientBreakdown? fat;
-  final NutrientBreakdown? fiber;
+  final Map<String, NutrientBreakdown> breakDown;
 
   const CalorieModel({
     required this.id,
     required this.foodId,
     required this.total,
-    this.carbohydrate,
-    this.protein,
-    this.fat,
-    this.fiber,
+    required this.breakDown,
   });
 
   factory CalorieModel.fromJson(Map<String, dynamic> json) {
@@ -51,18 +45,16 @@ class CalorieModel {
       id: (json['calorie_id'] ?? json['id']) as String,
       foodId: json['food_id'] as String,
       total: json['total'] as int,
-      carbohydrate: breakdown?['carbohydrate'] != null
-          ? NutrientBreakdown.fromJson(breakdown!['carbohydrate'])
-          : null,
-      protein: breakdown?['protein'] != null
-          ? NutrientBreakdown.fromJson(breakdown!['protein'])
-          : null,
-      fat: breakdown?['fat'] != null
-          ? NutrientBreakdown.fromJson(breakdown!['fat'])
-          : null,
-      fiber: breakdown?['fiber'] != null
-          ? NutrientBreakdown.fromJson(breakdown!['fiber'])
-          : null,
+      breakDown: {
+        if (breakdown != null && breakdown.containsKey('carbohydrate'))
+          'carbohydrate': NutrientBreakdown.fromJson(breakdown['carbohydrate']),
+        if (breakdown != null && breakdown.containsKey('protein'))
+          'protein': NutrientBreakdown.fromJson(breakdown['protein']),
+        if (breakdown != null && breakdown.containsKey('fat'))
+          'fat': NutrientBreakdown.fromJson(breakdown['fat']),
+        if (breakdown != null && breakdown.containsKey('fiber'))
+          'fiber': NutrientBreakdown.fromJson(breakdown['fiber']),
+      },
     );
   }
 
@@ -72,10 +64,10 @@ class CalorieModel {
       'food_id': foodId,
       'total': total,
       'breakdown': {
-        if (carbohydrate != null) 'carbohydrate': carbohydrate!.toJson(),
-        if (protein != null) 'protein': protein!.toJson(),
-        if (fat != null) 'fat': fat!.toJson(),
-        if (fiber != null) 'fiber': fiber!.toJson(),
+        'carbohydrate': breakDown['carbohydrate']?.toJson(),
+        'protein': breakDown['protein']?.toJson(),
+        'fat': breakDown['fat']?.toJson(),
+        'fiber': breakDown['fiber']?.toJson(),
       },
     };
   }
@@ -85,10 +77,12 @@ class CalorieModel {
       id: entity.id,
       foodId: entity.foodId,
       total: entity.total,
-      carbohydrate: entity.carbohydrate,
-      protein: entity.protein,
-      fat: entity.fat,
-      fiber: entity.fiber,
+      breakDown: {
+        'carbohydrate': ?entity.breakDown['carbohydrate'],
+        'protein': ?entity.breakDown['protein'],
+        'fat': ?entity.breakDown['fat'],
+        'fiber': ?entity.breakDown['fiber'],
+      },
     );
   }
 
@@ -97,10 +91,12 @@ class CalorieModel {
       id: id,
       foodId: foodId,
       total: total,
-      carbohydrate: carbohydrate,
-      protein: protein,
-      fat: fat,
-      fiber: fiber,
+      breakDown: {
+        'carbohydrate': ?breakDown['carbohydrate'],
+        'protein': ?breakDown['protein'],
+        'fat': ?breakDown['fat'],
+        'fiber': ?breakDown['fiber'],
+      },
     );
   }
 }

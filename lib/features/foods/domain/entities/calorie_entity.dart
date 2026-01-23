@@ -4,38 +4,48 @@ class CalorieEntity {
   final String id;
   final String foodId;
   final int total;
-  final NutrientBreakdown? carbohydrate;
-  final NutrientBreakdown? protein;
-  final NutrientBreakdown? fat;
-  final NutrientBreakdown? fiber;
+  final Map<String, NutrientBreakdown> breakDown;
 
   const CalorieEntity({
     required this.id,
     required this.foodId,
     required this.total,
-    this.carbohydrate,
-    this.protein,
-    this.fat,
-    this.fiber,
+    required this.breakDown,
   });
 
   CalorieEntity copyWith({
     String? id,
     String? foodId,
     int? total,
-    NutrientBreakdown? carbohydrate,
-    NutrientBreakdown? protein,
-    NutrientBreakdown? fat,
-    NutrientBreakdown? fiber,
+    Map<String, NutrientBreakdown>? breakDown,
   }) {
     return CalorieEntity(
       id: id ?? this.id,
       foodId: foodId ?? this.foodId,
       total: total ?? this.total,
-      carbohydrate: carbohydrate ?? this.carbohydrate,
-      protein: protein ?? this.protein,
-      fat: fat ?? this.fat,
-      fiber: fiber ?? this.fiber,
+      breakDown: breakDown ?? this.breakDown,
     );
+  }
+
+  factory CalorieEntity.fromJson(Map<String, dynamic> json) {
+    return CalorieEntity(
+      id: json['id'],
+      foodId: json['food_id'],
+      total: json['total'],
+      breakDown: Map<String, NutrientBreakdown>.from(
+        json['breakDown'].map(
+          (key, value) => MapEntry(key, NutrientBreakdown.fromJson(value)),
+        ),
+      ),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'food_id': foodId,
+      'total': total,
+      'breakDown': breakDown.map((key, value) => MapEntry(key, value.toJson())),
+    };
   }
 }

@@ -71,7 +71,6 @@ class MealPlanController extends HookConsumerWidget {
         mealPlan.value = convertedPlan;
         originalMealPlan.value = helperUtils.deepCopyMapList(convertedPlan);
         mealPlanId.value = userMealPlan!.id;
-        logger.d('Converted meal plan: ${mealPlan.value}');
       }
       return null;
     }, []);
@@ -309,6 +308,10 @@ class MealPlanController extends HookConsumerWidget {
     Function(String, Map, int) updateMealPlan,
     String validationMessage,
   ) {
+
+    Logger logger = Logger();
+    logger.d(mealPlan);
+
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -323,7 +326,9 @@ class MealPlanController extends HookConsumerWidget {
           return DayCard(
             day: plan['day'],
             meals: plan['meals'] as Map,
-            totalCalories: plan['total_calories'],
+            totalCalories: plan['total_calories'] != null
+                ? double.parse(plan['total_calories'].toString())
+                : double.parse(plan['calories'].toString()),
             hasError:
                 validationMessage.startsWith("Please") && plan['meals'].isEmpty,
             onUpdate: (meals, calories) {

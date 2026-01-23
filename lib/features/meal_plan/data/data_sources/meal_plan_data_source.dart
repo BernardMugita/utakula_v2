@@ -61,6 +61,8 @@ class MealPlanDataSourceImpl implements MealPlanDataSource {
 
       final payload = response.data['payload'];
 
+      logger.log(Level.info, payload);
+
       return MealPlanModel.fromJson(payload).toEntity();
     } on DioException catch (e) {
       throw helperUtils.handleException(e);

@@ -1,17 +1,26 @@
 import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/single_meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/total_macros.dart';
 
 class MealTypeFood {
   final String id;
   final String foodName;
   final String imageUrl;
-  final int calories;
+  final double grams;
+  final TotalMacros macros;
+  final double servings;
+  final double caloriesPer100G;
+  final double calories;
 
   MealTypeFood({
     required this.id,
     required this.foodName,
     required this.imageUrl,
+    required this.grams,
+    required this.macros,
+    required this.servings,
+    required this.caloriesPer100G,
     required this.calories,
   });
 
@@ -20,7 +29,18 @@ class MealTypeFood {
       id: json['id'],
       foodName: json['name'],
       imageUrl: json['image_url'],
-      calories: json['calories'],
+      grams: (json['grams'] as num).toDouble(),
+      // Handle int/double conversion
+      macros: TotalMacros(
+        proteinGrams: (json['macros']!['protein_g'] as num).toDouble(),
+        carbohydrateGrams: (json['macros']!['carbs_g'] as num).toDouble(),
+        fatGrams: (json['macros']!['fat_g'] as num).toDouble(),
+        fibreGrams: (json['macros']!['fiber_g'] as num)
+            .toDouble(), // Note: fiber_g not fibre_g
+      ),
+      servings: (json['servings'] as num).toDouble(),
+      caloriesPer100G: (json['calories_per_100g'] as num).toDouble(),
+      calories: (json['total_calories'] as num).toDouble(),
     );
   }
 
@@ -29,7 +49,11 @@ class MealTypeFood {
       'id': id,
       'name': foodName,
       'image_url': imageUrl,
-      'calories': calories,
+      'grams': grams,
+      'macros': macros.toJson(),
+      'servings': servings,
+      'calories_per_100g': caloriesPer100G,
+      'total_calories': calories,
     };
   }
 
@@ -38,6 +62,15 @@ class MealTypeFood {
       id: entity.id,
       foodName: entity.foodName,
       imageUrl: entity.imageUrl,
+      grams: entity.grams,
+      macros: TotalMacros(
+        proteinGrams: entity.macros.proteinGrams,
+        carbohydrateGrams: entity.macros.carbohydrateGrams,
+        fatGrams: entity.macros.fatGrams,
+        fibreGrams: entity.macros.fibreGrams,
+      ),
+      servings: entity.servings,
+      caloriesPer100G: entity.caloriesPer100G,
       calories: entity.calories,
     );
   }
@@ -47,6 +80,15 @@ class MealTypeFood {
       id: id,
       foodName: foodName,
       imageUrl: imageUrl,
+      grams: grams,
+      macros: TotalMacros(
+        proteinGrams: macros.proteinGrams,
+        carbohydrateGrams: macros.carbohydrateGrams,
+        fatGrams: macros.fatGrams,
+        fibreGrams: macros.fibreGrams,
+      ),
+      servings: servings,
+      caloriesPer100G: caloriesPer100G,
       calories: calories,
     );
   }
@@ -87,8 +129,9 @@ class SingleMealPlan {
 
   factory SingleMealPlan.fromEntity(SingleMealPlanEntity entity) {
     return SingleMealPlan(
-      breakfast:
-          entity.breakfast.map((e) => MealTypeFood.fromEntity(e)).toList(),
+      breakfast: entity.breakfast
+          .map((e) => MealTypeFood.fromEntity(e))
+          .toList(),
       lunch: entity.lunch.map((e) => MealTypeFood.fromEntity(e)).toList(),
       supper: entity.supper.map((e) => MealTypeFood.fromEntity(e)).toList(),
     );
@@ -106,19 +149,29 @@ class SingleMealPlan {
 class DayMealPlan {
   final String day;
   final SingleMealPlan mealPlan;
-  final int totalCalories;
+  final double totalCalories;
+  final TotalMacros totalMacros;
 
   DayMealPlan({
     required this.day,
     required this.mealPlan,
     required this.totalCalories,
+    required this.totalMacros,
   });
 
   factory DayMealPlan.fromJson(Map<String, dynamic> json) {
     return DayMealPlan(
       day: json['day'],
       mealPlan: SingleMealPlan.fromJson(json['meal_plan']),
-      totalCalories: json['total_calories'],
+      totalCalories: (json['total_calories'] as num).toDouble(),
+      // Handle int/double conversion
+      totalMacros: TotalMacros(
+        proteinGrams: (json['total_macros']!['protein_g'] as num).toDouble(),
+        carbohydrateGrams: (json['total_macros']!['carbs_g'] as num).toDouble(),
+        fatGrams: (json['total_macros']!['fat_g'] as num).toDouble(),
+        fibreGrams: (json['total_macros']!['fiber_g'] as num)
+            .toDouble(), // Changed from 'fibre_g' to 'fiber_g'
+      ),
     );
   }
 
@@ -127,6 +180,8 @@ class DayMealPlan {
       'day': day,
       'meal_plan': mealPlan.toJson(),
       'total_calories': totalCalories,
+      'total_macros': totalMacros.toJson(),
+      // Added this so it's included in JSON output
     };
   }
 
@@ -135,6 +190,7 @@ class DayMealPlan {
       day: entity.day,
       mealPlan: SingleMealPlan.fromEntity(entity.mealPlan),
       totalCalories: entity.totalCalories,
+      totalMacros: entity.totalMacros,
     );
   }
 
@@ -143,6 +199,7 @@ class DayMealPlan {
       day: day,
       mealPlan: mealPlan.toEntity(),
       totalCalories: totalCalories,
+      totalMacros: totalMacros,
     );
   }
 }

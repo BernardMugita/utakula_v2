@@ -29,7 +29,7 @@ class MealTypeRow extends StatelessWidget {
               children: meals.map<Widget>((meal) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 2),
-                  child: FoodAvatar(imageUrl: meal['imageUrl'] ?? ''),
+                  child: FoodAvatar(imageUrl: meal['image_url'] ?? ''),
                 );
               }).toList(),
             ),

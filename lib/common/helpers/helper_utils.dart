@@ -5,6 +5,7 @@ import 'package:utakula_v2/core/error/exceptions.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/single_meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/total_macros.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/user_meal_plan_prefs_entity.dart';
 
 class HelperUtils {
@@ -99,7 +100,10 @@ class HelperUtils {
           'id': food.id,
           'name': food.foodName,
           'image_url': food.imageUrl,
-          'imageUrl': food.imageUrl, // Keep both formats for compatibility
+          'grams': food.grams,
+          'macros': food.macros,
+          'servings': food.servings,
+          'calories_per_100g': food.caloriesPer100G,
           'calories': food.calories,
         };
       }).toList();
@@ -110,7 +114,10 @@ class HelperUtils {
           'id': food.id,
           'name': food.foodName,
           'image_url': food.imageUrl,
-          'imageUrl': food.imageUrl,
+          'grams': food.grams,
+          'macros': food.macros,
+          'servings': food.servings,
+          'calories_per_100g': food.caloriesPer100G,
           'calories': food.calories,
         };
       }).toList();
@@ -121,7 +128,10 @@ class HelperUtils {
           'id': food.id,
           'name': food.foodName,
           'image_url': food.imageUrl,
-          'imageUrl': food.imageUrl,
+          'grams': food.grams,
+          'macros': food.macros,
+          'servings': food.servings,
+          'calories_per_100g': food.caloriesPer100G,
           'calories': food.calories,
         };
       }).toList();
@@ -162,9 +172,33 @@ class HelperUtils {
                 food['imageUrl']?.toString() ??
                 food['image_url']?.toString() ??
                 '',
-            calories: (food['calories'] is int)
-                ? food['calories'] as int
-                : (food['calories'] as num?)?.toInt() ?? 0,
+            grams: (food['grams'] is double)
+                ? food['grams'] as double
+                : (food['grams'] as num?)?.toDouble() ?? 0.0,
+            macros: TotalMacros(
+              proteinGrams: (food['protein_g'] is double)
+                  ? food['protein_g'] as double
+                  : (food['protein_g'] as num?)?.toDouble() ?? 0,
+              carbohydrateGrams: (food['carbs_g'] is double)
+                  ? food['carbs_g'] as double
+                  : (food['carbs_g'] as num?)?.toDouble() ?? 0,
+              fatGrams: (food['fat_g'] is double)
+                  ? food['fat_g'] as double
+                  : (food['fat_g'] as num?)?.toDouble() ?? 0,
+              fibreGrams: (food['fiber_g'] is double)
+                  ? food['fiber_g'] as double
+                  : food['fiber_g'] as double ?? 0,
+            ),
+
+            servings: (food['servings'] is double)
+                ? food['servings'] as double
+                : (food['servings'] as num?)?.toDouble() ?? 0.0,
+            caloriesPer100G: (food['calories_per_100g'] is double)
+                ? food['calories_per_100g'] as double
+                : (food['calories_per_100g'] as num?)?.toDouble() ?? 0.0,
+            calories: (food['total_calories'] is double)
+                ? food['total_calories'] as double
+                : (food['total_calories'] as num?)?.toDouble() ?? 0.0,
           );
         }).toList();
       }
@@ -178,7 +212,8 @@ class HelperUtils {
           lunch: convertMealList(meals['lunch']),
           supper: convertMealList(meals['supper']),
         ),
-        totalCalories: plan['total_calories'] as int,
+        totalCalories: plan['total_calories'] as double,
+        totalMacros: plan['total_macros'],
       );
     }).toList();
 
