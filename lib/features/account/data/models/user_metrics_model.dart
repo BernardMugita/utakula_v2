@@ -1,17 +1,17 @@
 import 'package:utakula_v2/features/account/domain/entities/user_metrics_entity.dart';
 
 class UserMetricsModel {
-  final String id;
-  final String userId;
-  final String gender;
-  final String age;
-  final String weightKG;
-  final String heightCM;
-  final double bodyFatPercentage;
-  final String activityLevel;
-  final String goal;
+  final String? id;
+  final String? userId;
+  final String? gender;
+  final int? age;
+  final double? weightKG;
+  final double? heightCM;
+  final double? bodyFatPercentage;
+  final String? activityLevel;
+  final String? goal;
   final double? calculatedTDEE;
-  final bool isCurrent;
+  final bool? isCurrent;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
