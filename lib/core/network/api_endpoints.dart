@@ -13,6 +13,11 @@ class ApiEndpoints {
   static const String editUserAccount = "/users/edit_account";
   static const String deleteUserAccount = "/users/delete_account";
 
+  // -------------------- USER METRICS --------------------
+  static const String createMetrics = "/metrics/create";
+  static const String getUserMetrics = "/metrics/get_current";
+  static const String updateMetrics = "/metrics/update";
+
   // -------------------- FOODS --------------------
   static const String addNewFood = "/foods/add_new_food";
   static const String getAllFoods = "/foods/get_all_foods";
