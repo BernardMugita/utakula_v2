@@ -93,7 +93,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                         if (mealType is List) {
                           for (var item in mealType) {
                             if (item is Map && item.containsKey('calories')) {
-                              totalCalories += (item['calories'] as int? ?? 0);
+                              totalCalories += (item['calories'] as num? ?? 0).toInt();
                             }
                           }
                         }

@@ -48,7 +48,7 @@ class DayMealPlan extends HookConsumerWidget {
         return sum + calories;
       });
 
-      return double.parse(total.toStringAsFixed(1));
+      return double.parse(total.round().toStringAsFixed(1));
     }
 
     double getTotalCalories() {
@@ -60,14 +60,14 @@ class DayMealPlan extends HookConsumerWidget {
     void handleSave() {
       final meals = Map<String, dynamic>.from(mealPlan.value);
       final totalCals = getTotalCalories()
-          .toDouble(); // Calculate total calories
+          .toDouble();
 
       Logger().d('=== SAVING MEAL PLAN ===');
       Logger().d('Day: $day');
       Logger().d('Meals: $meals');
       Logger().d('Total Calories: $totalCals');
 
-      onSave(meals, totalCals); // Pass BOTH parameters
+      onSave(meals, totalCals);
       Navigator.pop(context);
     }
 

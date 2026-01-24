@@ -2,22 +2,27 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:lottie/lottie.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_exit_alert.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_logout_popup.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/features/account/presentation/providers/user_metrics_provider.dart';
 import 'package:utakula_v2/features/account/presentation/providers/user_providers.dart';
 import 'package:utakula_v2/features/homepage/presentation/providers/homepage_providers.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/action_item.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/days_widget.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/meal_plan_error.dart';
 import 'package:utakula_v2/features/homepage/presentation/widgets/no_meal_plan_alert.dart';
+import 'package:utakula_v2/features/homepage/presentation/widgets/metrics_setup_prompt.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/providers/meal_plan_provider.dart';
+import 'package:utakula_v2/routing/routes.dart';
 
 class Homepage extends HookConsumerWidget {
   const Homepage({super.key});
@@ -28,15 +33,14 @@ class Homepage extends HookConsumerWidget {
     final mealPlanState = ref.watch(mealPlanStateProvider);
     final homePageState = ref.watch(homepageStateProvider);
     final userState = ref.watch(userStateProvider);
+    final metricsState = ref.watch(userMetricsStateProvider);
 
     HelperUtils helperUtils = HelperUtils();
 
     // Listen to state changes and show snackbars accordingly
     ref.listen<MealPlanState>(mealPlanStateProvider, (previous, next) {
-      // Only show snackbar if context is mounted
       if (!context.mounted) return;
 
-      // Show success message
       if (next.currentMealPlan!.mealPlan.isNotEmpty &&
           next.currentMealPlan != previous?.currentMealPlan) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -50,7 +54,6 @@ class Homepage extends HookConsumerWidget {
         });
       }
 
-      // Show error message
       if (next.errorMessage != null &&
           next.errorMessage != previous?.errorMessage) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -68,9 +71,9 @@ class Homepage extends HookConsumerWidget {
     useEffect(() {
       Future.microtask(() async {
         await ref.read(userStateProvider.notifier).getUserAccountDetails();
+        await ref.read(userMetricsStateProvider.notifier).getUserMetrics();
         await ref.read(mealPlanStateProvider.notifier).fetchMealPlan();
 
-        // Initialize homepage state with first day after meal plan loads
         final currentMealPlan = ref.read(mealPlanStateProvider).currentMealPlan;
         if (currentMealPlan != null && currentMealPlan.mealPlan.isNotEmpty) {
           ref
@@ -81,8 +84,52 @@ class Homepage extends HookConsumerWidget {
       return null;
     }, []);
 
-    final bool isFetchingMealPlan = mealPlanState.isLoading;
-    final bool isLoadingUser = userState.isLoading;
+    // Check if all initial loading is complete
+    final bool isInitialLoading =
+        userState.isLoading ||
+        metricsState.isLoading ||
+        mealPlanState.isLoading;
+
+    // Show full-screen loading state until everything is loaded
+    if (isInitialLoading) {
+      return Scaffold(
+        backgroundColor: ThemeUtils.$accentColor,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 250,
+                height: 250,
+                child: Lottie.asset(
+                  'assets/animations/Loading.json',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const Gap(20),
+              Text(
+                'Preparing your meal plan...',
+                style: TextStyle(
+                  color: ThemeUtils.$primaryColor.withOpacity(0.8),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const Gap(8),
+              Text(
+                'Almost there!',
+                style: TextStyle(
+                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Once loading is complete, extract all the state variables
     final String? errorMessage = mealPlanState.errorMessage;
     final MealPlanEntity? myMealPlan = mealPlanState.currentMealPlan;
     final DayMealPlanEntity? selectedPlan = homePageState.selectedMealPlan;
@@ -109,6 +156,7 @@ class Homepage extends HookConsumerWidget {
         body: RefreshIndicator(
           onRefresh: () async {
             await ref.read(mealPlanStateProvider.notifier).fetchMealPlan();
+            await ref.read(userMetricsStateProvider.notifier).getUserMetrics();
           },
           child: SizedBox(
             width: double.infinity,
@@ -119,19 +167,23 @@ class Homepage extends HookConsumerWidget {
               child: Column(
                 children: [
                   // Welcome Banner
-                  _buildWelcomeBanner(
-                    context: context,
-                    isLoadingUser: isLoadingUser,
-                    userState: userState,
-                  ),
+                  _buildWelcomeBanner(context: context, userState: userState),
                   const Gap(15),
                   // Info Banner
                   _buildInfoBanner(),
                   const Gap(20),
+
+                  // Metrics Setup Prompt (if no metrics)
+                  if (!metricsState.hasMetrics) ...[
+                    MetricsSetupPrompt(
+                      onSetupTap: () => context.push(Routes.account),
+                    ),
+                    const Gap(20),
+                  ],
+
                   // Main Content Area
                   _buildMainContent(
                     context,
-                    isFetchingMealPlan,
                     errorMessage,
                     myMealPlan,
                     selectedPlan,
@@ -145,23 +197,14 @@ class Homepage extends HookConsumerWidget {
             ),
           ),
         ),
-        // bottomNavigationBar: BottomAppBar(
-        //   height: 140,
-        //   color: ThemeUtils.$secondaryColor,
-        //   elevation: 0,
-        //   shape: const CircularNotchedRectangle(),
-        //   child: _buildActionItems(context),
-        // ),
       ),
     );
   }
 
   Widget _buildWelcomeBanner({
     required BuildContext context,
-    required bool isLoadingUser,
     required UserState userState,
   }) {
-    // Use useState for slider position
     final sliderPosition = useState(0.0);
 
     return Container(
@@ -183,23 +226,19 @@ class Homepage extends HookConsumerWidget {
       child: GestureDetector(
         onHorizontalDragUpdate: (details) {
           sliderPosition.value += details.delta.dx;
-
-          // Get context width for threshold calculation
           final screenWidth = MediaQuery.of(context).size.width;
 
-          // Trigger logout prompt if slider reaches end (60% of screen width)
           if (sliderPosition.value > screenWidth * 0.5) {
             showLogoutDialog(ValueNotifier(false), context);
-            sliderPosition.value = 0.0; // Reset slider
+            sliderPosition.value = 0.0;
           }
         },
         onHorizontalDragEnd: (_) {
-          sliderPosition.value = 0.0; // Reset slider on drag end
+          sliderPosition.value = 0.0;
         },
         child: Stack(
           alignment: Alignment.centerLeft,
           children: [
-            // Background with username
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -222,9 +261,7 @@ class Homepage extends HookConsumerWidget {
                   ),
                 ),
                 Text(
-                  isLoadingUser
-                      ? 'Loading . . .'
-                      : userState.user.username ?? 'User',
+                  userState.user.username ?? 'User',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -233,7 +270,6 @@ class Homepage extends HookConsumerWidget {
                 ),
               ],
             ),
-            // Sliding "Welcome Back!" container
             Positioned(
               left: sliderPosition.value,
               child: Container(
@@ -286,7 +322,6 @@ class Homepage extends HookConsumerWidget {
 
   Widget _buildMainContent(
     BuildContext context,
-    bool isFetchingMealPlan,
     String? errorMessage,
     MealPlanEntity? myMealPlan,
     DayMealPlanEntity? selectedPlan,
@@ -309,11 +344,10 @@ class Homepage extends HookConsumerWidget {
           ),
         ],
       ),
-      child: isFetchingMealPlan
-          ? _buildLoadingState()
-          : myMealPlan == null ||
-                errorMessage != null &&
-                    errorMessage.startsWith("Unexpected error")
+      child:
+          myMealPlan == null ||
+              errorMessage != null &&
+                  errorMessage.startsWith("Unexpected error")
           ? MealPlanError()
           : errorMessage == "User does not have meal plan!"
           ? const NoMealPlanAlert()
@@ -324,31 +358,6 @@ class Homepage extends HookConsumerWidget {
               sharedMealPlans,
               ref,
             ),
-    );
-  }
-
-  Widget _buildLoadingState() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: ThemeUtils.$primaryColor,
-              strokeWidth: 3,
-            ),
-            const Gap(20),
-            Text(
-              'Loading your meal plan...',
-              style: TextStyle(
-                color: Colors.black.withOpacity(0.6),
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -390,9 +399,7 @@ class Homepage extends HookConsumerWidget {
         return UtakulaLogoutPopup(
           loggingOut: loggingOut,
           dialogContext: dialogContext,
-          onPop: () async {
-            // This can be used for additional cleanup if needed
-          },
+          onPop: () async {},
         );
       },
     );
