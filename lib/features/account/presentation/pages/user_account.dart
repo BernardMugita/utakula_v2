@@ -11,6 +11,8 @@ import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/account/domain/entities/user_entity.dart';
+import 'package:utakula_v2/features/account/domain/entities/user_metrics_entity.dart';
+import 'package:utakula_v2/features/account/presentation/providers/user_metrics_provider.dart';
 import 'package:utakula_v2/features/account/presentation/providers/user_providers.dart';
 import 'package:utakula_v2/features/account/presentation/widgets/edit_metrics_dialog.dart';
 
@@ -22,25 +24,19 @@ class UserAccount extends HookConsumerWidget {
     final logger = Logger();
     final helperUtils = HelperUtils();
     final userState = ref.watch(userStateProvider);
+    final metricsState = ref.watch(userMetricsStateProvider);
 
     // State management for edit mode (account info only)
     final isEditMode = useState(false);
     final usernameController = useTextEditingController();
     final emailController = useTextEditingController();
 
-    // Mock user metrics state (replace with actual provider later)
-    final userMetrics = useState<Map<String, dynamic>?>(null);
-    final hasMetrics = userMetrics.value != null;
-
     // Fetch user data on mount
     useEffect(() {
-      Future.microtask(
-        () => ref.read(userStateProvider.notifier).getUserAccountDetails(),
-      );
-      // TODO: Fetch user metrics
-      // Future.microtask(
-      //   () => ref.read(userMetricsProvider.notifier).getUserMetrics(),
-      // );
+      Future.microtask(() {
+        ref.read(userStateProvider.notifier).getUserAccountDetails();
+        ref.read(userMetricsStateProvider.notifier).getUserMetrics();
+      });
       return null;
     }, []);
 
@@ -82,23 +78,98 @@ class UserAccount extends HookConsumerWidget {
 
     // Handle edit metrics
     Future<void> handleEditMetrics() async {
+      // Convert UserMetricsEntity to Map for the dialog
+      Map<String, dynamic>? currentMetrics;
+      if (metricsState.hasMetrics) {
+        final metrics = metricsState.userMetrics!;
+        currentMetrics = {
+          'gender': metrics.gender,
+          'age': metrics.age,
+          'weight_kg': metrics.weightKG,
+          'height_cm': metrics.heightCM,
+          'body_fat_percentage': metrics.bodyFatPercentage,
+          'activity_level': metrics.activityLevel,
+          'calculated_tdee': metrics.calculatedTDEE,
+          'updated_at': metrics.updatedAt,
+        };
+      }
+
       final result = await showDialog<Map<String, dynamic>>(
         context: context,
-        builder: (context) =>
-            EditMetricsDialog(currentMetrics: userMetrics.value),
+        builder: (context) => EditMetricsDialog(currentMetrics: currentMetrics),
       );
 
-      if (result != null) {
-        userMetrics.value = result;
-        // TODO: Save metrics to backend
-        // await ref.read(userMetricsProvider.notifier).updateMetrics(result);
+      if (result != null && context.mounted) {
+        // Convert Map back to UserMetricsEntity
+        final metricsEntity = UserMetricsEntity(
+          gender: result['gender'],
+          age: result['age'],
+          weightKG: result['weight_kg'],
+          heightCM: result['height_cm'],
+          bodyFatPercentage: result['body_fat_percentage'],
+          activityLevel: result['activity_level'],
+          calculatedTDEE: result['calculated_tdee'],
+        );
+
+        final success = await ref
+            .read(userMetricsStateProvider.notifier)
+            .updateUserMetrics(metricsEntity);
 
         if (context.mounted) {
-          helperUtils.showSnackBar(
-            context,
-            'Metrics updated successfully!',
-            ThemeUtils.$success,
-          );
+          if (success) {
+            helperUtils.showSnackBar(
+              context,
+              'Metrics updated successfully!',
+              ThemeUtils.$success,
+            );
+          } else {
+            helperUtils.showSnackBar(
+              context,
+              metricsState.errorMessage ?? 'Failed to update metrics',
+              ThemeUtils.$error,
+            );
+          }
+        }
+      }
+    }
+
+    // Handle create metrics (first time setup)
+    Future<void> handleCreateMetrics() async {
+      final result = await showDialog<Map<String, dynamic>>(
+        context: context,
+        builder: (context) => const EditMetricsDialog(currentMetrics: null),
+      );
+
+      if (result != null && context.mounted) {
+        // Convert Map to UserMetricsEntity
+        final metricsEntity = UserMetricsEntity(
+          gender: result['gender'],
+          age: result['age'],
+          weightKG: result['weight_kg'],
+          heightCM: result['height_cm'],
+          bodyFatPercentage: result['body_fat_percentage'],
+          activityLevel: result['activity_level'],
+          calculatedTDEE: result['calculated_tdee'],
+        );
+
+        final success = await ref
+            .read(userMetricsStateProvider.notifier)
+            .createUserMetrics(metricsEntity);
+
+        if (context.mounted) {
+          if (success) {
+            helperUtils.showSnackBar(
+              context,
+              'Metrics created successfully!',
+              ThemeUtils.$success,
+            );
+          } else {
+            helperUtils.showSnackBar(
+              context,
+              metricsState.errorMessage ?? 'Failed to create metrics',
+              ThemeUtils.$error,
+            );
+          }
         }
       }
     }
@@ -262,7 +333,7 @@ class UserAccount extends HookConsumerWidget {
                     _buildSectionHeader(
                       icon: FluentIcons.heart_pulse_24_regular,
                       title: 'Health & Metrics',
-                      action: hasMetrics
+                      action: metricsState.hasMetrics
                           ? GestureDetector(
                               onTap: handleEditMetrics,
                               child: Container(
@@ -301,9 +372,27 @@ class UserAccount extends HookConsumerWidget {
                     ),
                     const Gap(16),
 
-                    hasMetrics
-                        ? _buildMetricsSection(userMetrics.value!)
-                        : _buildMetricsEmptyState(handleEditMetrics),
+                    // Show loading state for metrics
+                    if (metricsState.isLoading)
+                      Center(
+                        child: Column(
+                          children: [
+                            const CircularProgressIndicator(),
+                            const Gap(12),
+                            Text(
+                              'Loading metrics...',
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    else if (metricsState.hasMetrics)
+                      _buildMetricsSection(metricsState.userMetrics!)
+                    else
+                      _buildMetricsEmptyState(handleCreateMetrics),
 
                     const Gap(32),
 
@@ -636,16 +725,16 @@ class UserAccount extends HookConsumerWidget {
   }
 
   // ============================================================================
-  // METRICS SECTION
+  // METRICS SECTION (Updated to use UserMetricsEntity)
   // ============================================================================
-  Widget _buildMetricsSection(Map<String, dynamic> metrics) {
-    final tdee = metrics['calculated_tdee'] ?? 2400.0;
-    final weight = metrics['weight_kg'] ?? 75.0;
-    final height = metrics['height_cm'] ?? 175.0;
-    final age = metrics['age'] ?? 28;
-    final bodyFat = metrics['body_fat_percentage'] ?? 18.0;
-    final activityLevel = metrics['activity_level'] ?? 'moderately_active';
-    final gender = metrics['gender'] ?? 'male';
+  Widget _buildMetricsSection(UserMetricsEntity metrics) {
+    final tdee = metrics.calculatedTDEE ?? 0.0;
+    final weight = metrics.weightKG ?? 0.0;
+    final height = metrics.heightCM ?? 0.0;
+    final age = metrics.age ?? 0;
+    final bodyFat = metrics.bodyFatPercentage ?? 0.0;
+    final activityLevel = metrics.activityLevel ?? 'moderately_active';
+    final gender = metrics.gender ?? 'male';
 
     return Column(
       children: [
@@ -745,9 +834,9 @@ class UserAccount extends HookConsumerWidget {
           children: [
             Expanded(
               child: _buildMetricCard(
-                icon: FluentIcons.scale_fill_20_regular,
+                icon: FluentIcons.scale_fill_24_regular,
                 label: 'Weight',
-                value: '${weight.toStringAsFixed(1)} kg',
+                value: '${weight.toString()} kg',
                 color: Colors.blue,
               ),
             ),
@@ -756,7 +845,7 @@ class UserAccount extends HookConsumerWidget {
               child: _buildMetricCard(
                 icon: FluentIcons.ruler_24_regular,
                 label: 'Height',
-                value: '${height.toStringAsFixed(0)} cm',
+                value: '${height.toString()} cm',
                 color: Colors.purple,
               ),
             ),
@@ -883,32 +972,33 @@ class UserAccount extends HookConsumerWidget {
         const Gap(12),
 
         // Last Updated Info
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade50,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                FluentIcons.clock_24_regular,
-                size: 14,
-                color: Colors.grey.shade600,
-              ),
-              const Gap(6),
-              Text(
-                'Last updated: ${_formatDate(metrics['updated_at'])}',
-                style: TextStyle(
-                  fontSize: 11,
+        if (metrics.updatedAt != null)
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  FluentIcons.clock_24_regular,
+                  size: 14,
                   color: Colors.grey.shade600,
-                  fontWeight: FontWeight.w500,
                 ),
-              ),
-            ],
+                const Gap(6),
+                Text(
+                  'Last updated: ${_formatDate(metrics.updatedAt)}',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
       ],
     );
   }
@@ -1218,8 +1308,9 @@ class UserAccount extends HookConsumerWidget {
 
   String _formatDate(dynamic date) {
     if (date == null) return 'Never';
-    // TODO: Format date properly
-    return 'Jan 23, 2024';
+    // TODO: Format date properly with intl package
+    // For now, just return a placeholder
+    return 'Recently';
   }
 
   Future<void> _showExitConfirmationDialog(
