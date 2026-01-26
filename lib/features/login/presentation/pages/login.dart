@@ -106,7 +106,7 @@ class Login extends HookConsumerWidget {
                         children: [
                           _buildLogo(context),
                           const Gap(40),
-                          _buildWelcomeText(),
+                          _buildWelcomeText(context),
                           const Gap(50),
                           _buildFormContainer(
                             context,
@@ -142,13 +142,13 @@ class Login extends HookConsumerWidget {
           shape: BoxShape.circle,
           gradient: LinearGradient(
             colors: [
-              ThemeUtils.$primaryColor.withOpacity(0.3),
-              ThemeUtils.$primaryColor.withOpacity(0.1),
+              ThemeUtils.primaryColor(context).withOpacity(0.3),
+              ThemeUtils.primaryColor(context).withOpacity(0.1),
             ],
           ),
           boxShadow: [
             BoxShadow(
-              color: ThemeUtils.$primaryColor.withOpacity(0.3),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.3),
               blurRadius: 30,
               spreadRadius: 5,
             ),
@@ -166,14 +166,14 @@ class Login extends HookConsumerWidget {
     );
   }
 
-  Widget _buildWelcomeText() {
+  Widget _buildWelcomeText(BuildContext context) {
     return Column(
       children: [
         ShaderMask(
           shaderCallback: (bounds) => LinearGradient(
             colors: [
-              ThemeUtils.$primaryColor,
-              ThemeUtils.$primaryColor.withOpacity(0.8),
+              ThemeUtils.primaryColor(context),
+              ThemeUtils.primaryColor(context).withOpacity(0.8),
             ],
           ).createShader(bounds),
           child: const Text(
@@ -247,7 +247,7 @@ class Login extends HookConsumerWidget {
               child: Text(
                 "Forgot password?",
                 style: TextStyle(
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
@@ -330,17 +330,17 @@ class Login extends HookConsumerWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: ThemeUtils.$primaryColor.withOpacity(0.2),
+                color: ThemeUtils.primaryColor(context).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   width: 1,
                 ),
               ),
-              child: const Text(
+              child: Text(
                 "Sign up",
                 style: TextStyle(
-                  color: ThemeUtils.$secondaryColor,
+                  color: ThemeUtils.secondaryColor(context),
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.5,

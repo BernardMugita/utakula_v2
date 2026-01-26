@@ -43,7 +43,7 @@ class FoodBanner extends HookWidget {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: ThemeUtils.$primaryColor.withOpacity(0.15),
+                color: ThemeUtils.primaryColor(context).withOpacity(0.15),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -62,8 +62,8 @@ class FoodBanner extends HookWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        ThemeUtils.$primaryColor.withOpacity(0.05),
-                        ThemeUtils.$primaryColor.withOpacity(0.15),
+                        ThemeUtils.primaryColor(context).withOpacity(0.05),
+                        ThemeUtils.primaryColor(context).withOpacity(0.15),
                       ],
                     ),
                   ),
@@ -83,8 +83,8 @@ class FoodBanner extends HookWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      ThemeUtils.$primaryColor.withOpacity(0.1),
-                      ThemeUtils.$primaryColor.withOpacity(0.3),
+                      ThemeUtils.primaryColor(context).withOpacity(0.1),
+                      ThemeUtils.primaryColor(context).withOpacity(0.3),
                     ],
                     stops: const [0.0, 1.0],
                   ),
@@ -107,7 +107,7 @@ class FoodBanner extends HookWidget {
                   ),
                   child: Icon(
                     FluentIcons.bowl_salad_24_regular,
-                    color: ThemeUtils.$secondaryColor.withOpacity(0.8),
+                    color: ThemeUtils.secondaryColor(context).withOpacity(0.8),
                     size: 24,
                   ),
                 ),
@@ -124,8 +124,8 @@ class FoodBanner extends HookWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        ThemeUtils.$primaryColor,
-                        ThemeUtils.$primaryColor.withOpacity(0.9),
+                        ThemeUtils.primaryColor(context),
+                        ThemeUtils.primaryColor(context).withOpacity(0.9),
                       ],
                     ),
                     borderRadius: const BorderRadius.only(
@@ -134,7 +134,9 @@ class FoodBanner extends HookWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: ThemeUtils.$primaryColor.withOpacity(0.4),
+                        color: ThemeUtils.primaryColor(
+                          context,
+                        ).withOpacity(0.4),
                         blurRadius: 12,
                         offset: const Offset(0, -2),
                       ),
@@ -150,23 +152,27 @@ class FoodBanner extends HookWidget {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: ThemeUtils.$secondaryColor.withOpacity(0.2),
+                          color: ThemeUtils.secondaryColor(
+                            context,
+                          ).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: ThemeUtils.$secondaryColor.withOpacity(0.3),
+                            color: ThemeUtils.secondaryColor(
+                              context,
+                            ).withOpacity(0.3),
                             width: 1.5,
                           ),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           FluentIcons.food_24_filled,
-                          color: ThemeUtils.$secondaryColor,
+                          color: ThemeUtils.secondaryColor(context),
                           size: 24,
                         ),
                       ),
                       const SizedBox(width: 16),
 
                       // Title
-                      const Expanded(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -174,7 +180,7 @@ class FoodBanner extends HookWidget {
                             Text(
                               "Foods",
                               style: TextStyle(
-                                color: ThemeUtils.$secondaryColor,
+                                color: ThemeUtils.secondaryColor(context),
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 0.5,
@@ -185,7 +191,7 @@ class FoodBanner extends HookWidget {
                             Text(
                               "Explore & Track",
                               style: TextStyle(
-                                color: ThemeUtils.$secondaryColor,
+                                color: ThemeUtils.secondaryColor(context),
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 1.2,
@@ -203,7 +209,7 @@ class FoodBanner extends HookWidget {
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: ThemeUtils.$secondaryColor,
+                            color: ThemeUtils.secondaryColor(context),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
@@ -213,9 +219,9 @@ class FoodBanner extends HookWidget {
                               ),
                             ],
                           ),
-                          child: const Icon(
+                          child: Icon(
                             FluentIcons.add_circle_24_filled,
-                            color: ThemeUtils.$primaryColor,
+                            color: ThemeUtils.primaryColor(context),
                             size: 24,
                           ),
                         ),
@@ -235,7 +241,7 @@ class FoodBanner extends HookWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: ThemeUtils.$secondaryColor,
+                    color: ThemeUtils.secondaryColor(context),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -267,7 +273,7 @@ class FoodBanner extends HookWidget {
                       Text(
                         "Fresh",
                         style: TextStyle(
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.5,

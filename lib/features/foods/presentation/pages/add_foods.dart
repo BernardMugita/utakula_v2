@@ -136,7 +136,7 @@ class AddFoods extends HookConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: ThemeUtils.$backgroundColor,
+      backgroundColor: ThemeUtils.backgroundColor(context),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -169,13 +169,14 @@ class AddFoods extends HookConsumerWidget {
                         title: 'Food Details',
                         isActive: currentStep.value == 0,
                         isCompleted: currentStep.value > 0,
+                        context: context,
                       ),
                     ),
                     Container(
                       width: 40,
                       height: 2,
                       color: currentStep.value > 0
-                          ? ThemeUtils.$primaryColor
+                          ? ThemeUtils.primaryColor(context)
                           : Colors.grey[300],
                     ),
                     Expanded(
@@ -184,6 +185,7 @@ class AddFoods extends HookConsumerWidget {
                         title: 'Nutrition',
                         isActive: currentStep.value == 1,
                         isCompleted: false,
+                        context: context,
                       ),
                     ),
                   ],
@@ -212,6 +214,7 @@ class AddFoods extends HookConsumerWidget {
                                 }
                                 return null;
                               },
+                              context: context,
                             ),
                             const Gap(16),
                             _buildTextField(
@@ -225,6 +228,7 @@ class AddFoods extends HookConsumerWidget {
                                 }
                                 return null;
                               },
+                              context: context,
                             ),
                             const Gap(16),
                             _buildStringDropdown(
@@ -236,6 +240,7 @@ class AddFoods extends HookConsumerWidget {
                               onChanged: (value) {
                                 selectedMacroNutrient.value = value;
                               },
+                              context: context,
                             ),
                             const Gap(16),
                             _buildMealTypeDropdown(
@@ -247,8 +252,10 @@ class AddFoods extends HookConsumerWidget {
                               onChanged: (value) {
                                 selectedMealType.value = value;
                               },
+                              context: context,
                             ),
                           ],
+                          context: context,
                         ),
                       ] else ...[
                         // Step 2: Calorie Data
@@ -273,6 +280,7 @@ class AddFoods extends HookConsumerWidget {
                                       }
                                       return null;
                                     },
+                                    context: context,
                                   ),
                                 ),
                                 const Gap(12),
@@ -291,6 +299,7 @@ class AddFoods extends HookConsumerWidget {
                                       }
                                       return null;
                                     },
+                                    context: context,
                                   ),
                                 ),
                               ],
@@ -313,6 +322,7 @@ class AddFoods extends HookConsumerWidget {
                                       }
                                       return null;
                                     },
+                                    context: context,
                                   ),
                                 ),
                                 const Gap(12),
@@ -331,6 +341,7 @@ class AddFoods extends HookConsumerWidget {
                                       }
                                       return null;
                                     },
+                                    context: context,
                                   ),
                                 ),
                               ],
@@ -340,14 +351,14 @@ class AddFoods extends HookConsumerWidget {
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: ThemeUtils.$primaryColor.withOpacity(
-                                  0.1,
-                                ),
+                                color: ThemeUtils.primaryColor(
+                                  context,
+                                ).withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: ThemeUtils.$primaryColor.withOpacity(
-                                    0.3,
-                                  ),
+                                  color: ThemeUtils.primaryColor(
+                                    context,
+                                  ).withOpacity(0.3),
                                 ),
                               ),
                               child: Row(
@@ -366,13 +377,14 @@ class AddFoods extends HookConsumerWidget {
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
-                                      color: ThemeUtils.$primaryColor,
+                                      color: ThemeUtils.primaryColor(context),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           ],
+                          context: context,
                         ),
                       ],
                       const Gap(100), // Space for button
@@ -387,7 +399,7 @@ class AddFoods extends HookConsumerWidget {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: ThemeUtils.$secondaryColor,
+          color: ThemeUtils.secondaryColor(context),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
@@ -408,7 +420,7 @@ class AddFoods extends HookConsumerWidget {
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       side: BorderSide(
-                        color: ThemeUtils.$primaryColor,
+                        color: ThemeUtils.primaryColor(context),
                         width: 2,
                       ),
                       shape: RoundedRectangleBorder(
@@ -460,8 +472,8 @@ class AddFoods extends HookConsumerWidget {
                           }
                         },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ThemeUtils.$primaryColor,
-                    foregroundColor: ThemeUtils.$secondaryColor,
+                    backgroundColor: ThemeUtils.primaryColor(context),
+                    foregroundColor: ThemeUtils.secondaryColor(context),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -469,13 +481,13 @@ class AddFoods extends HookConsumerWidget {
                     elevation: 3,
                   ),
                   child: isSubmitting.value
-                      ? const SizedBox(
+                      ? SizedBox(
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                             valueColor: AlwaysStoppedAnimation(
-                              ThemeUtils.$secondaryColor,
+                              ThemeUtils.secondaryColor(context),
                             ),
                           ),
                         )
@@ -512,6 +524,7 @@ class AddFoods extends HookConsumerWidget {
     required String title,
     required bool isActive,
     required bool isCompleted,
+    required BuildContext context,
   }) {
     return Column(
       children: [
@@ -520,13 +533,13 @@ class AddFoods extends HookConsumerWidget {
           height: 40,
           decoration: BoxDecoration(
             color: isCompleted || isActive
-                ? ThemeUtils.$primaryColor
+                ? ThemeUtils.primaryColor(context)
                 : Colors.grey[300],
             shape: BoxShape.circle,
             boxShadow: isActive
                 ? [
                     BoxShadow(
-                      color: ThemeUtils.$primaryColor.withOpacity(0.4),
+                      color: ThemeUtils.primaryColor(context).withOpacity(0.4),
                       blurRadius: 8,
                       spreadRadius: 2,
                     ),
@@ -535,16 +548,16 @@ class AddFoods extends HookConsumerWidget {
           ),
           child: Center(
             child: isCompleted
-                ? const Icon(
+                ? Icon(
                     FluentIcons.checkmark_24_filled,
-                    color: ThemeUtils.$secondaryColor,
+                    color: ThemeUtils.secondaryColor(context),
                     size: 20,
                   )
                 : Text(
                     '$step',
                     style: TextStyle(
                       color: isActive
-                          ? ThemeUtils.$secondaryColor
+                          ? ThemeUtils.secondaryColor(context)
                           : Colors.grey[600],
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -558,7 +571,9 @@ class AddFoods extends HookConsumerWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-            color: isActive ? ThemeUtils.$primaryColor : Colors.grey[600],
+            color: isActive
+                ? ThemeUtils.primaryColor(context)
+                : Colors.grey[600],
           ),
         ),
       ],
@@ -569,11 +584,12 @@ class AddFoods extends HookConsumerWidget {
     required IconData icon,
     required String title,
     required List<Widget> children,
+    required BuildContext context,
   }) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -591,18 +607,22 @@ class AddFoods extends HookConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, color: ThemeUtils.$primaryColor, size: 24),
+                child: Icon(
+                  icon,
+                  color: ThemeUtils.primaryColor(context),
+                  size: 24,
+                ),
               ),
               const Gap(12),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
               ),
             ],
@@ -621,6 +641,7 @@ class AddFoods extends HookConsumerWidget {
     IconData? icon,
     TextInputType? keyboardType,
     String? Function(String?)? validator,
+    required BuildContext context,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -641,10 +662,13 @@ class AddFoods extends HookConsumerWidget {
           decoration: InputDecoration(
             hintText: hint,
             prefixIcon: icon != null
-                ? Icon(icon, color: ThemeUtils.$primaryColor.withOpacity(0.6))
+                ? Icon(
+                    icon,
+                    color: ThemeUtils.primaryColor(context).withOpacity(0.6),
+                  )
                 : null,
             filled: true,
-            fillColor: ThemeUtils.$backgroundColor,
+            fillColor: ThemeUtils.backgroundColor(context),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -658,7 +682,10 @@ class AddFoods extends HookConsumerWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: ThemeUtils.$primaryColor, width: 2),
+              borderSide: BorderSide(
+                color: ThemeUtils.primaryColor(context),
+                width: 2,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -681,6 +708,7 @@ class AddFoods extends HookConsumerWidget {
     required String? value,
     required List<String> items,
     required void Function(String?) onChanged,
+    required BuildContext context,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -700,10 +728,10 @@ class AddFoods extends HookConsumerWidget {
           decoration: InputDecoration(
             prefixIcon: Icon(
               icon,
-              color: ThemeUtils.$primaryColor.withOpacity(0.6),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.6),
             ),
             filled: true,
-            fillColor: ThemeUtils.$backgroundColor,
+            fillColor: ThemeUtils.backgroundColor(context),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -717,7 +745,10 @@ class AddFoods extends HookConsumerWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: ThemeUtils.$primaryColor, width: 2),
+              borderSide: BorderSide(
+                color: ThemeUtils.primaryColor(context),
+                width: 2,
+              ),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -740,6 +771,7 @@ class AddFoods extends HookConsumerWidget {
     required MealTypeEnum? value,
     required List<MealTypeEnum> items,
     required void Function(MealTypeEnum?) onChanged,
+    required BuildContext context,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -759,10 +791,10 @@ class AddFoods extends HookConsumerWidget {
           decoration: InputDecoration(
             prefixIcon: Icon(
               icon,
-              color: ThemeUtils.$primaryColor.withOpacity(0.6),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.6),
             ),
             filled: true,
-            fillColor: ThemeUtils.$backgroundColor,
+            fillColor: ThemeUtils.backgroundColor(context),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -776,7 +808,10 @@ class AddFoods extends HookConsumerWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: ThemeUtils.$primaryColor, width: 2),
+              borderSide: BorderSide(
+                color: ThemeUtils.primaryColor(context),
+                width: 2,
+              ),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,

@@ -48,7 +48,7 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
           maxHeight: MediaQuery.of(context).size.height * 0.85,
         ),
         decoration: BoxDecoration(
-          color: ThemeUtils.$secondaryColor,
+          color: ThemeUtils.secondaryColor(context),
           borderRadius: BorderRadius.circular(28),
           boxShadow: [
             BoxShadow(
@@ -67,8 +67,8 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    ThemeUtils.$primaryColor,
-                    ThemeUtils.$primaryColor.withOpacity(0.9),
+                    ThemeUtils.primaryColor(context),
+                    ThemeUtils.primaryColor(context).withOpacity(0.9),
                   ],
                 ),
                 borderRadius: const BorderRadius.only(
@@ -215,7 +215,7 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.grey.shade50,
+                color: ThemeUtils.secondaryColor(context),
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(28),
                   bottomRight: Radius.circular(28),
@@ -229,9 +229,11 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
                           ? null
                           : () => Navigator.of(context).pop(),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: ThemeUtils.$primaryColor,
+                        foregroundColor: ThemeUtils.primaryColor(context),
                         side: BorderSide(
-                          color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                          color: ThemeUtils.primaryColor(
+                            context,
+                          ).withOpacity(0.5),
                           width: 2,
                         ),
                         shape: RoundedRectangleBorder(
@@ -269,10 +271,11 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
                               );
                             },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ThemeUtils.$primaryColor,
-                        foregroundColor: ThemeUtils.$secondaryColor,
-                        disabledBackgroundColor: ThemeUtils.$primaryColor
-                            .withOpacity(0.5),
+                        backgroundColor: ThemeUtils.primaryColor(context),
+                        foregroundColor: ThemeUtils.secondaryColor(context),
+                        disabledBackgroundColor: ThemeUtils.primaryColor(
+                          context,
+                        ).withOpacity(0.5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -280,13 +283,13 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
                         elevation: 0,
                       ),
                       child: isLoading.value
-                          ? const SizedBox(
+                          ? SizedBox(
                               height: 20,
                               width: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  ThemeUtils.$secondaryColor,
+                                  ThemeUtils.secondaryColor(context),
                                 ),
                               ),
                             )
@@ -401,19 +404,19 @@ class _SectionHeader extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: ThemeUtils.$primaryColor.withOpacity(0.1),
+            color: ThemeUtils.primaryColor(context).withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, color: ThemeUtils.$primaryColor, size: 18),
+          child: Icon(icon, color: ThemeUtils.primaryColor(context), size: 18),
         ),
         const Gap(10),
         Expanded(
           child: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
         ),
@@ -472,13 +475,13 @@ class _BodyGoalSelector extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? ThemeUtils.$primaryColor.withOpacity(0.1)
-                    : Colors.grey.shade50,
+                    ? ThemeUtils.primaryColor(context).withOpacity(0.1)
+                    : ThemeUtils.secondaryColor(context),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: isSelected
-                      ? ThemeUtils.$primaryColor
-                      : Colors.grey.shade300,
+                      ? ThemeUtils.primaryColor(context)
+                      : ThemeUtils.accentColor(context),
                   width: 2,
                 ),
               ),
@@ -488,8 +491,8 @@ class _BodyGoalSelector extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? ThemeUtils.$primaryColor
-                          : Colors.grey.shade300,
+                          ? ThemeUtils.secondaryColor(context)
+                          : ThemeUtils.primaryColor(context),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -506,15 +509,15 @@ class _BodyGoalSelector extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: isSelected
-                            ? ThemeUtils.$primaryColor
-                            : Colors.grey.shade700,
+                            ? ThemeUtils.primaryColor(context)
+                            : ThemeUtils.blacks(context),
                       ),
                     ),
                   ),
                   if (isSelected)
                     Icon(
                       FluentIcons.checkmark_circle_24_filled,
-                      color: ThemeUtils.$primaryColor,
+                      color: ThemeUtils.primaryColor(context),
                       size: 24,
                     ),
                 ],
@@ -619,7 +622,7 @@ class _CalorieTargetSelector extends StatelessWidget {
                   'Target Calories',
                   style: TextStyle(
                     fontSize: 14,
-                    color: ThemeUtils.$primaryColor,
+                    color: ThemeUtils.primaryColor(context),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -629,15 +632,15 @@ class _CalorieTargetSelector extends StatelessWidget {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: ThemeUtils.$primaryColor,
+                    color: ThemeUtils.primaryColor(context),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
                     '${calorieTarget.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} kcal',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: ThemeUtils.$secondaryColor,
+                      color: ThemeUtils.secondaryColor(context),
                     ),
                   ),
                 ),
@@ -654,8 +657,10 @@ class _CalorieTargetSelector extends StatelessWidget {
                 min: 1200,
                 max: 5000,
                 divisions: 38,
-                activeColor: ThemeUtils.$primaryColor,
-                inactiveColor: ThemeUtils.$primaryColor.withOpacity(0.2),
+                activeColor: ThemeUtils.primaryColor(context),
+                inactiveColor: ThemeUtils.primaryColor(
+                  context,
+                ).withOpacity(0.2),
                 onChanged: (value) => onChanged(value.round()),
               ),
             ),
@@ -666,7 +671,7 @@ class _CalorieTargetSelector extends StatelessWidget {
                   '1,200',
                   style: TextStyle(
                     fontSize: 12,
-                    color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                    color: ThemeUtils.primaryColor(context).withOpacity(0.6),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -674,7 +679,7 @@ class _CalorieTargetSelector extends StatelessWidget {
                   '5,000',
                   style: TextStyle(
                     fontSize: 12,
-                    color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                    color: ThemeUtils.primaryColor(context).withOpacity(0.6),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -736,9 +741,9 @@ class _MultiSelectChips<T> extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200, width: 1.5),
+        border: Border.all(color:ThemeUtils.accentColor(context), width: 1.5),
       ),
       child: options.isEmpty
           ? Padding(
@@ -767,13 +772,13 @@ class _MultiSelectChips<T> extends StatelessWidget {
                     }
                     onChanged(newSelection);
                   },
-                  backgroundColor: ThemeUtils.$secondaryColor,
-                  selectedColor: ThemeUtils.$primaryColor,
-                  checkmarkColor: ThemeUtils.$secondaryColor,
+                  backgroundColor: ThemeUtils.secondaryColor(context),
+                  selectedColor: ThemeUtils.primaryColor(context),
+                  checkmarkColor: ThemeUtils.secondaryColor(context),
                   labelStyle: TextStyle(
                     color: isSelected
-                        ? ThemeUtils.$secondaryColor
-                        : ThemeUtils.$primaryColor,
+                        ? ThemeUtils.secondaryColor(context)
+                        : ThemeUtils.primaryColor(context),
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                     fontSize: 13,
                   ),
@@ -781,8 +786,8 @@ class _MultiSelectChips<T> extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(
                       color: isSelected
-                          ? ThemeUtils.$primaryColor
-                          : Colors.grey.shade300,
+                          ? ThemeUtils.primaryColor(context)
+                          : ThemeUtils.accentColor(context),
                       width: 1.5,
                     ),
                   ),

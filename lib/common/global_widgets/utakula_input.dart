@@ -64,12 +64,12 @@ class _UtakulaInputState extends State<UtakulaInput> {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveTextColor = widget.textColor ?? ThemeUtils.$secondaryColor;
+    final effectiveTextColor = widget.textColor ?? ThemeUtils.secondaryColor(context);
     final effectiveHintColor =
-        widget.hintColor ?? ThemeUtils.$secondaryColor.withOpacity(0.7);
-    final effectiveIconColor = widget.iconColor ?? ThemeUtils.$secondaryColor;
+        widget.hintColor ?? ThemeUtils.secondaryColor(context).withOpacity(0.7);
+    final effectiveIconColor = widget.iconColor ?? ThemeUtils.secondaryColor(context);
     final effectiveBorderColor =
-        widget.borderColor ?? ThemeUtils.$secondaryColor;
+        widget.borderColor ?? ThemeUtils.secondaryColor(context);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
@@ -78,7 +78,7 @@ class _UtakulaInputState extends State<UtakulaInput> {
         boxShadow: _isFocused
             ? [
           BoxShadow(
-            color: ThemeUtils.$primaryColor.withOpacity(0.3),
+            color: ThemeUtils.primaryColor(context).withOpacity(0.3),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

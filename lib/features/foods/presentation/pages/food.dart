@@ -38,7 +38,7 @@ class Foods extends HookConsumerWidget {
       canPop: false,
       onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
       child: Scaffold(
-        backgroundColor: ThemeUtils.$backgroundColor,
+        backgroundColor: ThemeUtils.backgroundColor(context),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -89,9 +89,9 @@ class Foods extends HookConsumerWidget {
                                 Text(
                                   "Loading delicious foods...",
                                   style: TextStyle(
-                                    color: ThemeUtils.$primaryColor.withOpacity(
-                                      0.6,
-                                    ),
+                                    color: ThemeUtils.primaryColor(
+                                      context,
+                                    ).withOpacity(0.6),
                                     fontSize: 14,
                                   ),
                                 ),
@@ -99,7 +99,7 @@ class Foods extends HookConsumerWidget {
                             ),
                           )
                         : displayList.isEmpty
-                        ? Center(child: _buildErrorMessage())
+                        ? Center(child: _buildErrorMessage(context))
                         : ListView.builder(
                             padding: const EdgeInsets.only(bottom: 20),
                             physics: const AlwaysScrollableScrollPhysics(),
@@ -123,12 +123,12 @@ class Foods extends HookConsumerWidget {
     );
   }
 
-  Widget _buildErrorMessage() {
+  Widget _buildErrorMessage(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(32),
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: ThemeUtils.$error.withOpacity(0.2), width: 1),
         boxShadow: [
@@ -163,7 +163,7 @@ class Foods extends HookConsumerWidget {
           Text(
             "Try adjusting your search",
             style: TextStyle(
-              color: ThemeUtils.$primaryColor.withOpacity(0.6),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.6),
               fontSize: 14,
             ),
           ),

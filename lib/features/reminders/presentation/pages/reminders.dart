@@ -102,9 +102,9 @@ class Reminders extends HookConsumerWidget {
           return Theme(
             data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.light(
-                primary: ThemeUtils.$primaryColor,
-                onPrimary: ThemeUtils.$secondaryColor,
-                surface: ThemeUtils.$backgroundColor,
+                primary: ThemeUtils.primaryColor(context),
+                onPrimary: ThemeUtils.secondaryColor(context),
+                surface: ThemeUtils.backgroundColor(context),
               ),
             ),
             child: child!,
@@ -160,7 +160,7 @@ class Reminders extends HookConsumerWidget {
       canPop: false,
       onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
       child: Scaffold(
-        backgroundColor: ThemeUtils.$backgroundColor,
+        backgroundColor: ThemeUtils.backgroundColor(context),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -172,12 +172,12 @@ class Reminders extends HookConsumerWidget {
               child: const Icon(Icons.reorder),
             ),
           ),
-          title: const Text(
+          title: Text(
             'Meal Reminders',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
         ),
@@ -199,7 +199,9 @@ class Reminders extends HookConsumerWidget {
                     Text(
                       "Loading your reminder settings...",
                       style: TextStyle(
-                        color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                        color: ThemeUtils.primaryColor(
+                          context,
+                        ).withOpacity(0.6),
                         fontSize: 14,
                       ),
                     ),
@@ -217,14 +219,16 @@ class Reminders extends HookConsumerWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            ThemeUtils.$primaryColor,
-                            ThemeUtils.$primaryColor.withOpacity(0.8),
+                            ThemeUtils.primaryColor(context),
+                            ThemeUtils.primaryColor(context).withOpacity(0.8),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: ThemeUtils.$primaryColor.withOpacity(0.3),
+                            color: ThemeUtils.primaryColor(
+                              context,
+                            ).withOpacity(0.3),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           ),
@@ -235,26 +239,26 @@ class Reminders extends HookConsumerWidget {
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: ThemeUtils.$secondaryColor.withOpacity(
-                                0.2,
-                              ),
+                              color: ThemeUtils.secondaryColor(
+                                context,
+                              ).withOpacity(0.2),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(
+                            child: Icon(
                               FluentIcons.alert_24_filled,
-                              color: ThemeUtils.$secondaryColor,
+                              color: ThemeUtils.secondaryColor(context),
                               size: 28,
                             ),
                           ),
                           const Gap(16),
-                          const Expanded(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Notifications',
                                   style: TextStyle(
-                                    color: ThemeUtils.$secondaryColor,
+                                    color: ThemeUtils.secondaryColor(context),
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -263,7 +267,7 @@ class Reminders extends HookConsumerWidget {
                                 Text(
                                   'Get reminded before meals',
                                   style: TextStyle(
-                                    color: ThemeUtils.$secondaryColor,
+                                    color: ThemeUtils.secondaryColor(context),
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -275,9 +279,10 @@ class Reminders extends HookConsumerWidget {
                             value: notificationsEnabled.value,
                             onChanged: (value) =>
                                 notificationsEnabled.value = value,
-                            activeColor: ThemeUtils.$secondaryColor,
-                            activeTrackColor: ThemeUtils.$secondaryColor
-                                .withOpacity(0.5),
+                            activeColor: ThemeUtils.secondaryColor(context),
+                            activeTrackColor: ThemeUtils.secondaryColor(
+                              context,
+                            ).withOpacity(0.5),
                           ),
                         ],
                       ),
@@ -294,12 +299,12 @@ class Reminders extends HookConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Reminder Settings',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: ThemeUtils.$primaryColor,
+                                color: ThemeUtils.primaryColor(context),
                               ),
                             ),
                             const Gap(12),
@@ -315,9 +320,9 @@ class Reminders extends HookConsumerWidget {
                                   const Gap(8),
                                   Row(
                                     children: [
-                                      const Icon(
+                                      Icon(
                                         FluentIcons.subtract_circle_24_regular,
-                                        color: ThemeUtils.$primaryColor,
+                                        color: ThemeUtils.primaryColor(context),
                                         size: 20,
                                       ),
                                       Expanded(
@@ -327,7 +332,9 @@ class Reminders extends HookConsumerWidget {
                                           min: 1,
                                           max: 5,
                                           divisions: 4,
-                                          activeColor: ThemeUtils.$primaryColor,
+                                          activeColor: ThemeUtils.primaryColor(
+                                            context,
+                                          ),
                                           inactiveColor: ThemeUtils
                                               .$primaryColor
                                               .withOpacity(0.2),
@@ -337,15 +344,16 @@ class Reminders extends HookConsumerWidget {
                                           },
                                         ),
                                       ),
-                                      const Icon(
+                                      Icon(
                                         FluentIcons.add_circle_24_regular,
-                                        color: ThemeUtils.$primaryColor,
+                                        color: ThemeUtils.primaryColor(context),
                                         size: 20,
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
+                              context: context,
                             ),
 
                             const Gap(12),
@@ -361,9 +369,9 @@ class Reminders extends HookConsumerWidget {
                                   const Gap(8),
                                   Row(
                                     children: [
-                                      const Icon(
+                                      Icon(
                                         FluentIcons.subtract_circle_24_regular,
-                                        color: ThemeUtils.$primaryColor,
+                                        color: ThemeUtils.primaryColor(context),
                                         size: 20,
                                       ),
                                       Expanded(
@@ -373,7 +381,9 @@ class Reminders extends HookConsumerWidget {
                                           min: 1,
                                           max: 5,
                                           divisions: 4,
-                                          activeColor: ThemeUtils.$primaryColor,
+                                          activeColor: ThemeUtils.primaryColor(
+                                            context,
+                                          ),
                                           inactiveColor: ThemeUtils
                                               .$primaryColor
                                               .withOpacity(0.2),
@@ -383,26 +393,27 @@ class Reminders extends HookConsumerWidget {
                                           },
                                         ),
                                       ),
-                                      const Icon(
+                                      Icon(
                                         FluentIcons.add_circle_24_regular,
-                                        color: ThemeUtils.$primaryColor,
+                                        color: ThemeUtils.primaryColor(context),
                                         size: 20,
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
+                              context: context,
                             ),
 
                             const Gap(24),
 
                             // Meal times section
-                            const Text(
+                            Text(
                               'Meal Times',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: ThemeUtils.$primaryColor,
+                                color: ThemeUtils.primaryColor(context),
                               ),
                             ),
                             const Gap(12),
@@ -468,24 +479,31 @@ class Reminders extends HookConsumerWidget {
                                     ? null
                                     : handleSaveSettings,
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: ThemeUtils.$primaryColor,
-                                  foregroundColor: ThemeUtils.$secondaryColor,
+                                  backgroundColor: ThemeUtils.primaryColor(
+                                    context,
+                                  ),
+                                  foregroundColor: ThemeUtils.secondaryColor(
+                                    context,
+                                  ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   elevation: 4,
-                                  shadowColor: ThemeUtils.$primaryColor
-                                      .withOpacity(0.3),
+                                  shadowColor: ThemeUtils.primaryColor(
+                                    context,
+                                  ).withOpacity(0.3),
                                 ),
                                 child: reminderState.isSubmitting
-                                    ? const SizedBox(
+                                    ? SizedBox(
                                         height: 24,
                                         width: 24,
                                         child: CircularProgressIndicator(
                                           strokeWidth: 2,
                                           valueColor:
                                               AlwaysStoppedAnimation<Color>(
-                                                ThemeUtils.$secondaryColor,
+                                                ThemeUtils.secondaryColor(
+                                                  context,
+                                                ),
                                               ),
                                         ),
                                       )
@@ -525,11 +543,12 @@ class Reminders extends HookConsumerWidget {
     required String title,
     required String subtitle,
     required Widget child,
+    required BuildContext context,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -546,10 +565,14 @@ class Reminders extends HookConsumerWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: ThemeUtils.$primaryColor, size: 20),
+                child: Icon(
+                  icon,
+                  color: ThemeUtils.primaryColor(context),
+                  size: 20,
+                ),
               ),
               const Gap(12),
               Expanded(
@@ -558,10 +581,10 @@ class Reminders extends HookConsumerWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: ThemeUtils.$primaryColor,
+                        color: ThemeUtils.primaryColor(context),
                       ),
                     ),
                     const Gap(2),
@@ -569,7 +592,9 @@ class Reminders extends HookConsumerWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 12,
-                        color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                        color: ThemeUtils.primaryColor(
+                          context,
+                        ).withOpacity(0.6),
                       ),
                     ),
                   ],
@@ -598,12 +623,12 @@ class Reminders extends HookConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ThemeUtils.$secondaryColor,
+          color: ThemeUtils.secondaryColor(context),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: enabled
-                ? ThemeUtils.$primaryColor.withOpacity(0.2)
-                : ThemeUtils.$primaryColor.withOpacity(0.1),
+                ? ThemeUtils.primaryColor(context).withOpacity(0.2)
+                : ThemeUtils.primaryColor(context).withOpacity(0.1),
             width: enabled ? 2 : 1,
           ),
           boxShadow: [
@@ -620,11 +645,15 @@ class Reminders extends HookConsumerWidget {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: enabled
-                    ? ThemeUtils.$primaryColor.withOpacity(0.1)
-                    : ThemeUtils.$primaryColor.withOpacity(0.05),
+                    ? ThemeUtils.primaryColor(context).withOpacity(0.1)
+                    : ThemeUtils.primaryColor(context).withOpacity(0.05),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: ThemeUtils.$primaryColor, size: 24),
+              child: Icon(
+                icon,
+                color: ThemeUtils.primaryColor(context),
+                size: 24,
+              ),
             ),
             const Gap(12),
             Expanded(
@@ -633,10 +662,10 @@ class Reminders extends HookConsumerWidget {
                 children: [
                   Text(
                     mealName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: ThemeUtils.$primaryColor,
+                      color: ThemeUtils.primaryColor(context),
                     ),
                   ),
                   const Gap(4),
@@ -649,8 +678,10 @@ class Reminders extends HookConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color: enabled
-                            ? ThemeUtils.$primaryColor.withOpacity(0.1)
-                            : ThemeUtils.$primaryColor.withOpacity(0.05),
+                            ? ThemeUtils.primaryColor(context).withOpacity(0.1)
+                            : ThemeUtils.primaryColor(
+                                context,
+                              ).withOpacity(0.05),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
@@ -659,9 +690,9 @@ class Reminders extends HookConsumerWidget {
                           Icon(
                             FluentIcons.clock_24_regular,
                             size: 14,
-                            color: ThemeUtils.$primaryColor.withOpacity(
-                              enabled ? 0.7 : 0.4,
-                            ),
+                            color: ThemeUtils.primaryColor(
+                              context,
+                            ).withOpacity(enabled ? 0.7 : 0.4),
                           ),
                           const Gap(6),
                           Text(
@@ -669,9 +700,9 @@ class Reminders extends HookConsumerWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: ThemeUtils.$primaryColor.withOpacity(
-                                enabled ? 0.8 : 0.4,
-                              ),
+                              color: ThemeUtils.primaryColor(
+                                context,
+                              ).withOpacity(enabled ? 0.8 : 0.4),
                             ),
                           ),
                           if (enabled) ...[
@@ -679,7 +710,9 @@ class Reminders extends HookConsumerWidget {
                             Icon(
                               FluentIcons.edit_24_regular,
                               size: 12,
-                              color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                              color: ThemeUtils.primaryColor(
+                                context,
+                              ).withOpacity(0.6),
                             ),
                           ],
                         ],
@@ -692,8 +725,10 @@ class Reminders extends HookConsumerWidget {
             Switch(
               value: enabled,
               onChanged: onToggle,
-              activeColor: ThemeUtils.$primaryColor,
-              activeTrackColor: ThemeUtils.$primaryColor.withOpacity(0.3),
+              activeColor: ThemeUtils.primaryColor(context),
+              activeTrackColor: ThemeUtils.primaryColor(
+                context,
+              ).withOpacity(0.3),
             ),
           ],
         ),

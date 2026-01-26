@@ -18,18 +18,18 @@ class FoodSearch extends HookWidget {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         border: Border.all(
           color: isFocused.value
-              ? ThemeUtils.$primaryColor
-              : ThemeUtils.$primaryColor.withOpacity(0.3),
+              ? ThemeUtils.primaryColor(context)
+              : ThemeUtils.primaryColor(context).withOpacity(0.3),
           width: isFocused.value ? 2 : 1,
         ),
         borderRadius: BorderRadius.circular(25),
         boxShadow: isFocused.value
             ? [
                 BoxShadow(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.15),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.15),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -49,8 +49,8 @@ class FoodSearch extends HookWidget {
             Icon(
               FluentIcons.search_24_regular,
               color: isFocused.value
-                  ? ThemeUtils.$primaryColor
-                  : ThemeUtils.$primaryColor.withOpacity(0.5),
+                  ? ThemeUtils.primaryColor(context)
+                  : ThemeUtils.primaryColor(context).withOpacity(0.5),
               size: 22,
             ),
             const SizedBox(width: 12),
@@ -72,7 +72,7 @@ class FoodSearch extends HookWidget {
                   decoration: InputDecoration(
                     hintText: "Search foods...",
                     hintStyle: TextStyle(
-                      color: ThemeUtils.$primaryColor.withOpacity(0.4),
+                      color: ThemeUtils.primaryColor(context).withOpacity(0.4),
                       fontWeight: FontWeight.w400,
                     ),
                     border: InputBorder.none,
@@ -91,12 +91,12 @@ class FoodSearch extends HookWidget {
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                    color: ThemeUtils.primaryColor(context).withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     FluentIcons.dismiss_16_regular,
-                    color: ThemeUtils.$primaryColor,
+                    color: ThemeUtils.primaryColor(context),
                     size: 16,
                   ),
                 ),

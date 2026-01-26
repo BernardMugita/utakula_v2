@@ -19,17 +19,17 @@ class UtakulaExitAlert extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
-      backgroundColor: ThemeUtils.$secondaryColor,
+      backgroundColor: ThemeUtils.secondaryColor(context),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      title: const Row(
+      title: Row(
         children: [
-          Icon(FluentIcons.warning_24_regular, color: ThemeUtils.$primaryColor),
+          Icon(FluentIcons.warning_24_regular, color: ThemeUtils.primaryColor(context)),
           Gap(12),
           Expanded(
             child: Text(
               'Confirm Exit',
               style: TextStyle(
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

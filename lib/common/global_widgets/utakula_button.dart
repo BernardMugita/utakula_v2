@@ -258,26 +258,26 @@ class _UtakulaButtonState extends State<UtakulaButton>
     switch (widget.variant) {
       case UtakulaButtonVariant.primary:
         return {
-          'background': widget.backgroundColor ?? ThemeUtils.$primaryColor,
-          'text': widget.textColor ?? ThemeUtils.$secondaryColor,
-          'border': widget.borderColor ?? ThemeUtils.$primaryColor,
+          'background': widget.backgroundColor ?? ThemeUtils.primaryColor(context),
+          'text': widget.textColor ?? ThemeUtils.secondaryColor(context),
+          'border': widget.borderColor ?? ThemeUtils.primaryColor(context),
         };
       case UtakulaButtonVariant.secondary:
         return {
-          'background': widget.backgroundColor ?? ThemeUtils.$secondaryColor,
-          'text': widget.textColor ?? ThemeUtils.$primaryColor,
-          'border': widget.borderColor ?? ThemeUtils.$secondaryColor,
+          'background': widget.backgroundColor ?? ThemeUtils.secondaryColor(context),
+          'text': widget.textColor ?? ThemeUtils.primaryColor(context),
+          'border': widget.borderColor ?? ThemeUtils.secondaryColor(context),
         };
       case UtakulaButtonVariant.outline:
         return {
           'background': widget.backgroundColor ?? Colors.transparent,
-          'text': widget.textColor ?? ThemeUtils.$primaryColor,
-          'border': widget.borderColor ?? ThemeUtils.$primaryColor,
+          'text': widget.textColor ?? ThemeUtils.primaryColor(context),
+          'border': widget.borderColor ?? ThemeUtils.primaryColor(context),
         };
       case UtakulaButtonVariant.text:
         return {
           'background': widget.backgroundColor ?? Colors.transparent,
-          'text': widget.textColor ?? ThemeUtils.$primaryColor,
+          'text': widget.textColor ?? ThemeUtils.primaryColor(context),
           'border': widget.borderColor ?? Colors.transparent,
         };
     }

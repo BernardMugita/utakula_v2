@@ -62,18 +62,17 @@ class DayItem extends HookConsumerWidget {
         }
       },
       child: Container(
-        width: isExpanded
-            ? double.infinity
-            : MediaQuery.of(context).size.width / 3.75,
+        width: isExpanded ? double.infinity : double.infinity,
+        // CHANGED: Let parent control width
         height: isExpanded ? 300 : 100,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: isCurrentDay || isExpanded
-              ? ThemeUtils.$secondaryColor
-              : ThemeUtils.$primaryColor,
+              ? ThemeUtils.secondaryColor(context)
+              : ThemeUtils.primaryColor(context),
           boxShadow: [
             BoxShadow(
-              color: ThemeUtils.$blacks.withOpacity(0.3),
+              color: ThemeUtils.blacks(context).withOpacity(0.3),
               offset: const Offset(5.0, 5.0),
               blurRadius: 10.0,
               spreadRadius: 2.0,
@@ -83,7 +82,7 @@ class DayItem extends HookConsumerWidget {
         ),
         child: isExpanded
             ? _buildExpandedContent(context, ref, initialPage.value)
-            : _buildCollapsedContent(isCurrentDay),
+            : _buildCollapsedContent(isCurrentDay, context),
       ),
     );
   }
@@ -113,8 +112,8 @@ class DayItem extends HookConsumerWidget {
               plan.day,
               style: TextStyle(
                 color: isCurrentDay
-                    ? ThemeUtils.$primaryColor
-                    : ThemeUtils.$primaryColor,
+                    ? ThemeUtils.primaryColor(context)
+                    : ThemeUtils.primaryColor(context),
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
               ),
@@ -123,9 +122,9 @@ class DayItem extends HookConsumerWidget {
               onTap: () {
                 homepageNotifier.collapseView();
               },
-              child: const Icon(
+              child: Icon(
                 Icons.fullscreen_exit,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
             ),
           ],
@@ -170,14 +169,14 @@ class DayItem extends HookConsumerWidget {
                     ),
                     elevation: const WidgetStatePropertyAll(0),
                     backgroundColor: WidgetStatePropertyAll(
-                      ThemeUtils.$blacks.withOpacity(0.1),
+                      ThemeUtils.blacks(context).withOpacity(0.1),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Calorie Stats",
                     style: TextStyle(
                       fontSize: 14,
-                      color: ThemeUtils.$primaryColor,
+                      color: ThemeUtils.primaryColor(context),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -199,15 +198,15 @@ class DayItem extends HookConsumerWidget {
                       ),
                     ),
                     elevation: const WidgetStatePropertyAll(0),
-                    backgroundColor: const WidgetStatePropertyAll(
-                      ThemeUtils.$blacks,
+                    backgroundColor: WidgetStatePropertyAll(
+                      ThemeUtils.blacks(context),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     "Prepare",
                     style: TextStyle(
                       fontSize: 14,
-                      color: ThemeUtils.$secondaryColor,
+                      color: ThemeUtils.secondaryColor(context),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -220,14 +219,14 @@ class DayItem extends HookConsumerWidget {
     );
   }
 
-  Widget _buildCollapsedContent(bool isCurrentDay) {
+  Widget _buildCollapsedContent(bool isCurrentDay, BuildContext context) {
     return Center(
       child: Text(
         plan.day.length >= 3 ? plan.day.substring(0, 3) : plan.day,
         style: TextStyle(
           color: isCurrentDay
-              ? ThemeUtils.$primaryColor
-              : ThemeUtils.$secondaryColor,
+              ? ThemeUtils.primaryColor(context)
+              : ThemeUtils.secondaryColor(context),
           fontSize: 22,
           fontWeight: FontWeight.bold,
         ),
@@ -241,13 +240,13 @@ class DayItem extends HookConsumerWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(
+          title: Text(
             'Calorie Stats',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 35,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
           content: CaloriePopup(selectedPlan: plan),
@@ -261,16 +260,16 @@ class DayItem extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  backgroundColor: const WidgetStatePropertyAll(
-                    ThemeUtils.$primaryColor,
+                  backgroundColor: WidgetStatePropertyAll(
+                    ThemeUtils.primaryColor(context),
                   ),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text(
+                child: Text(
                   'Close',
-                  style: TextStyle(color: ThemeUtils.$secondaryColor),
+                  style: TextStyle(color: ThemeUtils.secondaryColor(context)),
                 ),
               ),
             ),

@@ -93,7 +93,7 @@ class Homepage extends HookConsumerWidget {
     // Show full-screen loading state until everything is loaded
     if (isInitialLoading) {
       return Scaffold(
-        backgroundColor: ThemeUtils.$accentColor,
+        backgroundColor: ThemeUtils.backgroundColor(context),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +110,7 @@ class Homepage extends HookConsumerWidget {
               Text(
                 'Preparing your meal plan...',
                 style: TextStyle(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.8),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.8),
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
@@ -119,7 +119,7 @@ class Homepage extends HookConsumerWidget {
               Text(
                 'Almost there!',
                 style: TextStyle(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   fontSize: 14,
                 ),
               ),
@@ -139,7 +139,7 @@ class Homepage extends HookConsumerWidget {
       canPop: false,
       onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
       child: Scaffold(
-        backgroundColor: ThemeUtils.$accentColor,
+        backgroundColor: ThemeUtils.backgroundColor(context),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,

@@ -1,20 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_exit_alert.dart';
-import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/common/themes/app_theme.dart';
+import 'package:utakula_v2/core/providers/theme_provider/theme_provider.dart';
 import 'package:utakula_v2/core/services/firebase_messaging_service.dart';
 import 'package:utakula_v2/core/services/local_notification_service.dart';
 import 'package:utakula_v2/firebase_options.dart';
 import 'package:utakula_v2/l10n/app_localization.dart';
 import 'package:utakula_v2/routing/router_provider.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_localization/flutter_localization.dart';
-
-// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:utakula_v2/l10n/l10n.dart';
 
 Future<void> main() async {
@@ -35,6 +30,7 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    final themeMode = ref.watch(themeProvider); // ADD THIS
 
     // Initialize Firebase Messaging with ref
     useEffect(() {
@@ -47,7 +43,7 @@ class MyApp extends HookConsumerWidget {
       );
 
       return null;
-    }, []); // Empty dependency array means run once on mount
+    }, []);
 
     return PopScope(
       canPop: false,
@@ -55,15 +51,17 @@ class MyApp extends HookConsumerWidget {
       child: MaterialApp.router(
         title: 'Utakula_V2',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: ThemeUtils.$primaryColor,
-          ),
-          fontFamily: 'Poppins',
-        ),
+
+        // UPDATED: Theme configuration
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: themeMode,
+
+        // Keep existing localization
         supportedLocales: L10n.all,
         locale: const Locale('en'),
         localizationsDelegates: const [AppLocalizations.delegate],
+
         routerConfig: router,
       ),
     );
@@ -76,10 +74,7 @@ class MyApp extends HookConsumerWidget {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
-        return UtakulaExitAlert(
-          dialogContext: dialogContext,
-          onPop: onPop,
-        );
+        return UtakulaExitAlert(dialogContext: dialogContext, onPop: onPop);
       },
     );
   }

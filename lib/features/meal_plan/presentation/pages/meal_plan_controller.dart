@@ -234,16 +234,16 @@ class MealPlanController extends HookConsumerWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: ThemeUtils.$backgroundColor,
+        backgroundColor: ThemeUtils.backgroundColor(context),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
             userMealPlan == null ? "Create new meal plan" : "Edit Meal Plan",
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
           leading: IconButton(
@@ -266,7 +266,7 @@ class MealPlanController extends HookConsumerWidget {
                 'Tap the magic wand button to get meal plan suggestions!',
                 style: TextStyle(
                   fontSize: 14,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.7),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.7),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -294,10 +294,10 @@ class MealPlanController extends HookConsumerWidget {
             helperUtils,
             logger,
           ),
-          backgroundColor: ThemeUtils.$primaryColor,
-          child: const Icon(
+          backgroundColor: ThemeUtils.primaryColor(context),
+          child: Icon(
             FluentIcons.sparkle_24_filled,
-            color: ThemeUtils.$secondaryColor,
+            color: ThemeUtils.secondaryColor(context),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
@@ -319,7 +319,7 @@ class MealPlanController extends HookConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Wrap(
@@ -350,9 +350,9 @@ class MealPlanController extends HookConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(
+          title: Text(
             'Close without saving?',
-            style: TextStyle(color: ThemeUtils.$primaryColor),
+            style: TextStyle(color: ThemeUtils.primaryColor(context)),
           ),
           content: const Text(
             'You have made changes to your meal plan that will be lost if you close without saving.',

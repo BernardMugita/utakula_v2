@@ -180,21 +180,21 @@ class UserAccount extends HookConsumerWidget {
         context: context,
         builder: (BuildContext dialogContext) {
           return AlertDialog(
-            backgroundColor: ThemeUtils.$secondaryColor,
+            backgroundColor: ThemeUtils.secondaryColor(context),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            title: const Row(
+            title: Row(
               children: [
                 Icon(
                   FluentIcons.sign_out_24_regular,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
                 Gap(12),
                 Text(
                   'Confirm Logout',
                   style: TextStyle(
-                    color: ThemeUtils.$primaryColor,
+                    color: ThemeUtils.primaryColor(context),
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -228,7 +228,7 @@ class UserAccount extends HookConsumerWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ThemeUtils.$error,
-                  foregroundColor: ThemeUtils.$secondaryColor,
+                  foregroundColor: ThemeUtils.secondaryColor(context),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -248,30 +248,33 @@ class UserAccount extends HookConsumerWidget {
       canPop: false,
       onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
       child: Scaffold(
-        backgroundColor: ThemeUtils.$backgroundColor,
+        backgroundColor: ThemeUtils.backgroundColor(context),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: Builder(
             builder: (context) => GestureDetector(
               onTap: () => Scaffold.of(context).openDrawer(),
-              child: const Icon(Icons.reorder, color: ThemeUtils.$primaryColor),
+              child: Icon(
+                Icons.reorder,
+                color: ThemeUtils.primaryColor(context),
+              ),
             ),
           ),
-          title: const Text(
+          title: Text(
             'My Account',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
           actions: [
             if (!isEditMode.value && !userState.isLoading)
               IconButton(
-                icon: const Icon(
+                icon: Icon(
                   FluentIcons.edit_24_regular,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
                 onPressed: () => isEditMode.value = true,
                 tooltip: 'Edit Account Info',
@@ -296,7 +299,9 @@ class UserAccount extends HookConsumerWidget {
                     Text(
                       "Loading your account...",
                       style: TextStyle(
-                        color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                        color: ThemeUtils.primaryColor(
+                          context,
+                        ).withOpacity(0.6),
                         fontSize: 14,
                       ),
                     ),
@@ -309,13 +314,14 @@ class UserAccount extends HookConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Enhanced Profile Header Card
-                    _buildProfileHeader(userState),
+                    _buildProfileHeader(userState, context),
                     const Gap(32),
 
                     // Account Information Section
                     _buildSectionHeader(
                       icon: FluentIcons.person_info_24_regular,
                       title: 'Account Information',
+                      context: context,
                     ),
                     const Gap(16),
                     _buildAccountInfoSection(
@@ -333,6 +339,7 @@ class UserAccount extends HookConsumerWidget {
                     _buildSectionHeader(
                       icon: FluentIcons.heart_pulse_24_regular,
                       title: 'Health & Metrics',
+                      context: context,
                       action: metricsState.hasMetrics
                           ? GestureDetector(
                               onTap: handleEditMetrics,
@@ -342,9 +349,9 @@ class UserAccount extends HookConsumerWidget {
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: ThemeUtils.$primaryColor.withOpacity(
-                                    0.1,
-                                  ),
+                                  color: ThemeUtils.primaryColor(
+                                    context,
+                                  ).withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Row(
@@ -353,7 +360,7 @@ class UserAccount extends HookConsumerWidget {
                                     Icon(
                                       FluentIcons.edit_24_regular,
                                       size: 16,
-                                      color: ThemeUtils.$primaryColor,
+                                      color: ThemeUtils.primaryColor(context),
                                     ),
                                     const Gap(6),
                                     Text(
@@ -361,7 +368,7 @@ class UserAccount extends HookConsumerWidget {
                                       style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w600,
-                                        color: ThemeUtils.$primaryColor,
+                                        color: ThemeUtils.primaryColor(context),
                                       ),
                                     ),
                                   ],
@@ -390,9 +397,9 @@ class UserAccount extends HookConsumerWidget {
                         ),
                       )
                     else if (metricsState.hasMetrics)
-                      _buildMetricsSection(metricsState.userMetrics!)
+                      _buildMetricsSection(metricsState.userMetrics!, context)
                     else
-                      _buildMetricsEmptyState(handleCreateMetrics),
+                      _buildMetricsEmptyState(handleCreateMetrics, context),
 
                     const Gap(32),
 
@@ -404,9 +411,10 @@ class UserAccount extends HookConsumerWidget {
                         usernameController,
                         emailController,
                         handleSave,
+                        context,
                       ),
                     ] else ...[
-                      _buildLogoutButton(handleLogout),
+                      _buildLogoutButton(handleLogout, context),
                     ],
 
                     const Gap(20),
@@ -420,7 +428,7 @@ class UserAccount extends HookConsumerWidget {
   // ============================================================================
   // PROFILE HEADER
   // ============================================================================
-  Widget _buildProfileHeader(dynamic userState) {
+  Widget _buildProfileHeader(dynamic userState, BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(28),
@@ -429,14 +437,14 @@ class UserAccount extends HookConsumerWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            ThemeUtils.$primaryColor,
-            ThemeUtils.$primaryColor.withOpacity(0.85),
+            ThemeUtils.primaryColor(context),
+            ThemeUtils.primaryColor(context).withOpacity(0.85),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: ThemeUtils.$primaryColor.withOpacity(0.3),
+            color: ThemeUtils.primaryColor(context).withOpacity(0.3),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -451,8 +459,8 @@ class UserAccount extends HookConsumerWidget {
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 colors: [
-                  ThemeUtils.$secondaryColor,
-                  ThemeUtils.$secondaryColor.withOpacity(0.6),
+                  ThemeUtils.secondaryColor(context),
+                  ThemeUtils.secondaryColor(context).withOpacity(0.6),
                 ],
               ),
             ),
@@ -460,16 +468,16 @@ class UserAccount extends HookConsumerWidget {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
                 shape: BoxShape.circle,
               ),
               child: Center(
                 child: Text(
                   userState.user.username?.substring(0, 1).toUpperCase() ?? 'U',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.bold,
-                    color: ThemeUtils.$secondaryColor,
+                    color: ThemeUtils.secondaryColor(context),
                   ),
                 ),
               ),
@@ -478,10 +486,10 @@ class UserAccount extends HookConsumerWidget {
           const Gap(16),
           Text(
             userState.user.username ?? 'User',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$secondaryColor,
+              color: ThemeUtils.secondaryColor(context),
             ),
           ),
           const Gap(4),
@@ -489,17 +497,17 @@ class UserAccount extends HookConsumerWidget {
             userState.user.email ?? '',
             style: TextStyle(
               fontSize: 14,
-              color: ThemeUtils.$secondaryColor.withOpacity(0.8),
+              color: ThemeUtils.secondaryColor(context).withOpacity(0.8),
             ),
           ),
           const Gap(12),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: ThemeUtils.$secondaryColor.withOpacity(0.2),
+              color: ThemeUtils.secondaryColor(context).withOpacity(0.2),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: ThemeUtils.$secondaryColor.withOpacity(0.3),
+                color: ThemeUtils.secondaryColor(context).withOpacity(0.3),
                 width: 1,
               ),
             ),
@@ -510,16 +518,16 @@ class UserAccount extends HookConsumerWidget {
                   userState.user.role == 'admin'
                       ? FluentIcons.shield_checkmark_24_filled
                       : FluentIcons.person_24_regular,
-                  color: ThemeUtils.$secondaryColor,
+                  color: ThemeUtils.secondaryColor(context),
                   size: 18,
                 ),
                 const Gap(8),
                 Text(
                   userState.user.role?.toUpperCase() ?? 'USER',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: ThemeUtils.$secondaryColor,
+                    color: ThemeUtils.secondaryColor(context),
                     letterSpacing: 1.2,
                   ),
                 ),
@@ -538,25 +546,26 @@ class UserAccount extends HookConsumerWidget {
     required IconData icon,
     required String title,
     Widget? action,
+    required BuildContext context,
   }) {
     return Row(
       children: [
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: ThemeUtils.$primaryColor.withOpacity(0.1),
+            color: ThemeUtils.primaryColor(context).withOpacity(0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, color: ThemeUtils.$primaryColor, size: 20),
+          child: Icon(icon, color: ThemeUtils.primaryColor(context), size: 20),
         ),
         const Gap(12),
         Expanded(
           child: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
         ),
@@ -589,11 +598,13 @@ class UserAccount extends HookConsumerWidget {
                 isEditable: true,
                 isEditMode: isEditMode,
                 controller: usernameController,
+                context: context,
               ),
             ),
             const Gap(12),
             Expanded(
               child: _buildEnhancedInfoCard(
+                context: context,
                 icon: FluentIcons.mail_24_regular,
                 label: 'Email',
                 value: userState.user.email ?? 'N/A',
@@ -608,6 +619,7 @@ class UserAccount extends HookConsumerWidget {
         if (userState.user.role == 'admin') ...[
           const Gap(12),
           _buildEnhancedInfoCard(
+            context: context,
             icon: FluentIcons.key_24_regular,
             label: 'User ID',
             value: userState.user.id ?? 'N/A',
@@ -630,6 +642,7 @@ class UserAccount extends HookConsumerWidget {
   }
 
   Widget _buildEnhancedInfoCard({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required String value,
@@ -645,12 +658,12 @@ class UserAccount extends HookConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ThemeUtils.$secondaryColor,
+          color: ThemeUtils.secondaryColor(context),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isEditMode && isEditable
-                ? ThemeUtils.$primaryColor.withOpacity(0.3)
-                : Colors.grey.shade200,
+                ? ThemeUtils.primaryColor(context).withOpacity(0.3)
+                : ThemeUtils.accentColor(context),
             width: isEditMode && isEditable ? 2 : 1,
           ),
           boxShadow: [
@@ -697,10 +710,10 @@ class UserAccount extends HookConsumerWidget {
             isEditMode && isEditable
                 ? TextField(
                     controller: controller,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: ThemeUtils.$primaryColor,
+                      color: ThemeUtils.primaryColor(context),
                     ),
                     decoration: const InputDecoration(
                       enabled: false,
@@ -711,10 +724,10 @@ class UserAccount extends HookConsumerWidget {
                   )
                 : Text(
                     value,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: ThemeUtils.$primaryColor,
+                      color: ThemeUtils.primaryColor(context),
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -727,7 +740,7 @@ class UserAccount extends HookConsumerWidget {
   // ============================================================================
   // METRICS SECTION (Updated to use UserMetricsEntity)
   // ============================================================================
-  Widget _buildMetricsSection(UserMetricsEntity metrics) {
+  Widget _buildMetricsSection(UserMetricsEntity metrics, BuildContext context) {
     final tdee = metrics.calculatedTDEE ?? 0.0;
     final weight = metrics.weightKG ?? 0.0;
     final height = metrics.heightCM ?? 0.0;
@@ -788,7 +801,7 @@ class UserAccount extends HookConsumerWidget {
               ),
               const Gap(16),
               Text(
-                '${tdee.toStringAsFixed(0)}',
+                tdee.toStringAsFixed(0),
                 style: const TextStyle(
                   fontSize: 56,
                   fontWeight: FontWeight.bold,
@@ -838,6 +851,7 @@ class UserAccount extends HookConsumerWidget {
                 label: 'Weight',
                 value: '${weight.toString()} kg',
                 color: Colors.blue,
+                context: context,
               ),
             ),
             const Gap(12),
@@ -847,6 +861,7 @@ class UserAccount extends HookConsumerWidget {
                 label: 'Height',
                 value: '${height.toString()} cm',
                 color: Colors.purple,
+                context: context,
               ),
             ),
           ],
@@ -860,6 +875,7 @@ class UserAccount extends HookConsumerWidget {
                 label: 'Age',
                 value: '$age years',
                 color: Colors.orange,
+                context: context,
               ),
             ),
             const Gap(12),
@@ -869,6 +885,7 @@ class UserAccount extends HookConsumerWidget {
                 label: 'Body Fat',
                 value: '${bodyFat.toStringAsFixed(1)}%',
                 color: Colors.red,
+                context: context,
               ),
             ),
           ],
@@ -879,9 +896,9 @@ class UserAccount extends HookConsumerWidget {
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: ThemeUtils.$secondaryColor,
+            color: ThemeUtils.secondaryColor(context),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey.shade200),
+            border: Border.all(color: ThemeUtils.accentColor(context)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.04),
@@ -1008,13 +1025,14 @@ class UserAccount extends HookConsumerWidget {
     required String label,
     required String value,
     required Color color,
+    required BuildContext context,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: ThemeUtils.accentColor(context)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -1060,14 +1078,14 @@ class UserAccount extends HookConsumerWidget {
   // ============================================================================
   // METRICS EMPTY STATE
   // ============================================================================
-  Widget _buildMetricsEmptyState(VoidCallback onSetup) {
+  Widget _buildMetricsEmptyState(VoidCallback onSetup, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: ThemeUtils.$primaryColor.withOpacity(0.2),
+          color: ThemeUtils.accentColor(context).withOpacity(0.2),
           width: 2,
           style: BorderStyle.solid,
         ),
@@ -1084,22 +1102,22 @@ class UserAccount extends HookConsumerWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: ThemeUtils.$primaryColor.withOpacity(0.1),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.1),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               FluentIcons.heart_pulse_24_filled,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
               size: 48,
             ),
           ),
           const Gap(20),
-          const Text(
+          Text(
             'Set Up Your Health Metrics',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
             textAlign: TextAlign.center,
           ),
@@ -1120,8 +1138,8 @@ class UserAccount extends HookConsumerWidget {
             child: ElevatedButton(
               onPressed: onSetup,
               style: ElevatedButton.styleFrom(
-                backgroundColor: ThemeUtils.$primaryColor,
-                foregroundColor: ThemeUtils.$secondaryColor,
+                backgroundColor: ThemeUtils.primaryColor(context),
+                foregroundColor: ThemeUtils.secondaryColor(context),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -1183,6 +1201,7 @@ class UserAccount extends HookConsumerWidget {
     TextEditingController usernameController,
     TextEditingController emailController,
     VoidCallback handleSave,
+    BuildContext context,
   ) {
     return Row(
       children: [
@@ -1198,20 +1217,20 @@ class UserAccount extends HookConsumerWidget {
                       emailController.text = userState.user.email ?? '';
                     },
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(
-                  color: ThemeUtils.$primaryColor,
+                side: BorderSide(
+                  color: ThemeUtils.primaryColor(context),
                   width: 2,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'Cancel',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
               ),
             ),
@@ -1224,21 +1243,21 @@ class UserAccount extends HookConsumerWidget {
             child: ElevatedButton(
               onPressed: userState.isSubmitting ? null : handleSave,
               style: ElevatedButton.styleFrom(
-                backgroundColor: ThemeUtils.$primaryColor,
-                foregroundColor: ThemeUtils.$secondaryColor,
+                backgroundColor: ThemeUtils.primaryColor(context),
+                foregroundColor: ThemeUtils.secondaryColor(context),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
                 elevation: 0,
               ),
               child: userState.isSubmitting
-                  ? const SizedBox(
+                  ? SizedBox(
                       height: 24,
                       width: 24,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
                         valueColor: AlwaysStoppedAnimation<Color>(
-                          ThemeUtils.$secondaryColor,
+                          ThemeUtils.secondaryColor(context),
                         ),
                       ),
                     )
@@ -1263,7 +1282,7 @@ class UserAccount extends HookConsumerWidget {
     );
   }
 
-  Widget _buildLogoutButton(VoidCallback handleLogout) {
+  Widget _buildLogoutButton(VoidCallback handleLogout, BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: 56,
@@ -1271,7 +1290,7 @@ class UserAccount extends HookConsumerWidget {
         onPressed: handleLogout,
         style: ElevatedButton.styleFrom(
           backgroundColor: ThemeUtils.$error,
-          foregroundColor: ThemeUtils.$secondaryColor,
+          foregroundColor: ThemeUtils.secondaryColor(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

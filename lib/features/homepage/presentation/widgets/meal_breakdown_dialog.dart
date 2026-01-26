@@ -62,19 +62,19 @@ class MealBreakdownDialog extends StatelessWidget {
             // Header
             Text(
               '$mealType Breakdown',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.blacks(context),
               ),
             ),
             const Gap(8),
             Text(
               '${mealMacros['totalCalories']!.toString()} cal',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
             ),
             const Gap(16),
@@ -90,7 +90,7 @@ class MealBreakdownDialog extends StatelessWidget {
               ],
             ),
             const Gap(20),
-            const Divider(),
+            Divider(color: ThemeUtils.accentColor(context)),
             const Gap(12),
 
             // Food List
@@ -99,7 +99,7 @@ class MealBreakdownDialog extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: foods.length,
                 itemBuilder: (context, index) {
-                  return _buildFoodItem(foods[index]);
+                  return _buildFoodItem(foods[index], context);
                 },
               ),
             ),
@@ -108,15 +108,15 @@ class MealBreakdownDialog extends StatelessWidget {
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: ThemeUtils.$primaryColor,
+                backgroundColor: ThemeUtils.primaryColor(context),
                 minimumSize: const Size(double.infinity, 45),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'Close',
-                style: TextStyle(color: ThemeUtils.$secondaryColor),
+                style: TextStyle(color: ThemeUtils.secondaryColor(context)),
               ),
             ),
           ],
@@ -148,7 +148,7 @@ class MealBreakdownDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildFoodItem(Map<String, dynamic> food) {
+  Widget _buildFoodItem(Map<String, dynamic> food, BuildContext context) {
     final macros = food['macros'];
 
     // Extract macro values based on type
@@ -174,7 +174,7 @@ class MealBreakdownDialog extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: ThemeUtils.accentColor(context)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -182,8 +182,8 @@ class MealBreakdownDialog extends StatelessWidget {
           Container(
             width: 6,
             height: 6,
-            decoration: const BoxDecoration(
-              color: ThemeUtils.$primaryColor,
+            decoration: BoxDecoration(
+              color: ThemeUtils.primaryColor(context),
               shape: BoxShape.circle,
             ),
           ),
@@ -238,10 +238,10 @@ class MealBreakdownDialog extends StatelessWidget {
           ),
           Text(
             '${calories.toStringAsFixed(0)} cal',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
         ],

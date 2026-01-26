@@ -8,6 +8,7 @@ import 'package:utakula_v2/common/global_widgets/utakula_exit_alert.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/core/providers/theme_provider/theme_provider.dart';
 
 class Settings extends HookConsumerWidget {
   const Settings({super.key});
@@ -18,7 +19,8 @@ class Settings extends HookConsumerWidget {
     final helperUtils = HelperUtils();
 
     // State management for settings
-    final isDarkMode = useState(false);
+    final themeNotifier = ref.read(themeProvider.notifier);
+    final isDarkMode = themeNotifier.isDarkMode(context);
     final notificationsEnabled = useState(true);
     final isSaving = useState(false);
 
@@ -40,11 +42,6 @@ class Settings extends HookConsumerWidget {
       isSaving.value = true;
 
       try {
-        // TODO: Implement save settings logic
-        logger.i(
-          'Saving settings: Dark Mode: ${isDarkMode.value}, Notifications: ${notificationsEnabled.value}',
-        );
-
         await Future.delayed(const Duration(milliseconds: 500));
 
         if (context.mounted) {
@@ -72,22 +69,25 @@ class Settings extends HookConsumerWidget {
       canPop: false,
       onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
       child: Scaffold(
-        backgroundColor: ThemeUtils.$backgroundColor,
+        backgroundColor: ThemeUtils.backgroundColor(context),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: Builder(
             builder: (context) => GestureDetector(
               onTap: () => Scaffold.of(context).openDrawer(),
-              child: const Icon(Icons.reorder, color: ThemeUtils.$primaryColor),
+              child: Icon(
+                Icons.reorder,
+                color: ThemeUtils.primaryColor(context),
+              ),
             ),
           ),
-          title: const Text(
+          title: Text(
             'Settings',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
         ),
@@ -103,14 +103,14 @@ class Settings extends HookConsumerWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      ThemeUtils.$primaryColor,
-                      ThemeUtils.$primaryColor.withOpacity(0.8),
+                      ThemeUtils.primaryColor(context),
+                      ThemeUtils.primaryColor(context).withOpacity(0.8),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: ThemeUtils.$primaryColor.withOpacity(0.3),
+                      color: ThemeUtils.primaryColor(context).withOpacity(0.3),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -121,24 +121,26 @@ class Settings extends HookConsumerWidget {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: ThemeUtils.$secondaryColor.withOpacity(0.2),
+                        color: ThemeUtils.secondaryColor(
+                          context,
+                        ).withOpacity(0.2),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         FluentIcons.settings_24_filled,
-                        color: ThemeUtils.$secondaryColor,
+                        color: ThemeUtils.secondaryColor(context),
                         size: 32,
                       ),
                     ),
                     const Gap(16),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Preferences',
                             style: TextStyle(
-                              color: ThemeUtils.$secondaryColor,
+                              color: ThemeUtils.secondaryColor(context),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -147,7 +149,7 @@ class Settings extends HookConsumerWidget {
                           Text(
                             'Customize your app experience',
                             style: TextStyle(
-                              color: ThemeUtils.$secondaryColor,
+                              color: ThemeUtils.secondaryColor(context),
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
@@ -162,53 +164,68 @@ class Settings extends HookConsumerWidget {
               const Gap(32),
 
               // Appearance Section
-              const Text(
+              Text(
                 'Appearance',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
               ),
               const Gap(12),
-
               // Dark Mode Toggle Card
               _buildSettingCard(
-                icon: FluentIcons.weather_moon_24_regular,
+                context: context,
+                icon: isDarkMode
+                    ? FluentIcons.weather_moon_24_filled
+                    : FluentIcons.weather_sunny_24_filled,
                 title: 'Dark Mode',
-                subtitle: isDarkMode.value
+                subtitle: isDarkMode
                     ? 'Dark theme enabled'
                     : 'Light theme enabled',
                 trailing: Switch(
-                  value: isDarkMode.value,
-                  onChanged: (value) {
-                    isDarkMode.value = value;
-                    saveSettings();
+                  value: isDarkMode,
+                  onChanged: (value) async {
+                    await themeNotifier.toggleTheme();
+                    if (context.mounted) {
+                      helperUtils.showSnackBar(
+                        context,
+                        isDarkMode ? 'Light mode enabled' : 'Dark mode enabled',
+                        ThemeUtils.$success,
+                      );
+                    }
                   },
-                  activeColor: ThemeUtils.$primaryColor,
-                  activeTrackColor: ThemeUtils.$primaryColor.withOpacity(0.3),
+                  activeColor: ThemeUtils.primaryColor(context),
+                  activeTrackColor: ThemeUtils.primaryColor(
+                    context,
+                  ).withOpacity(0.3),
                 ),
-                onTap: () {
-                  isDarkMode.value = !isDarkMode.value;
-                  saveSettings();
+                onTap: () async {
+                  await themeNotifier.toggleTheme();
+                  if (context.mounted) {
+                    helperUtils.showSnackBar(
+                      context,
+                      isDarkMode ? 'Light mode enabled' : 'Dark mode enabled',
+                      ThemeUtils.$success,
+                    );
+                  }
                 },
               ),
-
               const Gap(32),
-
               // Notifications Section
-              const Text(
+              Text(
                 'Notifications',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
               ),
               const Gap(12),
 
               // Notifications Toggle Card
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.alert_24_regular,
                 title: 'Push Notifications',
                 subtitle: notificationsEnabled.value
@@ -220,8 +237,10 @@ class Settings extends HookConsumerWidget {
                     notificationsEnabled.value = value;
                     saveSettings();
                   },
-                  activeColor: ThemeUtils.$primaryColor,
-                  activeTrackColor: ThemeUtils.$primaryColor.withOpacity(0.3),
+                  activeColor: ThemeUtils.primaryColor(context),
+                  activeTrackColor: ThemeUtils.primaryColor(
+                    context,
+                  ).withOpacity(0.3),
                 ),
                 onTap: () {
                   notificationsEnabled.value = !notificationsEnabled.value;
@@ -232,24 +251,25 @@ class Settings extends HookConsumerWidget {
               const Gap(32),
 
               // Additional Settings Section (Placeholder)
-              const Text(
+              Text(
                 'More Settings',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
               ),
               const Gap(12),
 
               // Language Setting (Placeholder)
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.local_language_24_regular,
                 title: 'Language',
                 subtitle: 'English (US)',
                 trailing: Icon(
                   FluentIcons.chevron_right_24_regular,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   size: 20,
                 ),
                 onTap: () {
@@ -257,7 +277,7 @@ class Settings extends HookConsumerWidget {
                   helperUtils.showSnackBar(
                     context,
                     'Language settings coming soon',
-                    ThemeUtils.$primaryColor,
+                    ThemeUtils.primaryColor(context),
                   );
                 },
               ),
@@ -266,12 +286,13 @@ class Settings extends HookConsumerWidget {
 
               // Data & Storage (Placeholder)
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.database_24_regular,
                 title: 'Data & Storage',
                 subtitle: 'Manage app data',
                 trailing: Icon(
                   FluentIcons.chevron_right_24_regular,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   size: 20,
                 ),
                 onTap: () {
@@ -279,7 +300,7 @@ class Settings extends HookConsumerWidget {
                   helperUtils.showSnackBar(
                     context,
                     'Data settings coming soon',
-                    ThemeUtils.$primaryColor,
+                    ThemeUtils.primaryColor(context),
                   );
                 },
               ),
@@ -288,12 +309,13 @@ class Settings extends HookConsumerWidget {
 
               // Privacy & Security (Placeholder)
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.shield_24_regular,
                 title: 'Privacy & Security',
                 subtitle: 'Control your privacy',
                 trailing: Icon(
                   FluentIcons.chevron_right_24_regular,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   size: 20,
                 ),
                 onTap: () {
@@ -301,7 +323,7 @@ class Settings extends HookConsumerWidget {
                   helperUtils.showSnackBar(
                     context,
                     'Privacy settings coming soon',
-                    ThemeUtils.$primaryColor,
+                    ThemeUtils.primaryColor(context),
                   );
                 },
               ),
@@ -309,18 +331,19 @@ class Settings extends HookConsumerWidget {
               const Gap(32),
 
               // About Section
-              const Text(
+              Text(
                 'About',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
               ),
               const Gap(12),
 
               // App Version
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.info_24_regular,
                 title: 'App Version',
                 subtitle: '1.0.0',
@@ -332,12 +355,13 @@ class Settings extends HookConsumerWidget {
 
               // Terms & Conditions
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.document_text_24_regular,
                 title: 'Terms & Conditions',
                 subtitle: 'View terms',
                 trailing: Icon(
                   FluentIcons.chevron_right_24_regular,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   size: 20,
                 ),
                 onTap: () {
@@ -345,7 +369,7 @@ class Settings extends HookConsumerWidget {
                   helperUtils.showSnackBar(
                     context,
                     'Terms & Conditions coming soon',
-                    ThemeUtils.$primaryColor,
+                    ThemeUtils.primaryColor(context),
                   );
                 },
               ),
@@ -354,12 +378,13 @@ class Settings extends HookConsumerWidget {
 
               // Privacy Policy
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.shield_checkmark_24_regular,
                 title: 'Privacy Policy',
                 subtitle: 'View policy',
                 trailing: Icon(
                   FluentIcons.chevron_right_24_regular,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   size: 20,
                 ),
                 onTap: () {
@@ -367,7 +392,7 @@ class Settings extends HookConsumerWidget {
                   helperUtils.showSnackBar(
                     context,
                     'Privacy Policy coming soon',
-                    ThemeUtils.$primaryColor,
+                    ThemeUtils.primaryColor(context),
                   );
                 },
               ),
@@ -375,24 +400,25 @@ class Settings extends HookConsumerWidget {
               const Gap(32),
 
               // Help & Support Section
-              const Text(
+              Text(
                 'Help & Support',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                 ),
               ),
               const Gap(12),
 
               // Help Center
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.question_circle_24_regular,
                 title: 'Help Center',
                 subtitle: 'Get help and support',
                 trailing: Icon(
                   FluentIcons.chevron_right_24_regular,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   size: 20,
                 ),
                 onTap: () {
@@ -400,7 +426,7 @@ class Settings extends HookConsumerWidget {
                   helperUtils.showSnackBar(
                     context,
                     'Help Center coming soon',
-                    ThemeUtils.$primaryColor,
+                    ThemeUtils.primaryColor(context),
                   );
                 },
               ),
@@ -409,12 +435,13 @@ class Settings extends HookConsumerWidget {
 
               // Contact Us
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.mail_24_regular,
                 title: 'Contact Us',
                 subtitle: 'Send us feedback',
                 trailing: Icon(
                   FluentIcons.chevron_right_24_regular,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   size: 20,
                 ),
                 onTap: () {
@@ -422,7 +449,7 @@ class Settings extends HookConsumerWidget {
                   helperUtils.showSnackBar(
                     context,
                     'Contact form coming soon',
-                    ThemeUtils.$primaryColor,
+                    ThemeUtils.primaryColor(context),
                   );
                 },
               ),
@@ -442,6 +469,7 @@ class Settings extends HookConsumerWidget {
 
               // Clear Cache
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.broom_24_regular,
                 title: 'Clear Cache',
                 subtitle: 'Free up storage space',
@@ -460,6 +488,7 @@ class Settings extends HookConsumerWidget {
 
               // Delete Account
               _buildSettingCard(
+                context: context,
                 icon: FluentIcons.delete_24_regular,
                 title: 'Delete Account',
                 subtitle: 'Permanently delete your account',
@@ -483,6 +512,7 @@ class Settings extends HookConsumerWidget {
   }
 
   Widget _buildSettingCard({
+    required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
@@ -495,12 +525,12 @@ class Settings extends HookConsumerWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: ThemeUtils.$secondaryColor,
+          color: ThemeUtils.secondaryColor(context),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isDanger
                 ? ThemeUtils.$error.withOpacity(0.2)
-                : ThemeUtils.$primaryColor.withOpacity(0.1),
+                : ThemeUtils.primaryColor(context).withOpacity(0.1),
           ),
           boxShadow: [
             BoxShadow(
@@ -517,12 +547,14 @@ class Settings extends HookConsumerWidget {
               decoration: BoxDecoration(
                 color: isDanger
                     ? ThemeUtils.$error.withOpacity(0.1)
-                    : ThemeUtils.$primaryColor.withOpacity(0.1),
+                    : ThemeUtils.primaryColor(context).withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 icon,
-                color: isDanger ? ThemeUtils.$error : ThemeUtils.$primaryColor,
+                color: isDanger
+                    ? ThemeUtils.$error
+                    : ThemeUtils.primaryColor(context),
                 size: 24,
               ),
             ),
@@ -538,7 +570,7 @@ class Settings extends HookConsumerWidget {
                       fontWeight: FontWeight.bold,
                       color: isDanger
                           ? ThemeUtils.$error
-                          : ThemeUtils.$primaryColor,
+                          : ThemeUtils.primaryColor(context),
                     ),
                   ),
                   const Gap(2),
@@ -548,7 +580,7 @@ class Settings extends HookConsumerWidget {
                       fontSize: 12,
                       color: isDanger
                           ? ThemeUtils.$error.withOpacity(0.7)
-                          : ThemeUtils.$primaryColor.withOpacity(0.6),
+                          : ThemeUtils.primaryColor(context).withOpacity(0.6),
                     ),
                   ),
                 ],
@@ -566,21 +598,21 @@ class Settings extends HookConsumerWidget {
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          backgroundColor: ThemeUtils.$secondaryColor,
+          backgroundColor: ThemeUtils.secondaryColor(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          title: const Row(
+          title: Row(
             children: [
               Icon(
                 FluentIcons.broom_24_regular,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
               Gap(12),
               Text(
                 'Clear Cache',
                 style: TextStyle(
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -613,8 +645,8 @@ class Settings extends HookConsumerWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: ThemeUtils.$primaryColor,
-                foregroundColor: ThemeUtils.$secondaryColor,
+                backgroundColor: ThemeUtils.primaryColor(context),
+                foregroundColor: ThemeUtils.secondaryColor(context),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -635,7 +667,7 @@ class Settings extends HookConsumerWidget {
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          backgroundColor: ThemeUtils.$secondaryColor,
+          backgroundColor: ThemeUtils.secondaryColor(context),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -680,7 +712,7 @@ class Settings extends HookConsumerWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: ThemeUtils.$error,
-                foregroundColor: ThemeUtils.$secondaryColor,
+                foregroundColor: ThemeUtils.secondaryColor(context),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

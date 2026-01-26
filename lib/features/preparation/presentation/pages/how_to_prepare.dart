@@ -103,23 +103,23 @@ class HowToPrepare extends HookConsumerWidget {
     }, []);
 
     return Scaffold(
-      backgroundColor: ThemeUtils.$backgroundColor,
+      backgroundColor: ThemeUtils.backgroundColor(context),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: ThemeUtils.$backgroundColor,
+        backgroundColor: ThemeUtils.backgroundColor(context),
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             FluentIcons.arrow_left_24_filled,
-            color: ThemeUtils.$primaryColor,
+            color: ThemeUtils.primaryColor(context),
           ),
           onPressed: () => context.pop(),
         ),
-        title: const Text(
+        title: Text(
           "Preparation Guide",
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: ThemeUtils.$primaryColor,
+            color: ThemeUtils.primaryColor(context),
           ),
         ),
         bottom: PreferredSize(
@@ -127,18 +127,18 @@ class HowToPrepare extends HookConsumerWidget {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
-              color: ThemeUtils.$secondaryColor,
+              color: ThemeUtils.secondaryColor(context),
               borderRadius: BorderRadius.circular(15),
             ),
             child: TabBar(
               controller: tabController,
               indicator: BoxDecoration(
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
                 borderRadius: BorderRadius.circular(12),
               ),
               indicatorSize: TabBarIndicatorSize.tab,
-              labelColor: ThemeUtils.$secondaryColor,
-              unselectedLabelColor: ThemeUtils.$blacks.withOpacity(0.6),
+              labelColor: ThemeUtils.secondaryColor(context),
+              unselectedLabelColor: ThemeUtils.blacks(context).withOpacity(0.6),
               labelStyle: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -200,22 +200,22 @@ class HowToPrepare extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Food Images Section
-          _buildFoodImagesSection(foods),
+          _buildFoodImagesSection(foods, context),
           const Gap(20),
 
           // Day Badge
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: ThemeUtils.$primaryColor.withOpacity(0.1),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
               selectedPlan.day,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
             ),
           ),
@@ -227,7 +227,7 @@ class HowToPrepare extends HookConsumerWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: ThemeUtils.$secondaryColor,
+                color: ThemeUtils.secondaryColor(context),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
@@ -245,22 +245,24 @@ class HowToPrepare extends HookConsumerWidget {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                          color: ThemeUtils.primaryColor(
+                            context,
+                          ).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           FluentIcons.book_24_regular,
                           size: 20,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                         ),
                       ),
                       const Gap(10),
-                      const Text(
+                      Text(
                         "Preparation Instructions",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                         ),
                       ),
                     ],
@@ -270,9 +272,9 @@ class HowToPrepare extends HookConsumerWidget {
                   const Gap(15),
                   Expanded(
                     child: loading
-                        ? _buildLoadingState()
+                        ? _buildLoadingState(context)
                         : instruction != null && instruction.isNotEmpty
-                        ? _buildInstructionContent(instruction)
+                        ? _buildInstructionContent(instruction, context)
                         : _buildEmptyState(),
                   ),
                 ],
@@ -284,7 +286,10 @@ class HowToPrepare extends HookConsumerWidget {
     );
   }
 
-  Widget _buildFoodImagesSection(List<MealTypeFoodEntity> foods) {
+  Widget _buildFoodImagesSection(
+    List<MealTypeFoodEntity> foods,
+    BuildContext context,
+  ) {
     if (foods.isEmpty) {
       return Center(
         child: Container(
@@ -307,8 +312,8 @@ class HowToPrepare extends HookConsumerWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            ThemeUtils.$primaryColor.withOpacity(0.1),
-            ThemeUtils.$secondaryColor.withOpacity(0.3),
+            ThemeUtils.primaryColor(context).withOpacity(0.1),
+            ThemeUtils.secondaryColor(context).withOpacity(0.3),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -355,7 +360,7 @@ class HowToPrepare extends HookConsumerWidget {
     );
   }
 
-  Widget _buildLoadingState() {
+  Widget _buildLoadingState(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -368,23 +373,23 @@ class HowToPrepare extends HookConsumerWidget {
                 height: 120,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.1),
                 ),
               ),
-              const Icon(
+              Icon(
                 FluentIcons.circle_24_filled,
                 size: 60,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
             ],
           ),
           const Gap(20),
-          const Text(
+          Text(
             'Preparing your recipe...',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
           const Gap(8),
@@ -397,7 +402,7 @@ class HowToPrepare extends HookConsumerWidget {
     );
   }
 
-  Widget _buildInstructionContent(String instruction) {
+  Widget _buildInstructionContent(String instruction, BuildContext context) {
     return SingleChildScrollView(
       child: MarkdownWidget(
         data: instruction,
@@ -407,47 +412,47 @@ class HowToPrepare extends HookConsumerWidget {
           configs: [
             // Heading configurations
             H1Config(
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
             ),
             H2Config(
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
             ),
             H3Config(
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
             ),
             // Paragraph configuration
             PConfig(
-              textStyle: const TextStyle(
+              textStyle: TextStyle(
                 fontSize: 15,
                 height: 1.6,
-                color: ThemeUtils.$blacks,
+                color: ThemeUtils.blacks(context),
               ),
             ),
             // Blockquote configuration
             BlockquoteConfig(
               padding: const EdgeInsets.all(12),
-              sideColor: ThemeUtils.$primaryColor.withOpacity(0.05),
+              sideColor: ThemeUtils.primaryColor(context).withOpacity(0.05),
 
-              textColor: ThemeUtils.$secondaryColor,
+              textColor: ThemeUtils.secondaryColor(context),
             ),
             // Code block configuration
             CodeConfig(
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontFamily: 'monospace',
-                color: ThemeUtils.$blacks,
+                color: ThemeUtils.blacks(context),
               ),
             ),
           ],

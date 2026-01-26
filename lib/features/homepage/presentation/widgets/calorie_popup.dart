@@ -11,10 +11,7 @@ class CaloriePopup extends StatelessWidget {
   const CaloriePopup({super.key, required this.selectedPlan});
 
   double _calculateMealCalories(List<MealTypeFoodEntity> foods) {
-    return foods.fold(
-      0.0,
-          (sum, food) => sum + food.calories,
-    );
+    return foods.fold(0.0, (sum, food) => sum + food.calories);
   }
 
   @override
@@ -39,26 +36,26 @@ class CaloriePopup extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                color: ThemeUtils.primaryColor(context).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
                 children: [
                   Text(
                     selectedPlan.day,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: ThemeUtils.$primaryColor,
+                      color: ThemeUtils.primaryColor(context),
                     ),
                   ),
                   const Gap(8),
                   Text(
                     '${totalCalories.toStringAsFixed(0)} cal',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: ThemeUtils.$blacks,
+                      color: ThemeUtils.blacks(context),
                     ),
                   ),
                   const Gap(12),
@@ -76,17 +73,17 @@ class CaloriePopup extends StatelessWidget {
                   width: 4,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: ThemeUtils.$primaryColor,
+                    color: ThemeUtils.primaryColor(context),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
                 const Gap(8),
-                const Text(
+                Text(
                   'Meal Breakdown',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: ThemeUtils.$blacks,
+                    color: ThemeUtils.blacks(context),
                   ),
                 ),
               ],
@@ -101,6 +98,7 @@ class CaloriePopup extends StatelessWidget {
               totalCalories,
               Icons.wb_sunny_outlined,
               Colors.orange,
+              context,
             ),
             const Gap(12),
 
@@ -112,6 +110,7 @@ class CaloriePopup extends StatelessWidget {
               totalCalories,
               Icons.restaurant_outlined,
               Colors.green,
+              context,
             ),
             const Gap(12),
 
@@ -123,6 +122,7 @@ class CaloriePopup extends StatelessWidget {
               totalCalories,
               Icons.dinner_dining_outlined,
               Colors.deepPurple,
+              context,
             ),
           ],
         ),
@@ -163,11 +163,11 @@ class CaloriePopup extends StatelessWidget {
   }
 
   Widget _buildMacroChip(
-      String label,
-      double grams,
-      Color bgColor,
-      Color textColor,
-      ) {
+    String label,
+    double grams,
+    Color bgColor,
+    Color textColor,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
@@ -186,10 +186,7 @@ class CaloriePopup extends StatelessWidget {
           ),
           Text(
             label,
-            style: TextStyle(
-              fontSize: 10,
-              color: textColor.withOpacity(0.8),
-            ),
+            style: TextStyle(fontSize: 10, color: textColor.withOpacity(0.8)),
           ),
         ],
       ),
@@ -197,14 +194,14 @@ class CaloriePopup extends StatelessWidget {
   }
 
   Widget _buildMealSection(
-      String mealName,
-      List<MealTypeFoodEntity> foods,
-      double calories,
-      double totalCalories,
-      IconData icon,
-      Color color,
-      ) {
-
+    String mealName,
+    List<MealTypeFoodEntity> foods,
+    double calories,
+    double totalCalories,
+    IconData icon,
+    Color color,
+    BuildContext context,
+  ) {
     MealTypeFoodEntity food = foods.first;
 
     Logger logger = Logger();
@@ -237,7 +234,7 @@ class CaloriePopup extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: ThemeUtils.backgroundColor(context)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.03),
@@ -330,9 +327,7 @@ class CaloriePopup extends StatelessWidget {
           // Meal Macros Summary
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade50,
-            ),
+            decoration: BoxDecoration(color: Colors.grey.shade50),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -350,7 +345,7 @@ class CaloriePopup extends StatelessWidget {
             final food = entry.value;
             final isLast = index == foods.length - 1;
 
-            return _buildFoodItem(food, color, isLast);
+            return _buildFoodItem(food, color, isLast, context);
           }),
         ],
       ),
@@ -367,12 +362,7 @@ class CaloriePopup extends StatelessWidget {
       fiber += food.macros.fibreGrams;
     }
 
-    return {
-      'protein': protein,
-      'carbs': carbs,
-      'fat': fat,
-      'fiber': fiber,
-    };
+    return {'protein': protein, 'carbs': carbs, 'fat': fat, 'fiber': fiber};
   }
 
   Widget _buildMiniMacro(String label, double grams, Color color) {
@@ -386,30 +376,24 @@ class CaloriePopup extends StatelessWidget {
             color: color,
           ),
         ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 10,
-            color: color,
-          ),
-        ),
+        Text(label, style: TextStyle(fontSize: 10, color: color)),
       ],
     );
   }
 
   Widget _buildFoodItem(
-      MealTypeFoodEntity food,
-      Color accentColor,
-      bool isLast,
-      ) {
+    MealTypeFoodEntity food,
+    Color accentColor,
+    bool isLast,
+    BuildContext context,
+  ) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
+        color: ThemeUtils.backgroundColor(context),
         border: isLast
             ? null
-            : Border(
-          bottom: BorderSide(color: Colors.grey.shade100),
-        ),
+            : Border(bottom: BorderSide(color: ThemeUtils.backgroundColor(context))),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -434,10 +418,10 @@ class CaloriePopup extends StatelessWidget {
                   children: [
                     Text(
                       food.foodName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: ThemeUtils.$blacks,
+                        color: ThemeUtils.blacks(context),
                       ),
                     ),
                     const Gap(6),
@@ -493,7 +477,10 @@ class CaloriePopup extends StatelessWidget {
               const Gap(12),
               // Calories
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: accentColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(8),
@@ -501,7 +488,7 @@ class CaloriePopup extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      '${food.calories.toStringAsFixed(0)}',
+                      food.calories.toStringAsFixed(0),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -526,11 +513,11 @@ class CaloriePopup extends StatelessWidget {
   }
 
   Widget _buildInfoPill(
-      String text,
-      IconData icon,
-      Color bgColor,
-      Color textColor,
-      ) {
+    String text,
+    IconData icon,
+    Color bgColor,
+    Color textColor,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(

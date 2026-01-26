@@ -25,14 +25,14 @@ class ActionButtons extends StatelessWidget {
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
-              backgroundColor: const WidgetStatePropertyAll(
-                ThemeUtils.$secondaryColor,
+              backgroundColor: WidgetStatePropertyAll(
+                ThemeUtils.secondaryColor(context),
               ),
             ),
             onPressed: isLoading ? null : onSaveDraft,
-            child: const Text(
+            child: Text(
               "Save Draft",
-              style: TextStyle(color: ThemeUtils.$primaryColor),
+              style: TextStyle(color: ThemeUtils.primaryColor(context)),
             ),
           ),
         ),
@@ -43,15 +43,15 @@ class ActionButtons extends StatelessWidget {
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
-              backgroundColor: const WidgetStatePropertyAll(
-                ThemeUtils.$primaryColor,
+              backgroundColor: WidgetStatePropertyAll(
+                ThemeUtils.primaryColor(context),
               ),
             ),
             onPressed: onSaveMealPlan,
-            child: const Text(
-                    "Save Meal Plan",
-                    style: TextStyle(color: ThemeUtils.$secondaryColor),
-                  ),
+            child: Text(
+              "Save Meal Plan",
+              style: TextStyle(color: ThemeUtils.secondaryColor(context)),
+            ),
           ),
         ),
       ],

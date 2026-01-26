@@ -23,13 +23,13 @@ class DayCard extends StatelessWidget {
     required this.onUpdate,
   });
 
-  Color _getDashColor() {
+  Color _getDashColor(BuildContext context) {
     if (meals.isNotEmpty) {
       return const Color(0xFF00BA06); // Green for completed
     } else if (hasError) {
       return const Color(0xFF8F3131); // Red for error
     } else {
-      return ThemeUtils.$blacks.withOpacity(0.3); // Gray for empty
+      return ThemeUtils.blacks(context).withOpacity(0.3); // Gray for empty
     }
   }
 
@@ -54,9 +54,9 @@ class DayCard extends StatelessWidget {
         children: [
           Text(
             day,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
           const Gap(10),
@@ -67,7 +67,7 @@ class DayCard extends StatelessWidget {
               DottedBorder(
                 options: CustomPathDottedBorderOptions(
                   padding: const EdgeInsets.all(8),
-                  color: _getDashColor(),
+                  color: _getDashColor(context),
                   strokeWidth: 2,
                   dashPattern: [10, 5],
                   customPath: (size) => Path()
@@ -78,12 +78,12 @@ class DayCard extends StatelessWidget {
                   width: double.infinity,
                   height: 190,
                   decoration: BoxDecoration(
-                    color: ThemeUtils.$blacks.withOpacity(0.1),
+                    color: ThemeUtils.blacks(context).withOpacity(0.1),
                   ),
                   child: Center(
                     child: meals.isEmpty
                         ? _buildAddButton(context)
-                        : _buildMealContent(),
+                        : _buildMealContent(context),
                   ),
                 ),
               ),
@@ -100,19 +100,19 @@ class DayCard extends StatelessWidget {
   Widget _buildAddButton(BuildContext context) {
     return GestureDetector(
       onTap: () => _navigateToEditDay(context),
-      child: const CircleAvatar(
-        backgroundColor: ThemeUtils.$backgroundColor,
+      child: CircleAvatar(
+        backgroundColor: ThemeUtils.backgroundColor(context),
         child: Icon(
           FluentIcons.add_24_regular,
           size: 20,
-          color: ThemeUtils.$primaryColor,
+          color: ThemeUtils.primaryColor(context),
         ),
       ),
     );
   }
 
   // Build meal content when meals exist
-  Widget _buildMealContent() {
+  Widget _buildMealContent(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(2),
       child: Column(
@@ -133,19 +133,19 @@ class DayCard extends StatelessWidget {
             ),
           ),
           // Total calories badge
-          _buildCaloriesBadge(),
+          _buildCaloriesBadge(context),
         ],
       ),
     );
   }
 
   // Build calories badge at the bottom
-  Widget _buildCaloriesBadge() {
+  Widget _buildCaloriesBadge(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: ThemeUtils.$primaryColor,
+        color: ThemeUtils.primaryColor(context),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -156,15 +156,15 @@ class DayCard extends StatelessWidget {
               Icon(
                 FluentIcons.fire_24_filled,
                 size: 14,
-                color: ThemeUtils.$secondaryColor,
+                color: ThemeUtils.secondaryColor(context),
               ),
             ],
           ),
           Text(
             "$totalCalories cal",
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: ThemeUtils.$secondaryColor,
+              color: ThemeUtils.secondaryColor(context),
             ),
           ),
         ],
@@ -179,9 +179,9 @@ class DayCard extends StatelessWidget {
       right: -10,
       child: GestureDetector(
         onTap: () => _navigateToEditDay(context),
-        child: const CircleAvatar(
+        child: CircleAvatar(
           radius: 20,
-          backgroundColor: ThemeUtils.$backgroundColor,
+          backgroundColor: ThemeUtils.backgroundColor(context),
           child: Icon(FluentIcons.edit_28_regular, size: 20),
         ),
       ),

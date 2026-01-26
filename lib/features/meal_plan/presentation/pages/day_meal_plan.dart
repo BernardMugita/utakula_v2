@@ -59,8 +59,7 @@ class DayMealPlan extends HookConsumerWidget {
 
     void handleSave() {
       final meals = Map<String, dynamic>.from(mealPlan.value);
-      final totalCals = getTotalCalories()
-          .toDouble();
+      final totalCals = getTotalCalories().toDouble();
 
       Logger().d('=== SAVING MEAL PLAN ===');
       Logger().d('Day: $day');
@@ -74,23 +73,23 @@ class DayMealPlan extends HookConsumerWidget {
     Logger logger = Logger();
 
     return Scaffold(
-      backgroundColor: ThemeUtils.$backgroundColor,
+      backgroundColor: ThemeUtils.backgroundColor(context),
       appBar: AppBar(
-        backgroundColor: ThemeUtils.$primaryColor,
+        backgroundColor: ThemeUtils.primaryColor(context),
         elevation: 0,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
-          child: const Icon(
+          child: Icon(
             FluentIcons.arrow_left_24_regular,
-            color: ThemeUtils.$secondaryColor,
+            color: ThemeUtils.secondaryColor(context),
           ),
         ),
         title: Text(
           "$day Meal Plan",
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: ThemeUtils.$secondaryColor,
+            color: ThemeUtils.secondaryColor(context),
           ),
         ),
         actions: [
@@ -100,21 +99,21 @@ class DayMealPlan extends HookConsumerWidget {
               margin: const EdgeInsets.only(right: 16),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: ThemeUtils.$secondaryColor.withOpacity(0.2),
+                color: ThemeUtils.secondaryColor(context).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     FluentIcons.save_24_regular,
                     size: 18,
-                    color: ThemeUtils.$secondaryColor,
+                    color: ThemeUtils.secondaryColor(context),
                   ),
                   const Gap(6),
                   Text(
                     "Save",
                     style: TextStyle(
-                      color: ThemeUtils.$secondaryColor,
+                      color: ThemeUtils.secondaryColor(context),
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
@@ -142,7 +141,7 @@ class DayMealPlan extends HookConsumerWidget {
                   Text(
                     "Loading delicious foods...",
                     style: TextStyle(
-                      color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                      color: ThemeUtils.primaryColor(context).withOpacity(0.6),
                       fontSize: 14,
                     ),
                   ),
@@ -155,7 +154,7 @@ class DayMealPlan extends HookConsumerWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.35,
                   decoration: BoxDecoration(
-                    color: ThemeUtils.$secondaryColor,
+                    color: ThemeUtils.secondaryColor(context),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.05),
@@ -169,22 +168,24 @@ class DayMealPlan extends HookConsumerWidget {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                          color: ThemeUtils.primaryColor(
+                            context,
+                          ).withOpacity(0.1),
                         ),
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               FluentIcons.food_24_regular,
-                              color: ThemeUtils.$primaryColor,
+                              color: ThemeUtils.primaryColor(context),
                               size: 20,
                             ),
                             const Gap(8),
-                            const Text(
+                            Text(
                               "Foods",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: ThemeUtils.$primaryColor,
+                                color: ThemeUtils.primaryColor(context),
                               ),
                             ),
                           ],
@@ -196,9 +197,9 @@ class DayMealPlan extends HookConsumerWidget {
                                 child: Text(
                                   "No foods available",
                                   style: TextStyle(
-                                    color: ThemeUtils.$primaryColor.withOpacity(
-                                      0.5,
-                                    ),
+                                    color: ThemeUtils.primaryColor(
+                                      context,
+                                    ).withOpacity(0.5),
                                   ),
                                 ),
                               )
@@ -231,7 +232,7 @@ class DayMealPlan extends HookConsumerWidget {
                 // Right side - Meal sections
                 Expanded(
                   child: Container(
-                    color: ThemeUtils.$backgroundColor,
+                    color: ThemeUtils.backgroundColor(context),
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.all(16),
                       child: Column(
@@ -242,16 +243,18 @@ class DayMealPlan extends HookConsumerWidget {
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
-                                  ThemeUtils.$primaryColor,
-                                  ThemeUtils.$primaryColor.withOpacity(0.8),
+                                  ThemeUtils.primaryColor(context),
+                                  ThemeUtils.primaryColor(
+                                    context,
+                                  ).withOpacity(0.8),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: ThemeUtils.$primaryColor.withOpacity(
-                                    0.3,
-                                  ),
+                                  color: ThemeUtils.primaryColor(
+                                    context,
+                                  ).withOpacity(0.3),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
                                 ),
@@ -265,13 +268,16 @@ class DayMealPlan extends HookConsumerWidget {
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: ThemeUtils.$secondaryColor
-                                            .withOpacity(0.2),
+                                        color: ThemeUtils.secondaryColor(
+                                          context,
+                                        ).withOpacity(0.2),
                                         shape: BoxShape.circle,
                                       ),
-                                      child: const Icon(
+                                      child: Icon(
                                         FluentIcons.fire_24_filled,
-                                        color: ThemeUtils.$secondaryColor,
+                                        color: ThemeUtils.secondaryColor(
+                                          context,
+                                        ),
                                         size: 24,
                                       ),
                                     ),
@@ -279,7 +285,7 @@ class DayMealPlan extends HookConsumerWidget {
                                     // const Text(
                                     //   "Calories",
                                     //   style: TextStyle(
-                                    //     color: ThemeUtils.$secondaryColor,
+                                    //     color: ThemeUtils.secondaryColor(context),
                                     //     fontSize: 16,
                                     //     fontWeight: FontWeight.w600,
                                     //   ),
@@ -292,13 +298,13 @@ class DayMealPlan extends HookConsumerWidget {
                                     vertical: 8,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: ThemeUtils.$secondaryColor,
+                                    color: ThemeUtils.secondaryColor(context),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
                                     "${getTotalCalories()} cal",
-                                    style: const TextStyle(
-                                      color: ThemeUtils.$primaryColor,
+                                    style: TextStyle(
+                                      color: ThemeUtils.primaryColor(context),
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -373,7 +379,7 @@ class DraggableFoodItem extends StatelessWidget {
             width: 100,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: ThemeUtils.$primaryColor.withOpacity(0.9),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.9),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -391,8 +397,8 @@ class DraggableFoodItem extends StatelessWidget {
                 const Gap(4),
                 Text(
                   food.name ?? 'Unknown',
-                  style: const TextStyle(
-                    color: ThemeUtils.$secondaryColor,
+                  style: TextStyle(
+                    color: ThemeUtils.secondaryColor(context),
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
@@ -404,30 +410,35 @@ class DraggableFoodItem extends StatelessWidget {
             ),
           ),
         ),
-        childWhenDragging: Opacity(opacity: 0.5, child: _buildFoodCard()),
-        child: _buildFoodCard(),
+        childWhenDragging: Opacity(
+          opacity: 0.5,
+          child: _buildFoodCard(context),
+        ),
+        child: _buildFoodCard(context),
       ),
     );
   }
 
-  Widget _buildFoodCard() {
+  Widget _buildFoodCard(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: ThemeUtils.$backgroundColor,
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ThemeUtils.$primaryColor.withOpacity(0.1)),
+        border: Border.all(
+          color: ThemeUtils.primaryColor(context).withOpacity(0.1),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             food.name ?? 'Unknown',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -441,7 +452,7 @@ class DraggableFoodItem extends StatelessWidget {
                 width: 100,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
@@ -455,7 +466,7 @@ class DraggableFoodItem extends StatelessWidget {
                 "${food.calories?.total ?? 0} cal/100g",
                 style: TextStyle(
                   fontSize: 11,
-                  color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.6),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -526,12 +537,12 @@ class MealSection extends StatelessWidget {
         return Container(
           height: 200,
           decoration: BoxDecoration(
-            color: ThemeUtils.$secondaryColor,
+            color: ThemeUtils.secondaryColor(context),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: isHovering
-                  ? ThemeUtils.$primaryColor
-                  : ThemeUtils.$primaryColor.withOpacity(0.1),
+                  ? ThemeUtils.primaryColor(context)
+                  : ThemeUtils.primaryColor(context).withOpacity(0.1),
               width: isHovering ? 2 : 1,
             ),
             boxShadow: [
@@ -548,7 +559,7 @@ class MealSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.05),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.05),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
@@ -561,16 +572,16 @@ class MealSection extends StatelessWidget {
                       children: [
                         Icon(
                           mealIcon,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                           size: 20,
                         ),
                         const Gap(8),
                         Text(
                           mealLabel,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: ThemeUtils.$primaryColor,
+                            color: ThemeUtils.primaryColor(context),
                           ),
                         ),
                       ],
@@ -593,7 +604,9 @@ class MealSection extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                          color: ThemeUtils.primaryColor(
+                            context,
+                          ).withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -601,10 +614,10 @@ class MealSection extends StatelessWidget {
                           children: [
                             Text(
                               "$totalCalories cal",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
-                                color: ThemeUtils.$primaryColor,
+                                color: ThemeUtils.blacks(context),
                               ),
                             ),
                             if (mealItems.isNotEmpty) ...[
@@ -612,7 +625,7 @@ class MealSection extends StatelessWidget {
                               Icon(
                                 FluentIcons.chevron_right_24_regular,
                                 size: 14,
-                                color: ThemeUtils.$primaryColor,
+                                color: ThemeUtils.primaryColor(context),
                               ),
                             ],
                           ],
@@ -633,18 +646,18 @@ class MealSection extends StatelessWidget {
                             children: [
                               Icon(
                                 FluentIcons.add_circle_24_regular,
-                                color: ThemeUtils.$primaryColor.withOpacity(
-                                  0.3,
-                                ),
+                                color: ThemeUtils.primaryColor(
+                                  context,
+                                ).withOpacity(0.3),
                                 size: 32,
                               ),
                               const Gap(8),
                               Text(
                                 "Drag foods here",
                                 style: TextStyle(
-                                  color: ThemeUtils.$primaryColor.withOpacity(
-                                    0.5,
-                                  ),
+                                  color: ThemeUtils.primaryColor(
+                                    context,
+                                  ).withOpacity(0.5),
                                   fontSize: 12,
                                 ),
                               ),
@@ -658,7 +671,7 @@ class MealSection extends StatelessWidget {
                             children: mealItems.asMap().entries.map((entry) {
                               final index = entry.key;
                               final item = entry.value;
-                              return _buildMealItem(item, index);
+                              return _buildMealItem(item, index, context);
                             }).toList(),
                           ),
                         ),
@@ -671,13 +684,19 @@ class MealSection extends StatelessWidget {
     );
   }
 
-  Widget _buildMealItem(Map<String, dynamic> item, int index) {
+  Widget _buildMealItem(
+    Map<String, dynamic> item,
+    int index,
+    BuildContext context,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: ThemeUtils.$backgroundColor,
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ThemeUtils.$primaryColor.withOpacity(0.2)),
+        border: Border.all(
+          color: ThemeUtils.primaryColor(context).withOpacity(0.2),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -702,10 +721,10 @@ class MealSection extends StatelessWidget {
                   item['name'] ?? 'Unknown',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: ThemeUtils.$primaryColor,
+                    color: ThemeUtils.primaryColor(context),
                   ),
                 ),
               ),
@@ -723,7 +742,7 @@ class MealSection extends StatelessWidget {
                     " • ${(item['calories'] ?? item['total_calories'])?.toStringAsFixed(0) ?? 0} cal",
                     style: TextStyle(
                       fontSize: 10,
-                      color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                      color: ThemeUtils.primaryColor(context).withOpacity(0.6),
                     ),
                   ),
                 ],

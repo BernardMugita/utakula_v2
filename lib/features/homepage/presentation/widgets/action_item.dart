@@ -16,7 +16,7 @@ class ActionItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -36,7 +36,7 @@ class ActionItem extends StatelessWidget {
                 context: context,
                 icon: FluentIcons.image_24_filled,
                 label: "Templates",
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
                 onPressed: () {
                   // TODO: Navigate to templates screen
                   // context.push('/meal-templates');
@@ -126,7 +126,7 @@ class ActionItem extends StatelessWidget {
   void _showMoreOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: ThemeUtils.$secondaryColor,
+      backgroundColor: ThemeUtils.secondaryColor(context),
       isScrollControlled: false,
       enableDrag: true,
       shape: const RoundedRectangleBorder(
@@ -135,8 +135,8 @@ class ActionItem extends StatelessWidget {
       builder: (context) => Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        decoration: const BoxDecoration(
-          color: ThemeUtils.$secondaryColor,
+        decoration: BoxDecoration(
+          color: ThemeUtils.secondaryColor(context),
           borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
@@ -157,13 +157,13 @@ class ActionItem extends StatelessWidget {
             const Gap(20),
 
             // Title
-            const Text(
+            Text(
               'More Options',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
               ),
             ),
             const Gap(24),
@@ -219,17 +219,17 @@ class ActionItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: ThemeUtils.$backgroundColor,
+          color: ThemeUtils.backgroundColor(context),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
           children: [
-            Icon(icon, color: ThemeUtils.$primaryColor, size: 24),
+            Icon(icon, color: ThemeUtils.primaryColor(context), size: 24),
             const Gap(16),
             Text(
               label,
-              style: const TextStyle(
-                color: ThemeUtils.$primaryColor,
+              style: TextStyle(
+                color: ThemeUtils.primaryColor(context),
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -237,7 +237,7 @@ class ActionItem extends StatelessWidget {
             const Spacer(),
             Icon(
               FluentIcons.chevron_right_24_regular,
-              color: ThemeUtils.$primaryColor.withOpacity(0.5),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.5),
               size: 20,
             ),
           ],

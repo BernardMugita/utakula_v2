@@ -33,7 +33,7 @@ class MealCarouselCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 5.0),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: ThemeUtils.$backgroundColor,
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -45,15 +45,14 @@ class MealCarouselCard extends StatelessWidget {
             child: Text(
               mealType,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-                color: ThemeUtils.$blacks,
+                color: ThemeUtils.blacks(context),
               ),
             ),
           ),
-          const Divider(),
-
+          Divider(color: ThemeUtils.secondaryColor(context)),
           // Food Images
           Expanded(
             child: foods.isEmpty

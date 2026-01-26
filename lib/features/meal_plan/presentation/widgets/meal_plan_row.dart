@@ -16,7 +16,7 @@ class MealTypeRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
       margin: const EdgeInsets.only(bottom: 2),
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

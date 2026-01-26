@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_logout_popup.dart';
+import 'package:utakula_v2/common/global_widgets/utakula_theme_toggler.dart';
 import 'package:utakula_v2/core/providers/session_provider/session_state_provider.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
           width: MediaQuery.of(context).size.width / 1.4,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
-            color: ThemeUtils.$secondaryColor,
+            color: ThemeUtils.secondaryColor(context),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
@@ -79,8 +80,8 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      ThemeUtils.$primaryColor.withOpacity(0.1),
-                      ThemeUtils.$secondaryColor,
+                      ThemeUtils.primaryColor(context).withOpacity(0.1),
+                      ThemeUtils.secondaryColor(context),
                     ],
                   ),
                 ),
@@ -91,12 +92,14 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                           width: 3,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: ThemeUtils.$primaryColor.withOpacity(0.3),
+                            color: ThemeUtils.primaryColor(
+                              context,
+                            ).withOpacity(0.3),
                             blurRadius: 15,
                             spreadRadius: 2,
                           ),
@@ -104,7 +107,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                       ),
                       child: CircleAvatar(
                         radius: 45,
-                        backgroundColor: ThemeUtils.$backgroundColor,
+                        backgroundColor: ThemeUtils.backgroundColor(context),
                         child: Image(
                           height: 50,
                           width: 50,
@@ -116,12 +119,12 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                       ),
                     ),
                     const Gap(16),
-                    const Text(
+                    Text(
                       'Utakula',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: ThemeUtils.$primaryColor,
+                        color: ThemeUtils.primaryColor(context),
                         letterSpacing: 1.2,
                       ),
                     ),
@@ -134,6 +137,8 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         fontStyle: FontStyle.italic,
                       ),
                     ),
+                    const Gap(8),
+                    const UtakulaThemeToggler(showLabel: true),
                   ],
                 ),
               ),
@@ -178,7 +183,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         isComingSoon: false,
                       ),
                       const Gap(20),
-                      const Divider(),
+                      Divider(color: ThemeUtils.accentColor(context)),
                       const Gap(12),
                       _buildNavigationItem(
                         context: context,
@@ -216,14 +221,16 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                       ? null
                       : () => showLogoutDialog(loggingOut),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ThemeUtils.$primaryColor,
-                    foregroundColor: ThemeUtils.$secondaryColor,
+                    backgroundColor: ThemeUtils.primaryColor(context),
+                    foregroundColor: ThemeUtils.secondaryColor(context),
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     elevation: 3,
-                    shadowColor: ThemeUtils.$primaryColor.withOpacity(0.5),
+                    shadowColor: ThemeUtils.primaryColor(
+                      context,
+                    ).withOpacity(0.5),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -274,15 +281,15 @@ class UtakulaSideNavigation extends HookConsumerWidget {
           ),
           child: Row(
             children: [
-              Icon(icon, color: ThemeUtils.$primaryColor, size: 24),
+              Icon(icon, color: ThemeUtils.primaryColor(context), size: 24),
               const Gap(16),
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Colors.black87,
+                    color: ThemeUtils.blacks(context),
                   ),
                 ),
               ),

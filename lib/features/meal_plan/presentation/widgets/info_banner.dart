@@ -13,17 +13,17 @@ class InfoBanner extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Icon(
+        Icon(
           FluentIcons.info_24_regular,
-          color: ThemeUtils.$primaryColor,
+          color: ThemeUtils.primaryColor(context),
         ),
         const Gap(10),
         Expanded(
           child: Text(
             message,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: ThemeUtils.$primaryColor,
+              color: ThemeUtils.primaryColor(context),
             ),
           ),
         ),

@@ -34,7 +34,7 @@ class UtakulaLogoutPopup extends HookConsumerWidget {
     }
 
     return AlertDialog(
-      backgroundColor: ThemeUtils.$secondaryColor,
+      backgroundColor: ThemeUtils.secondaryColor(context),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       title: Row(
         children: [
@@ -43,7 +43,7 @@ class UtakulaLogoutPopup extends HookConsumerWidget {
                 ? FluentIcons.arrow_sync_circle_24_regular
                 : FluentIcons.warning_24_regular,
             color: loggingOut.value
-                ? ThemeUtils.$primaryColor
+                ? ThemeUtils.primaryColor(context)
                 : ThemeUtils.$error,
           ),
           const Gap(12),
@@ -51,7 +51,7 @@ class UtakulaLogoutPopup extends HookConsumerWidget {
             child: Text(
               loggingOut.value ? 'Logging out...' : 'Confirm Logout',
               style: TextStyle(
-                color: ThemeUtils.$primaryColor,
+                color: ThemeUtils.primaryColor(context),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

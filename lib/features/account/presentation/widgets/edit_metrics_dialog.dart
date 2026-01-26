@@ -100,7 +100,7 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 500),
         decoration: BoxDecoration(
-          color: ThemeUtils.$backgroundColor,
+          color: ThemeUtils.backgroundColor(context),
           borderRadius: BorderRadius.circular(24),
         ),
         child: Column(
@@ -112,8 +112,8 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    ThemeUtils.$primaryColor,
-                    ThemeUtils.$primaryColor.withOpacity(0.8),
+                    ThemeUtils.primaryColor(context),
+                    ThemeUtils.primaryColor(context).withOpacity(0.8),
                   ],
                 ),
                 borderRadius: const BorderRadius.only(
@@ -204,12 +204,12 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
                       const Gap(24),
 
                       // Gender Selection
-                      const Text(
+                      Text(
                         'Gender',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                         ),
                       ),
                       const Gap(8),
@@ -289,12 +289,12 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
                       const Gap(20),
 
                       // Activity Level
-                      const Text(
+                      Text(
                         'Activity Level',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                         ),
                       ),
                       const Gap(8),
@@ -308,8 +308,8 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
                         child: ElevatedButton(
                           onPressed: _handleSave,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: ThemeUtils.$primaryColor,
-                            foregroundColor: ThemeUtils.$secondaryColor,
+                            backgroundColor: ThemeUtils.primaryColor(context),
+                            foregroundColor: ThemeUtils.secondaryColor(context),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
                             ),
@@ -354,11 +354,13 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
-              ? ThemeUtils.$primaryColor.withOpacity(0.1)
+              ? ThemeUtils.primaryColor(context).withOpacity(0.1)
               : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? ThemeUtils.$primaryColor : Colors.transparent,
+            color: isSelected
+                ? ThemeUtils.primaryColor(context)
+                : Colors.transparent,
             width: 2,
           ),
         ),
@@ -368,7 +370,7 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
             Icon(
               icon,
               color: isSelected
-                  ? ThemeUtils.$primaryColor
+                  ? ThemeUtils.primaryColor(context)
                   : Colors.grey.shade600,
               size: 20,
             ),
@@ -379,7 +381,7 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: isSelected
-                    ? ThemeUtils.$primaryColor
+                    ? ThemeUtils.primaryColor(context)
                     : Colors.grey.shade600,
               ),
             ),
@@ -431,10 +433,13 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
           decoration: InputDecoration(
             suffixText: suffix,
             filled: true,
-            fillColor: Colors.grey.shade100,
+            fillColor: ThemeUtils.backgroundColor(context),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(
+                color: ThemeUtils.secondaryColor(context),
+                width: 1,
+              )
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -490,7 +495,7 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
             child: Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: isSelected ? Colors.green.shade50 : Colors.grey.shade100,
+                color: isSelected ? ThemeUtils.primaryColor(context) : ThemeUtils.secondaryColor(context),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: isSelected
@@ -531,15 +536,15 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: isSelected
-                                ? Colors.green.shade700
-                                : Colors.grey.shade800,
+                                ? ThemeUtils.primaryColor(context)
+                                : ThemeUtils.secondaryColor(context),
                           ),
                         ),
                         Text(
                           level['desc']!,
                           style: TextStyle(
                             fontSize: 11,
-                            color: Colors.grey.shade600,
+                            color: ThemeUtils.blacks(context),
                           ),
                         ),
                       ],

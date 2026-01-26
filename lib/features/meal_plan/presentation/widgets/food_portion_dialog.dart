@@ -118,7 +118,7 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                    color: ThemeUtils.primaryColor(context).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: widget.food.imageUrl != null
@@ -140,17 +140,19 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                     children: [
                       Text(
                         widget.food.name ?? 'Unknown',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.blacks(context),
                         ),
                       ),
                       Text(
                         '${widget.food.calories?.total ?? 0} cal per 100g',
                         style: TextStyle(
                           fontSize: 12,
-                          color: ThemeUtils.$primaryColor.withOpacity(0.6),
+                          color: ThemeUtils.primaryColor(
+                            context,
+                          ).withOpacity(0.6),
                         ),
                       ),
                     ],
@@ -173,7 +175,9 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: ThemeUtils.$primaryColor.withOpacity(0.7),
+                          color: ThemeUtils.primaryColor(
+                            context,
+                          ).withOpacity(0.7),
                         ),
                       ),
                       const Gap(6),
@@ -189,7 +193,7 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                         decoration: InputDecoration(
                           suffixText: 'g',
                           filled: true,
-                          fillColor: Colors.grey.shade100,
+                          fillColor: ThemeUtils.secondaryColor(context),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide.none,
@@ -215,7 +219,9 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: ThemeUtils.$primaryColor.withOpacity(0.7),
+                          color: ThemeUtils.primaryColor(
+                            context,
+                          ).withOpacity(0.7),
                         ),
                       ),
                       const Gap(6),
@@ -230,7 +236,7 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                         onChanged: (_) => _updateGramsFromServings(),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.grey.shade100,
+                          fillColor: ThemeUtils.secondaryColor(context),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide.none,
@@ -252,7 +258,7 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ThemeUtils.$primaryColor.withOpacity(0.05),
+                color: ThemeUtils.primaryColor(context).withOpacity(0.05),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -260,19 +266,19 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Total Calories',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                         ),
                       ),
                       Text(
                         '${nutrition['total_calories'].toStringAsFixed(0)} cal',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                         ),
                       ),
                     ],
@@ -325,15 +331,17 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context, nutrition),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ThemeUtils.$primaryColor,
+                      backgroundColor: ThemeUtils.primaryColor(context),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       'Add Food',
-                      style: TextStyle(color: ThemeUtils.$secondaryColor),
+                      style: TextStyle(
+                        color: ThemeUtils.secondaryColor(context),
+                      ),
                     ),
                   ),
                 ),

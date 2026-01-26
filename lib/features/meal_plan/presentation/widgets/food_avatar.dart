@@ -14,7 +14,7 @@ class FoodAvatar extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return CircleAvatar(
       radius: 13,
-      backgroundColor: ThemeUtils.$backgroundColor,
+      backgroundColor: ThemeUtils.backgroundColor(context),
       child: imageUrl.isEmpty
           ? const Icon(FluentIcons.food_24_regular, size: 15)
           : ClipOval(

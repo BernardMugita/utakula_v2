@@ -83,7 +83,7 @@ class Register extends HookConsumerWidget {
             fit: BoxFit.cover,
             image: const AssetImage('assets/images/background.png'),
             colorFilter: ColorFilter.mode(
-              ThemeUtils.$blacks.withOpacity(0.7),
+              ThemeUtils.blacks(context).withOpacity(0.7),
               BlendMode.darken,
             ),
           ),
@@ -94,8 +94,8 @@ class Register extends HookConsumerWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                ThemeUtils.$blacks.withOpacity(0.6),
-                ThemeUtils.$blacks.withOpacity(0.8),
+                ThemeUtils.blacks(context).withOpacity(0.6),
+                ThemeUtils.blacks(context).withOpacity(0.8),
               ],
             ),
           ),
@@ -116,7 +116,7 @@ class Register extends HookConsumerWidget {
                           const Gap(20),
                           _buildLogo(context),
                           const Gap(30),
-                          _buildWelcomeText(),
+                          _buildWelcomeText(context),
                           const Gap(40),
                           _buildFormContainer(
                             formKey,
@@ -127,9 +127,10 @@ class Register extends HookConsumerWidget {
                             ref,
                             registerState.isLoading,
                             registrationHelpers,
+                            context,
                           ),
                           const Gap(30),
-                          _buildDivider(),
+                          _buildDivider(context),
                           const Gap(20),
                           _buildLoginPrompt(context),
                           const Gap(20),
@@ -160,9 +161,9 @@ class Register extends HookConsumerWidget {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
           ),
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back_ios_new,
-            color: ThemeUtils.$secondaryColor,
+            color: ThemeUtils.secondaryColor(context),
             size: 20,
           ),
         ),
@@ -179,13 +180,13 @@ class Register extends HookConsumerWidget {
           shape: BoxShape.circle,
           gradient: LinearGradient(
             colors: [
-              ThemeUtils.$primaryColor.withOpacity(0.3),
-              ThemeUtils.$primaryColor.withOpacity(0.1),
+              ThemeUtils.primaryColor(context).withOpacity(0.3),
+              ThemeUtils.primaryColor(context).withOpacity(0.1),
             ],
           ),
           boxShadow: [
             BoxShadow(
-              color: ThemeUtils.$primaryColor.withOpacity(0.3),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.3),
               blurRadius: 30,
               spreadRadius: 5,
             ),
@@ -203,14 +204,14 @@ class Register extends HookConsumerWidget {
     );
   }
 
-  Widget _buildWelcomeText() {
+  Widget _buildWelcomeText(BuildContext context) {
     return Column(
       children: [
         ShaderMask(
           shaderCallback: (bounds) => LinearGradient(
             colors: [
-              ThemeUtils.$primaryColor,
-              ThemeUtils.$primaryColor.withOpacity(0.8),
+              ThemeUtils.primaryColor(context),
+              ThemeUtils.primaryColor(context).withOpacity(0.8),
             ],
           ).createShader(bounds),
           child: const Text(
@@ -229,7 +230,7 @@ class Register extends HookConsumerWidget {
           "Join Utakula and start your culinary adventure",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: ThemeUtils.$secondaryColor.withOpacity(0.8),
+            color: ThemeUtils.secondaryColor(context).withOpacity(0.8),
             fontSize: 14,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.3,
@@ -248,6 +249,7 @@ class Register extends HookConsumerWidget {
     WidgetRef ref,
     bool isLoading,
     RegistrationHelpers registrationHelpers,
+    BuildContext context,
   ) {
     return Container(
       padding: const EdgeInsets.all(28),
@@ -301,7 +303,7 @@ class Register extends HookConsumerWidget {
             ),
           ),
           const Gap(8),
-          _buildPasswordRequirements(),
+          _buildPasswordRequirements(context),
           const Gap(24),
           UtakulaButton(
             text: "Create Account",
@@ -329,7 +331,7 @@ class Register extends HookConsumerWidget {
     );
   }
 
-  Widget _buildPasswordRequirements() {
+  Widget _buildPasswordRequirements(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -343,21 +345,21 @@ class Register extends HookConsumerWidget {
           Text(
             "Password requirements:",
             style: TextStyle(
-              color: ThemeUtils.$secondaryColor.withOpacity(0.9),
+              color: ThemeUtils.secondaryColor(context).withOpacity(0.9),
               fontSize: 12,
               fontWeight: FontWeight.w600,
             ),
           ),
           const Gap(6),
-          _buildRequirementItem("At least 8 characters"),
-          _buildRequirementItem("One uppercase letter"),
-          _buildRequirementItem("One number"),
+          _buildRequirementItem("At least 8 characters", context),
+          _buildRequirementItem("One uppercase letter", context),
+          _buildRequirementItem("One number", context),
         ],
       ),
     );
   }
 
-  Widget _buildRequirementItem(String text) {
+  Widget _buildRequirementItem(String text, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 4),
       child: Row(
@@ -365,13 +367,13 @@ class Register extends HookConsumerWidget {
           Icon(
             FluentIcons.checkmark_12_filled,
             size: 12,
-            color: ThemeUtils.$primaryColor.withOpacity(0.7),
+            color: ThemeUtils.primaryColor(context).withOpacity(0.7),
           ),
           const Gap(6),
           Text(
             text,
             style: TextStyle(
-              color: ThemeUtils.$secondaryColor.withOpacity(0.7),
+              color: ThemeUtils.secondaryColor(context).withOpacity(0.7),
               fontSize: 11,
               fontWeight: FontWeight.w400,
             ),
@@ -381,12 +383,12 @@ class Register extends HookConsumerWidget {
     );
   }
 
-  Widget _buildDivider() {
+  Widget _buildDivider(BuildContext context) {
     return Row(
       children: [
         Expanded(
           child: Divider(
-            color: ThemeUtils.$secondaryColor.withOpacity(0.3),
+            color: ThemeUtils.secondaryColor(context).withOpacity(0.3),
             thickness: 1,
           ),
         ),
@@ -395,7 +397,7 @@ class Register extends HookConsumerWidget {
           child: Text(
             "Or",
             style: TextStyle(
-              color: ThemeUtils.$secondaryColor.withOpacity(0.7),
+              color: ThemeUtils.secondaryColor(context).withOpacity(0.7),
               fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
@@ -403,7 +405,7 @@ class Register extends HookConsumerWidget {
         ),
         Expanded(
           child: Divider(
-            color: ThemeUtils.$secondaryColor.withOpacity(0.3),
+            color: ThemeUtils.secondaryColor(context).withOpacity(0.3),
             thickness: 1,
           ),
         ),
@@ -425,7 +427,7 @@ class Register extends HookConsumerWidget {
           Text(
             "Already have an account?",
             style: TextStyle(
-              color: ThemeUtils.$secondaryColor.withOpacity(0.8),
+              color: ThemeUtils.secondaryColor(context).withOpacity(0.8),
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -438,17 +440,17 @@ class Register extends HookConsumerWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: ThemeUtils.$primaryColor.withOpacity(0.2),
+                color: ThemeUtils.primaryColor(context).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: ThemeUtils.$primaryColor.withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
                   width: 1,
                 ),
               ),
-              child: const Text(
+              child: Text(
                 "Login",
                 style: TextStyle(
-                  color: ThemeUtils.$primaryColor,
+                  color: ThemeUtils.primaryColor(context),
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.5,

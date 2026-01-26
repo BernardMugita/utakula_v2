@@ -18,7 +18,7 @@ class FoodContainer extends HookWidget {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
-        color: ThemeUtils.$secondaryColor,
+        color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -47,36 +47,41 @@ class FoodContainer extends HookWidget {
                         width: 56,
                         height: 56,
                         decoration: BoxDecoration(
-                          color: ThemeUtils.$backgroundColor,
+                          color: ThemeUtils.backgroundColor(context),
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                            color: ThemeUtils.primaryColor(
+                              context,
+                            ).withOpacity(0.1),
                             width: 2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                              color: ThemeUtils.primaryColor(
+                                context,
+                              ).withOpacity(0.1),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
                           ],
                         ),
                         child: ClipOval(
-                          child: foodDetails.imageUrl != null &&
+                          child:
+                              foodDetails.imageUrl != null &&
                                   foodDetails.imageUrl!.isNotEmpty
                               ? Image.asset(
                                   'assets/foods/${foodDetails.imageUrl}',
                                   fit: BoxFit.contain,
                                   errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(
+                                    return Icon(
                                       FluentIcons.food_24_regular,
-                                      color: ThemeUtils.$primaryColor,
+                                      color: ThemeUtils.primaryColor(context),
                                     );
                                   },
                                 )
-                              : const Icon(
+                              : Icon(
                                   FluentIcons.food_24_regular,
-                                  color: ThemeUtils.$primaryColor,
+                                  color: ThemeUtils.primaryColor(context),
                                 ),
                         ),
                       ),
@@ -88,8 +93,8 @@ class FoodContainer extends HookWidget {
                         children: [
                           Text(
                             foodDetails.name,
-                            style: const TextStyle(
-                              color: ThemeUtils.$primaryColor,
+                            style: TextStyle(
+                              color: ThemeUtils.primaryColor(context),
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -101,7 +106,9 @@ class FoodContainer extends HookWidget {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                              color: ThemeUtils.primaryColor(
+                                context,
+                              ).withOpacity(0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
@@ -112,7 +119,7 @@ class FoodContainer extends HookWidget {
                                   .replaceAll('_', ' ')
                                   .toUpperCase(),
                               style: TextStyle(
-                                color: ThemeUtils.$primaryColor,
+                                color: ThemeUtils.primaryColor(context),
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.5,
@@ -128,12 +135,14 @@ class FoodContainer extends HookWidget {
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: ThemeUtils.$primaryColor.withOpacity(0.1),
+                          color: ThemeUtils.primaryColor(
+                            context,
+                          ).withOpacity(0.1),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
                           FluentIcons.chevron_down_24_regular,
-                          color: ThemeUtils.$primaryColor,
+                          color: ThemeUtils.primaryColor(context),
                           size: 20,
                         ),
                       ),
@@ -151,14 +160,14 @@ class FoodContainer extends HookWidget {
                           gradient: LinearGradient(
                             colors: [
                               Colors.transparent,
-                              ThemeUtils.$primaryColor.withOpacity(0.2),
+                              ThemeUtils.primaryColor(context).withOpacity(0.2),
                               Colors.transparent,
                             ],
                           ),
                         ),
                       ),
                       const Gap(16),
-                      _buildCalorieDetails(foodDetails),
+                      _buildCalorieDetails(foodDetails, context),
                     ],
                   ),
                   crossFadeState: isExpanded.value
@@ -174,9 +183,9 @@ class FoodContainer extends HookWidget {
     );
   }
 
-  Widget _buildCalorieDetails(FoodEntity food) {
+  Widget _buildCalorieDetails(FoodEntity food, BuildContext context) {
     if (food.calories == null) {
-      return _buildErrorMessage();
+      return _buildErrorMessage(context);
     }
 
     // final breakdown = food.calories;
@@ -188,7 +197,7 @@ class FoodContainer extends HookWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: ThemeUtils.$backgroundColor.withOpacity(0.5),
+        color: ThemeUtils.backgroundColor(context).withOpacity(0.5),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -261,18 +270,23 @@ class FoodContainer extends HookWidget {
             ),
           ),
           const Gap(12),
-          _buildNutrientTable({}),
+          _buildNutrientTable({}, context),
         ],
       ),
     );
   }
 
-  Widget _buildNutrientTable(Map<String, dynamic> breakdown) {
+  Widget _buildNutrientTable(
+    Map<String, dynamic> breakdown,
+    BuildContext context,
+  ) {
     return Container(
       decoration: BoxDecoration(
-        color: ThemeUtils.$backgroundColor,
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ThemeUtils.$primaryColor.withOpacity(0.1)),
+        border: Border.all(
+          color: ThemeUtils.primaryColor(context).withOpacity(0.1),
+        ),
       ),
       child: Column(
         children: [
@@ -280,7 +294,7 @@ class FoodContainer extends HookWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             decoration: BoxDecoration(
-              color: ThemeUtils.$primaryColor.withOpacity(0.15),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.15),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
@@ -336,7 +350,7 @@ class FoodContainer extends HookWidget {
               decoration: BoxDecoration(
                 color: index.isEven
                     ? Colors.transparent
-                    : ThemeUtils.$primaryColor.withOpacity(0.03),
+                    : ThemeUtils.primaryColor(context).withOpacity(0.03),
                 borderRadius: isLast
                     ? const BorderRadius.only(
                         bottomLeft: Radius.circular(12),
@@ -389,11 +403,11 @@ class FoodContainer extends HookWidget {
     );
   }
 
-  Widget _buildErrorMessage() {
+  Widget _buildErrorMessage(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: ThemeUtils.$backgroundColor,
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: ThemeUtils.$error.withOpacity(0.2)),
       ),
@@ -422,7 +436,7 @@ class FoodContainer extends HookWidget {
             "Try again later",
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: ThemeUtils.$primaryColor.withOpacity(0.6),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.6),
               fontSize: 12,
             ),
           ),
