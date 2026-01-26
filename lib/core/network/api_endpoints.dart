@@ -1,7 +1,7 @@
 class ApiEndpoints {
   // ------------------- BASEURL ---------------------//
-  static const String productionURL = "https://philanthropically-farsighted-malik.ngrok-free.dev";
-  // static const String productionURL = "https://utakulaserver.arifulib.co.ke";
+  // static const String productionURL = "https://philanthropically-farsighted-malik.ngrok-free.dev";
+  static const String productionURL = "https://utakulaserver.arifulib.co.ke";
 
   // -------------------- AUTH --------------------
   static const String signUp = "/auth/create_account/";

@@ -8,7 +8,9 @@ import 'package:logger/logger.dart';
 import 'package:utakula_v2/common/global_widgets/utakula_side_navigation.dart';
 import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
+import 'package:utakula_v2/features/meal_plan/data/models/meal_plan_model.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
+import 'package:utakula_v2/features/meal_plan/domain/entities/total_macros.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/providers/meal_plan_provider.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/action_buttons.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/widgets/day_card.dart';
@@ -171,6 +173,8 @@ class MealPlanController extends HookConsumerWidget {
           userMealPlan?.members ?? [],
         );
 
+        logger.d(MealPlanModel.fromEntity(mealPlanEntity).toJson());
+
         final notifier = ref.read(mealPlanStateProvider.notifier);
 
         // Decide whether to create or update
@@ -178,7 +182,7 @@ class MealPlanController extends HookConsumerWidget {
         if (userMealPlan != null && mealPlanId.value != null) {
           success = await notifier.updateMealPlan(mealPlanEntity);
         } else {
-          // For suggested meal plans, we're creating a new one (not updating the suggestion)
+          // For suggested meal plans
           success = await notifier.createMealPlan(mealPlanEntity);
         }
 
@@ -308,9 +312,9 @@ class MealPlanController extends HookConsumerWidget {
     Function(String, Map, int) updateMealPlan,
     String validationMessage,
   ) {
+    // final mealPlan = me
 
-    Logger logger = Logger();
-    logger.d(mealPlan);
+    print(mealPlan);
 
     return Container(
       padding: const EdgeInsets.all(10),

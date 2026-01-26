@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:logger/logger.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/single_meal_plan_entity.dart';
@@ -203,6 +204,13 @@ class CaloriePopup extends StatelessWidget {
       IconData icon,
       Color color,
       ) {
+
+    MealTypeFoodEntity food = foods.first;
+
+    Logger logger = Logger();
+
+    logger.d(food.toJson());
+
     if (foods.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(16),

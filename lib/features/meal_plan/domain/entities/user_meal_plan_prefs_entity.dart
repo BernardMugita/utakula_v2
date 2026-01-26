@@ -3,6 +3,7 @@ class UserMealPlanPrefsEntity {
   final List<String> dietaryRestrictions;
   final List<String> allergies;
   final int dailyCalorieTarget;
+  final bool useCalculatedTDEE;
   final List<String> medicalConditions;
 
   const UserMealPlanPrefsEntity({
@@ -10,6 +11,7 @@ class UserMealPlanPrefsEntity {
     required this.dietaryRestrictions,
     required this.allergies,
     required this.dailyCalorieTarget,
+    required this.useCalculatedTDEE,
     required this.medicalConditions,
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -175,45 +177,64 @@ class HelperUtils {
             grams: (food['grams'] is double)
                 ? food['grams'] as double
                 : (food['grams'] as num?)?.toDouble() ?? 0.0,
-            macros: TotalMacros(
-              proteinGrams: (food['protein_g'] is double)
-                  ? food['protein_g'] as double
-                  : (food['protein_g'] as num?)?.toDouble() ?? 0,
-              carbohydrateGrams: (food['carbs_g'] is double)
-                  ? food['carbs_g'] as double
-                  : (food['carbs_g'] as num?)?.toDouble() ?? 0,
-              fatGrams: (food['fat_g'] is double)
-                  ? food['fat_g'] as double
-                  : (food['fat_g'] as num?)?.toDouble() ?? 0,
-              fibreGrams: (food['fiber_g'] is double)
-                  ? food['fiber_g'] as double
-                  : food['fiber_g'] as double ?? 0,
-            ),
-
+            macros: food['macros'] is TotalMacros
+                ? food['macros'] as TotalMacros
+                : food['macros'] is Map
+                ? TotalMacros.fromJson(food['macros'] as Map<String, dynamic>)
+                : TotalMacros(
+                    proteinGrams: 0.0,
+                    carbohydrateGrams: 0.0,
+                    fatGrams: 0.0,
+                    fibreGrams: 0.0,
+                  ),
             servings: (food['servings'] is double)
                 ? food['servings'] as double
                 : (food['servings'] as num?)?.toDouble() ?? 0.0,
             caloriesPer100G: (food['calories_per_100g'] is double)
                 ? food['calories_per_100g'] as double
                 : (food['calories_per_100g'] as num?)?.toDouble() ?? 0.0,
-            calories: (food['total_calories'] is double)
-                ? food['total_calories'] as double
-                : (food['total_calories'] as num?)?.toDouble() ?? 0.0,
+            calories: (food['calories'] is double)
+                ? food['calories'] as double
+                : (food['calories'] as num?)?.toDouble() ?? 0.0,
           );
         }).toList();
       }
 
       final meals = plan['meals'] as Map<String, dynamic>;
 
+      final breakfast = convertMealList(meals['breakfast']);
+      final lunch = convertMealList(meals['lunch']);
+      final supper = convertMealList(meals['supper']);
+
+      final allMeals = [...breakfast, ...lunch, ...supper];
+      double totalProtein = 0;
+      double totalCarbs = 0;
+      double totalFat = 0;
+      double totalFibre = 0;
+
+      for (var meal in allMeals) {
+        totalProtein += meal.macros.proteinGrams;
+        totalCarbs += meal.macros.carbohydrateGrams;
+        totalFat += meal.macros.fatGrams;
+        totalFibre += meal.macros.fibreGrams;
+      }
+
+      final calculatedMacros = TotalMacros(
+        proteinGrams: totalProtein,
+        carbohydrateGrams: totalCarbs,
+        fatGrams: totalFat,
+        fibreGrams: totalFibre,
+      );
+
       return DayMealPlanEntity(
         day: plan['day'],
         mealPlan: SingleMealPlanEntity(
-          breakfast: convertMealList(meals['breakfast']),
-          lunch: convertMealList(meals['lunch']),
-          supper: convertMealList(meals['supper']),
+          breakfast: breakfast,
+          lunch: lunch,
+          supper: supper,
         ),
-        totalCalories: plan['total_calories'] as double,
-        totalMacros: plan['total_macros'],
+        totalCalories: (plan['total_calories'] as num?)?.toDouble() ?? 0.0,
+        totalMacros: calculatedMacros,
       );
     }).toList();
 
@@ -226,6 +247,7 @@ class HelperUtils {
       dailyCalorieTarget: userPrefs['daily_calorie_target'] as int,
       dietaryRestrictions: userPrefs['dietary_restrictions'],
       allergies: userPrefs['allergies'],
+      useCalculatedTDEE: userPrefs['use_calculated_tdee'],
       medicalConditions: userPrefs['medical_conditions'],
     );
   }

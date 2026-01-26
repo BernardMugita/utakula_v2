@@ -262,6 +262,7 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
                                 selectedRestrictions.value,
                                 selectedAllergies.value,
                                 selectedConditions.value,
+                                hasTdee,
                                 isLoading,
                                 ref,
                                 helperUtils,
@@ -321,6 +322,7 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
     Set<DietaryRestriction> restrictions,
     Set<FoodAllergy> allergies,
     Set<MedicalDietaryCondition> conditions,
+    bool hasTDEE,
     ValueNotifier<bool> isLoading,
     WidgetRef ref,
     HelperUtils helperUtils,
@@ -333,6 +335,7 @@ class MealPlanSuggestionDialog extends HookConsumerWidget {
       'dietary_restrictions': restrictions.map((r) => r.value).toList(),
       'allergies': allergies.map((a) => a.value).toList(),
       'daily_calorie_target': calorieTarget,
+      'use_calculated_tdee': hasTDEE ? true : false,
       'medical_conditions': conditions.map((c) => c.value).toList(),
     };
 

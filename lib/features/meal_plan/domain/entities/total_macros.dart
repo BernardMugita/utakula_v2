@@ -22,10 +22,10 @@ class TotalMacros {
 
   factory TotalMacros.fromJson(Map<String, dynamic> json) {
     return TotalMacros(
-      proteinGrams: json['protein_g'],
-      carbohydrateGrams: json['carbs_g'],
-      fatGrams: json['fat_g'],
-      fibreGrams: json['fiber_g'],
+      proteinGrams: (json['protein_g'] as num?)?.toDouble() ?? 0.0,
+      carbohydrateGrams: (json['carbs_g'] as num?)?.toDouble() ?? 0.0,
+      fatGrams: (json['fat_g'] as num?)?.toDouble() ?? 0.0,
+      fibreGrams: (json['fiber_g'] as num?)?.toDouble() ?? 0.0,
     );
   }
 

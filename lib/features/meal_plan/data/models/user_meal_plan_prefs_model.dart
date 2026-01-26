@@ -5,6 +5,7 @@ class UserMealPlanPrefsModel {
   final List<String> dietaryRestrictions;
   final List<String> allergies;
   final int dailyCalorieTarget;
+  final bool useCalculatedTDEE;
   final List<String> medicalConditions;
 
   const UserMealPlanPrefsModel({
@@ -12,6 +13,7 @@ class UserMealPlanPrefsModel {
     required this.dietaryRestrictions,
     required this.allergies,
     required this.dailyCalorieTarget,
+    required this.useCalculatedTDEE,
     required this.medicalConditions,
   });
 
@@ -21,6 +23,7 @@ class UserMealPlanPrefsModel {
       dietaryRestrictions: entity.dietaryRestrictions,
       allergies: entity.allergies,
       dailyCalorieTarget: entity.dailyCalorieTarget,
+      useCalculatedTDEE: entity.useCalculatedTDEE,
       medicalConditions: entity.medicalConditions,
     );
   }
@@ -31,6 +34,7 @@ class UserMealPlanPrefsModel {
       dietaryRestrictions: json['dietary_restrictions'] as List<String>,
       allergies: json['allergies'] as List<String>,
       dailyCalorieTarget: json['daily_calorie_target'] as int,
+      useCalculatedTDEE: json['use_calculated_tdee'] as bool,
       medicalConditions: json['medical_conditions'] as List<String>,
     );
   }
@@ -41,6 +45,7 @@ class UserMealPlanPrefsModel {
       'dietary_restrictions': dietaryRestrictions,
       'allergies': allergies,
       'daily_calorie_target': dailyCalorieTarget,
+      'use_calculated_tdee': useCalculatedTDEE,
       'medical_conditions': medicalConditions,
     };
   }
@@ -51,6 +56,7 @@ class UserMealPlanPrefsModel {
       dietaryRestrictions: dietaryRestrictions,
       allergies: allergies,
       dailyCalorieTarget: dailyCalorieTarget,
+      useCalculatedTDEE: useCalculatedTDEE,
       medicalConditions: medicalConditions,
     );
   }
