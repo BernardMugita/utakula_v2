@@ -266,7 +266,7 @@ class MealPlanController extends HookConsumerWidget {
                 'Tap the magic wand button to get meal plan suggestions!',
                 style: TextStyle(
                   fontSize: 14,
-                  color: ThemeUtils.primaryColor(context).withOpacity(0.7),
+                  color: ThemeUtils.blacks(context).withOpacity(0.7),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -313,9 +313,6 @@ class MealPlanController extends HookConsumerWidget {
     String validationMessage,
   ) {
     // final mealPlan = me
-
-    print(mealPlan);
-
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(

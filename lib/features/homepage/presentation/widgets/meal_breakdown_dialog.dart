@@ -90,7 +90,7 @@ class MealBreakdownDialog extends StatelessWidget {
               ],
             ),
             const Gap(20),
-            Divider(color: ThemeUtils.accentColor(context)),
+            Divider(color: ThemeUtils.blacks(context).withOpacity(0.2)),
             const Gap(12),
 
             // Food List
@@ -174,7 +174,8 @@ class MealBreakdownDialog extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        border: Border.all(color: ThemeUtils.accentColor(context)),
+        color: ThemeUtils.backgroundColor(context),
+        border: Border.all(color: ThemeUtils.blacks(context).withOpacity(0.2)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

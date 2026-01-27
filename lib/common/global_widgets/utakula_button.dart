@@ -180,6 +180,7 @@ class _UtakulaButtonState extends State<UtakulaButton>
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
+          color: ThemeUtils.blacks(context),
           letterSpacing: 0.5,
         ),
       );
@@ -259,7 +260,7 @@ class _UtakulaButtonState extends State<UtakulaButton>
       case UtakulaButtonVariant.primary:
         return {
           'background': widget.backgroundColor ?? ThemeUtils.primaryColor(context),
-          'text': widget.textColor ?? ThemeUtils.secondaryColor(context),
+          'text': widget.textColor ?? ThemeUtils.blacks(context),
           'border': widget.borderColor ?? ThemeUtils.primaryColor(context),
         };
       case UtakulaButtonVariant.secondary:
@@ -277,7 +278,7 @@ class _UtakulaButtonState extends State<UtakulaButton>
       case UtakulaButtonVariant.text:
         return {
           'background': widget.backgroundColor ?? Colors.transparent,
-          'text': widget.textColor ?? ThemeUtils.primaryColor(context),
+          'text': widget.textColor ?? ThemeUtils.blacks(context),
           'border': widget.borderColor ?? Colors.transparent,
         };
     }

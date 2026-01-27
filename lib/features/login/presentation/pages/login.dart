@@ -75,7 +75,7 @@ class Login extends HookConsumerWidget {
             fit: BoxFit.cover,
             image: const AssetImage('assets/images/background.png'),
             colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.7),
+              ThemeUtils.backgroundColor(context).withOpacity(0.7),
               BlendMode.darken,
             ),
           ),
@@ -86,8 +86,8 @@ class Login extends HookConsumerWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.6),
-                Colors.black.withOpacity(0.8),
+                ThemeUtils.backgroundColor(context).withOpacity(0.6),
+                ThemeUtils.backgroundColor(context).withOpacity(0.8),
               ],
             ),
           ),
@@ -117,7 +117,7 @@ class Login extends HookConsumerWidget {
                             loginState.isLoading,
                           ),
                           const Gap(30),
-                          _buildDivider(),
+                          _buildDivider(context),
                           const Gap(20),
                           _buildSignUpPrompt(context),
                         ],
@@ -158,8 +158,14 @@ class Login extends HookConsumerWidget {
           radius: MediaQuery.of(context).size.width / 6,
           backgroundColor: Colors.transparent,
           child: Image(
+            width: 100,
+            height: 100,
             fit: BoxFit.contain,
-            image: AssetImage("assets/images/utakula-logo-white.png"),
+            image: AssetImage(
+              Theme.of(context).brightness == Brightness.dark
+                  ? "assets/images/utakula-logo-white.png"
+                  : "assets/images/utakula-logo-green.png",
+            ),
           ),
         ),
       ),
@@ -192,7 +198,7 @@ class Login extends HookConsumerWidget {
           "Login to continue your culinary journey",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white.withOpacity(0.8),
+            color: ThemeUtils.blacks(context).withOpacity(0.8),
             fontSize: 15,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.3,
@@ -213,7 +219,7 @@ class Login extends HookConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
         boxShadow: [
@@ -247,7 +253,7 @@ class Login extends HookConsumerWidget {
               child: Text(
                 "Forgot password?",
                 style: TextStyle(
-                  color: ThemeUtils.primaryColor(context),
+                  color: ThemeUtils.blacks(context),
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
@@ -260,6 +266,7 @@ class Login extends HookConsumerWidget {
             height: 56,
             child: UtakulaButton(
               text: "Login",
+              textColor: ThemeUtils.blacks(context),
               onPressed: isLoading
                   ? null
                   : () async {
@@ -279,25 +286,25 @@ class Login extends HookConsumerWidget {
     );
   }
 
-  Widget _buildDivider() {
+  Widget _buildDivider(BuildContext context) {
     return Row(
       children: [
         Expanded(
-          child: Divider(color: Colors.white.withOpacity(0.3), thickness: 1),
+          child: Divider(color: ThemeUtils.borderColor(context), thickness: 1),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
             "Or",
             style: TextStyle(
-              color: Colors.white.withOpacity(0.7),
+              color: ThemeUtils.blacks(context).withOpacity(0.7),
               fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Expanded(
-          child: Divider(color: Colors.white.withOpacity(0.3), thickness: 1),
+          child: Divider(color: ThemeUtils.borderColor(context), thickness: 1),
         ),
       ],
     );
@@ -317,7 +324,7 @@ class Login extends HookConsumerWidget {
           Text(
             "Don't have an account?",
             style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+              color: ThemeUtils.blacks(context).withOpacity(0.8),
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
@@ -333,14 +340,14 @@ class Login extends HookConsumerWidget {
                 color: ThemeUtils.primaryColor(context).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: ThemeUtils.primaryColor(context).withOpacity(0.5),
+                  color: ThemeUtils.primaryColor(context).withOpacity(0.8),
                   width: 1,
                 ),
               ),
               child: Text(
                 "Sign up",
                 style: TextStyle(
-                  color: ThemeUtils.secondaryColor(context),
+                  color: ThemeUtils.primaryColor(context),
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.5,

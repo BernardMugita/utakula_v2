@@ -3,6 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/routing/routes.dart';
 
 class NoMealPlanAlert extends StatelessWidget {
@@ -12,6 +13,17 @@ class NoMealPlanAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(30),
+      decoration: BoxDecoration(
+        color: ThemeUtils.backgroundColor(context),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: ThemeUtils.boxShadowColor(context).withOpacity(0.1),
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
+          ),
+        ],
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -19,7 +31,7 @@ class NoMealPlanAlert extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(30),
             decoration: BoxDecoration(
-              color: const Color(0xFFF5E6F5),
+              color: ThemeUtils.secondaryColor(context).withOpacity(0.7),
               shape: BoxShape.circle,
             ),
             child: Image.asset(
@@ -29,12 +41,12 @@ class NoMealPlanAlert extends StatelessWidget {
             ),
           ),
           const Gap(30),
-          const Text(
+          Text(
             "No Meal Plan Yet",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: ThemeUtils.$error,
             ),
           ),
           const Gap(12),
@@ -43,7 +55,7 @@ class NoMealPlanAlert extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.black.withOpacity(0.6),
+              color: ThemeUtils.blacks(context),
               height: 1.5,
             ),
           ),

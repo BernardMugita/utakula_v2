@@ -481,7 +481,7 @@ class _BodyGoalSelector extends StatelessWidget {
                 border: Border.all(
                   color: isSelected
                       ? ThemeUtils.primaryColor(context)
-                      : ThemeUtils.accentColor(context),
+                      : ThemeUtils.borderColor(context),
                   width: 2,
                 ),
               ),
@@ -491,13 +491,22 @@ class _BodyGoalSelector extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? ThemeUtils.secondaryColor(context)
-                          : ThemeUtils.primaryColor(context),
+                          ? ThemeUtils.primaryColor(context)
+                          : ThemeUtils.secondaryColor(context),
                       borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: ThemeUtils.borderColor(context)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: ThemeUtils.boxShadowColor(context).withOpacity(0.1),
+                          offset: const Offset(5.0, 5.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 2.0,
+                        ),
+                      ]
                     ),
                     child: Icon(
                       _getGoalIcon(goal),
-                      color: isSelected ? Colors.white : Colors.grey.shade600,
+                      color: isSelected ? Colors.white : ThemeUtils.blacks(context),
                       size: 24,
                     ),
                   ),
@@ -741,9 +750,17 @@ class _MultiSelectChips<T> extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ThemeUtils.secondaryColor(context),
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color:ThemeUtils.accentColor(context), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: ThemeUtils.boxShadowColor(context).withOpacity(0.1),
+            offset: const Offset(5.0, 5.0),
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
+          ),
+        ],
+        border: Border.all(color:ThemeUtils.borderColor(context), width: 1.5),
       ),
       child: options.isEmpty
           ? Padding(
@@ -778,7 +795,7 @@ class _MultiSelectChips<T> extends StatelessWidget {
                   labelStyle: TextStyle(
                     color: isSelected
                         ? ThemeUtils.secondaryColor(context)
-                        : ThemeUtils.primaryColor(context),
+                        : ThemeUtils.blacks(context),
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                     fontSize: 13,
                   ),
@@ -787,7 +804,7 @@ class _MultiSelectChips<T> extends StatelessWidget {
                     side: BorderSide(
                       color: isSelected
                           ? ThemeUtils.primaryColor(context)
-                          : ThemeUtils.accentColor(context),
+                          : ThemeUtils.borderColor(context),
                       width: 1.5,
                     ),
                   ),

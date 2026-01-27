@@ -83,7 +83,7 @@ class Register extends HookConsumerWidget {
             fit: BoxFit.cover,
             image: const AssetImage('assets/images/background.png'),
             colorFilter: ColorFilter.mode(
-              ThemeUtils.blacks(context).withOpacity(0.7),
+              ThemeUtils.backgroundColor(context).withOpacity(0.7),
               BlendMode.darken,
             ),
           ),
@@ -94,8 +94,8 @@ class Register extends HookConsumerWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                ThemeUtils.blacks(context).withOpacity(0.6),
-                ThemeUtils.blacks(context).withOpacity(0.8),
+                ThemeUtils.backgroundColor(context).withOpacity(0.6),
+                ThemeUtils.backgroundColor(context).withOpacity(0.8),
               ],
             ),
           ),
@@ -159,11 +159,11 @@ class Register extends HookConsumerWidget {
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+            border: Border.all(color: ThemeUtils.blacks(context).withOpacity(0.2), width: 1),
           ),
           child: Icon(
             Icons.arrow_back_ios_new,
-            color: ThemeUtils.secondaryColor(context),
+            color: ThemeUtils.blacks(context),
             size: 20,
           ),
         ),
@@ -196,6 +196,8 @@ class Register extends HookConsumerWidget {
           radius: MediaQuery.of(context).size.width / 8,
           backgroundColor: Colors.transparent,
           child: Image(
+            width: 100,
+            height: 100,
             fit: BoxFit.contain,
             image: AssetImage("assets/images/utakula-logo-white.png"),
           ),
@@ -230,7 +232,7 @@ class Register extends HookConsumerWidget {
           "Join Utakula and start your culinary adventure",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: ThemeUtils.secondaryColor(context).withOpacity(0.8),
+            color: ThemeUtils.blacks(context),
             fontSize: 14,
             fontWeight: FontWeight.w500,
             letterSpacing: 0.3,
@@ -345,7 +347,7 @@ class Register extends HookConsumerWidget {
           Text(
             "Password requirements:",
             style: TextStyle(
-              color: ThemeUtils.secondaryColor(context).withOpacity(0.9),
+              color: ThemeUtils.primaryColor(context).withOpacity(0.9),
               fontSize: 12,
               fontWeight: FontWeight.w600,
             ),
@@ -373,7 +375,7 @@ class Register extends HookConsumerWidget {
           Text(
             text,
             style: TextStyle(
-              color: ThemeUtils.secondaryColor(context).withOpacity(0.7),
+              color: ThemeUtils.blacks(context).withOpacity(0.7),
               fontSize: 11,
               fontWeight: FontWeight.w400,
             ),
@@ -388,7 +390,7 @@ class Register extends HookConsumerWidget {
       children: [
         Expanded(
           child: Divider(
-            color: ThemeUtils.secondaryColor(context).withOpacity(0.3),
+            color: ThemeUtils.primaryColor(context).withOpacity(0.3),
             thickness: 1,
           ),
         ),
@@ -397,7 +399,7 @@ class Register extends HookConsumerWidget {
           child: Text(
             "Or",
             style: TextStyle(
-              color: ThemeUtils.secondaryColor(context).withOpacity(0.7),
+              color: ThemeUtils.blacks(context).withOpacity(0.7),
               fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
@@ -405,7 +407,7 @@ class Register extends HookConsumerWidget {
         ),
         Expanded(
           child: Divider(
-            color: ThemeUtils.secondaryColor(context).withOpacity(0.3),
+            color: ThemeUtils.primaryColor(context).withOpacity(0.3),
             thickness: 1,
           ),
         ),
@@ -427,7 +429,7 @@ class Register extends HookConsumerWidget {
           Text(
             "Already have an account?",
             style: TextStyle(
-              color: ThemeUtils.secondaryColor(context).withOpacity(0.8),
+              color: ThemeUtils.blacks(context).withOpacity(0.8),
               fontSize: 14,
               fontWeight: FontWeight.w500,
             ),

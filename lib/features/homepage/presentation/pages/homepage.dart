@@ -170,7 +170,7 @@ class Homepage extends HookConsumerWidget {
                   _buildWelcomeBanner(context: context, userState: userState),
                   const Gap(15),
                   // Info Banner
-                  _buildInfoBanner(),
+                  _buildInfoBanner(context),
                   const Gap(20),
 
                   // Metrics Setup Prompt (if no metrics)
@@ -212,7 +212,7 @@ class Homepage extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF2D5016), Color(0xFF4A7C2C)],
+          colors: [Color(0xFF0C6202), Color(0xFF022C00)],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -240,7 +240,7 @@ class Homepage extends HookConsumerWidget {
           alignment: Alignment.centerLeft,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              spacing: 5,
               children: [
                 Opacity(
                   opacity: 0.3,
@@ -260,6 +260,17 @@ class Homepage extends HookConsumerWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  width: 60,
+                  height: 30,
+                  child: Row(
+                    children: [
+                      Lottie.asset("assets/animations/slide.json"),
+                      Lottie.asset("assets/animations/slide.json"),
+                    ],
+                  ),
+                ),
+                Spacer(),
                 Text(
                   userState.user.username ?? 'User',
                   style: const TextStyle(
@@ -294,23 +305,27 @@ class Homepage extends HookConsumerWidget {
     );
   }
 
-  Widget _buildInfoBanner() {
+  Widget _buildInfoBanner(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
+        color: ThemeUtils.secondaryColor(context).withOpacity(0.9),
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: Colors.black.withOpacity(0.1), width: 1),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(FluentIcons.info_24_regular, color: Colors.black87, size: 20),
+          Icon(
+            FluentIcons.info_24_regular,
+            color: ThemeUtils.blacks(context),
+            size: 20,
+          ),
           Gap(10),
           Text(
             "Slide to logout",
             style: TextStyle(
-              color: Colors.black87,
+              color: ThemeUtils.blacks(context),
               fontSize: 13,
               fontWeight: FontWeight.w500,
             ),

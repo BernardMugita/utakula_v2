@@ -65,19 +65,20 @@ class DayItem extends HookConsumerWidget {
         width: isExpanded ? double.infinity : double.infinity,
         // CHANGED: Let parent control width
         height: isExpanded ? 300 : 100,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         decoration: BoxDecoration(
           color: isCurrentDay || isExpanded
               ? ThemeUtils.secondaryColor(context)
               : ThemeUtils.primaryColor(context),
           boxShadow: [
             BoxShadow(
-              color: ThemeUtils.blacks(context).withOpacity(0.3),
+              color: ThemeUtils.boxShadowColor(context).withOpacity(0.1),
               offset: const Offset(5.0, 5.0),
               blurRadius: 10.0,
               spreadRadius: 2.0,
             ),
           ],
+          border: Border.all(color: ThemeUtils.blacks(context).withOpacity(0.3), width: 2),
           borderRadius: BorderRadius.circular(20),
         ),
         child: isExpanded

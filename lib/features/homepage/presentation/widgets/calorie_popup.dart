@@ -211,14 +211,22 @@ class CaloriePopup extends StatelessWidget {
     if (foods.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(16),
+        width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.grey.shade50,
+          color: ThemeUtils.secondaryColor(context),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200),
+          // border: Border.all(color: ThemeUtils.$error),
+          boxShadow: [
+            BoxShadow(
+              color: ThemeUtils.$info.withOpacity(0.1),
+              blurRadius: 10.0,
+              spreadRadius: 2.0,
+            ),
+          ],
         ),
         child: Text(
           '$mealName: No items',
-          style: const TextStyle(fontSize: 14, color: Colors.grey),
+          style: TextStyle(fontSize: 14, color: ThemeUtils.$info),
         ),
       );
     }
@@ -232,12 +240,12 @@ class CaloriePopup extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: ThemeUtils.backgroundColor(context)),
+        border: Border.all(color: color),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: color.withOpacity(0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -327,7 +335,9 @@ class CaloriePopup extends StatelessWidget {
           // Meal Macros Summary
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: BoxDecoration(color: Colors.grey.shade50),
+            decoration: BoxDecoration(
+              color: ThemeUtils.secondaryColor(context),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -391,9 +401,15 @@ class CaloriePopup extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: ThemeUtils.backgroundColor(context),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(isLast ? 12 : 0),
+          bottomRight: Radius.circular(isLast ? 12 : 0),
+        ),
         border: isLast
             ? null
-            : Border(bottom: BorderSide(color: ThemeUtils.backgroundColor(context))),
+            : Border(
+                bottom: BorderSide(color: ThemeUtils.backgroundColor(context)),
+              ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

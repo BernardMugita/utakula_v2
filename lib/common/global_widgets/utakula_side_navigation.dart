@@ -183,7 +183,7 @@ class UtakulaSideNavigation extends HookConsumerWidget {
                         isComingSoon: false,
                       ),
                       const Gap(20),
-                      Divider(color: ThemeUtils.accentColor(context)),
+                      Divider(color: ThemeUtils.blacks(context).withOpacity(0.1)),
                       const Gap(12),
                       _buildNavigationItem(
                         context: context,

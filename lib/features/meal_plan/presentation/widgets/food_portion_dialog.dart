@@ -193,10 +193,12 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                         decoration: InputDecoration(
                           suffixText: 'g',
                           filled: true,
-                          fillColor: ThemeUtils.secondaryColor(context),
+                          fillColor: ThemeUtils.blacks(context).withOpacity(0.1),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
+                            borderSide: BorderSide(
+                              color: ThemeUtils.blacks(context).withOpacity(0.3)
+                            )
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 12,
@@ -236,7 +238,7 @@ class _FoodPortionDialogState extends State<FoodPortionDialog> {
                         onChanged: (_) => _updateGramsFromServings(),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: ThemeUtils.secondaryColor(context),
+                          fillColor: ThemeUtils.blacks(context).withOpacity(0.1),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide.none,

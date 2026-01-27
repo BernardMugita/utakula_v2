@@ -15,7 +15,7 @@ class InfoBanner extends StatelessWidget {
       children: [
         Icon(
           FluentIcons.info_24_regular,
-          color: ThemeUtils.primaryColor(context),
+          color: ThemeUtils.blacks(context),
         ),
         const Gap(10),
         Expanded(
@@ -23,7 +23,7 @@ class InfoBanner extends StatelessWidget {
             message,
             style: TextStyle(
               fontSize: 12,
-              color: ThemeUtils.primaryColor(context),
+              color: ThemeUtils.blacks(context),
             ),
           ),
         ),

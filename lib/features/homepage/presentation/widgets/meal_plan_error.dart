@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/providers/meal_plan_provider.dart';
 import 'package:utakula_v2/routing/routes.dart';
 
@@ -14,6 +15,17 @@ class MealPlanError extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(30),
+      decoration: BoxDecoration(
+        color: ThemeUtils.backgroundColor(context),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: ThemeUtils.boxShadowColor(context).withOpacity(0.1),
+            blurRadius: 10.0,
+            spreadRadius: 2.0,
+          )
+        ]
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -21,7 +33,7 @@ class MealPlanError extends HookConsumerWidget {
           Container(
             padding: const EdgeInsets.all(30),
             decoration: BoxDecoration(
-              color: const Color(0xFFF5E6F5),
+              color: ThemeUtils.secondaryColor(context).withOpacity(0.7),
               shape: BoxShape.circle,
             ),
             child: Image.asset(
@@ -31,12 +43,12 @@ class MealPlanError extends HookConsumerWidget {
             ),
           ),
           const Gap(30),
-          const Text(
+          Text(
             "Error Loading Meal Plan",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: ThemeUtils.$error,
             ),
           ),
           const Gap(12),
@@ -45,7 +57,7 @@ class MealPlanError extends HookConsumerWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
-              color: Colors.black.withOpacity(0.6),
+              color: ThemeUtils.blacks(context),
               height: 1.5,
             ),
           ),

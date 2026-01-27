@@ -246,7 +246,7 @@ class Reminders extends HookConsumerWidget {
                             ),
                             child: Icon(
                               FluentIcons.alert_24_filled,
-                              color: ThemeUtils.secondaryColor(context),
+                              color: Colors.white,
                               size: 28,
                             ),
                           ),
@@ -258,7 +258,7 @@ class Reminders extends HookConsumerWidget {
                                 Text(
                                   'Notifications',
                                   style: TextStyle(
-                                    color: ThemeUtils.secondaryColor(context),
+                                    color: Colors.white,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -267,7 +267,7 @@ class Reminders extends HookConsumerWidget {
                                 Text(
                                   'Get reminded before meals',
                                   style: TextStyle(
-                                    color: ThemeUtils.secondaryColor(context),
+                                    color: Colors.white.withOpacity(0.7),
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -584,7 +584,7 @@ class Reminders extends HookConsumerWidget {
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: ThemeUtils.primaryColor(context),
+                        color: ThemeUtils.blacks(context),
                       ),
                     ),
                     const Gap(2),
@@ -592,9 +592,7 @@ class Reminders extends HookConsumerWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 12,
-                        color: ThemeUtils.primaryColor(
-                          context,
-                        ).withOpacity(0.6),
+                        color: ThemeUtils.blacks(context).withOpacity(0.6),
                       ),
                     ),
                   ],
@@ -665,7 +663,7 @@ class Reminders extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: ThemeUtils.primaryColor(context),
+                      color: ThemeUtils.blacks(context),
                     ),
                   ),
                   const Gap(4),
@@ -700,7 +698,7 @@ class Reminders extends HookConsumerWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: ThemeUtils.primaryColor(
+                              color: ThemeUtils.blacks(
                                 context,
                               ).withOpacity(enabled ? 0.8 : 0.4),
                             ),

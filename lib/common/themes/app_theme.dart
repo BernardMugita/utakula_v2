@@ -10,7 +10,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-
+    fontFamily: 'Poppins',
     // Color Scheme
     colorScheme: const ColorScheme.light(
       primary: ThemeUtils.$primaryColorLight,
@@ -166,6 +166,7 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
+    fontFamily: 'Poppins',
 
     // Color Scheme
     colorScheme: const ColorScheme.dark(

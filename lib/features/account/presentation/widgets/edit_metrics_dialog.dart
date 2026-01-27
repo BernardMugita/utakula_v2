@@ -433,7 +433,7 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
           decoration: InputDecoration(
             suffixText: suffix,
             filled: true,
-            fillColor: ThemeUtils.backgroundColor(context),
+            fillColor: ThemeUtils.blacks(context).withOpacity(0.1),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(
@@ -495,7 +495,7 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
             child: Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: isSelected ? ThemeUtils.primaryColor(context) : ThemeUtils.secondaryColor(context),
+                color: isSelected ? ThemeUtils.primaryColor(context).withOpacity(0.7) : ThemeUtils.secondaryColor(context),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: isSelected

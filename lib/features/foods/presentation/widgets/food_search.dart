@@ -21,8 +21,8 @@ class FoodSearch extends HookWidget {
         color: ThemeUtils.secondaryColor(context),
         border: Border.all(
           color: isFocused.value
-              ? ThemeUtils.primaryColor(context)
-              : ThemeUtils.primaryColor(context).withOpacity(0.3),
+              ? ThemeUtils.borderColor(context)
+              : ThemeUtils.borderColor(context).withOpacity(0.3),
           width: isFocused.value ? 2 : 1,
         ),
         borderRadius: BorderRadius.circular(25),
@@ -49,8 +49,8 @@ class FoodSearch extends HookWidget {
             Icon(
               FluentIcons.search_24_regular,
               color: isFocused.value
-                  ? ThemeUtils.primaryColor(context)
-                  : ThemeUtils.primaryColor(context).withOpacity(0.5),
+                  ? ThemeUtils.borderColor(context)
+                    : ThemeUtils.primaryColor(context).withOpacity(0.5),
               size: 22,
             ),
             const SizedBox(width: 12),
@@ -72,11 +72,13 @@ class FoodSearch extends HookWidget {
                   decoration: InputDecoration(
                     hintText: "Search foods...",
                     hintStyle: TextStyle(
-                      color: ThemeUtils.primaryColor(context).withOpacity(0.4),
+                      color: ThemeUtils.blacks(context).withOpacity(0.4),
                       fontWeight: FontWeight.w400,
                     ),
+                    filled: true,
+                    fillColor: ThemeUtils.blacks(context).withOpacity(0.2),
                     border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
                   ),
                 ),
               ),

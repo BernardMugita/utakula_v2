@@ -64,10 +64,10 @@ class _UtakulaInputState extends State<UtakulaInput> {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveTextColor = widget.textColor ?? ThemeUtils.secondaryColor(context);
+    final effectiveTextColor = widget.textColor ?? ThemeUtils.blacks(context);
     final effectiveHintColor =
         widget.hintColor ?? ThemeUtils.secondaryColor(context).withOpacity(0.7);
-    final effectiveIconColor = widget.iconColor ?? ThemeUtils.secondaryColor(context);
+    final effectiveIconColor = widget.iconColor ?? ThemeUtils.blacks(context);
     final effectiveBorderColor =
         widget.borderColor ?? ThemeUtils.secondaryColor(context);
 
@@ -78,7 +78,7 @@ class _UtakulaInputState extends State<UtakulaInput> {
         boxShadow: _isFocused
             ? [
           BoxShadow(
-            color: ThemeUtils.primaryColor(context).withOpacity(0.3),
+            color: ThemeUtils.boxShadowColor(context).withOpacity(0.3),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -95,23 +95,23 @@ class _UtakulaInputState extends State<UtakulaInput> {
         enabled: widget.enabled,
         focusNode: _focusNode,
         style: TextStyle(
-          color: effectiveTextColor,
+          color: ThemeUtils.blacks(context),
           fontSize: 15,
           fontWeight: FontWeight.w500,
         ),
         decoration: InputDecoration(
           hintText: widget.hintText,
           hintStyle: TextStyle(
-            color: effectiveHintColor,
+            color: ThemeUtils.blacks(context),
             fontSize: 14,
             fontWeight: FontWeight.w400,
           ),
           filled: true,
-          fillColor: widget.fillColor ?? Colors.white.withOpacity(0.1),
+          fillColor: ThemeUtils.secondaryColor(context),
           prefixIcon: widget.prefixIcon != null
               ? Icon(
             widget.prefixIcon,
-            color: effectiveIconColor,
+            color: ThemeUtils.blacks(context),
             size: 22,
           )
               : null,
@@ -134,14 +134,14 @@ class _UtakulaInputState extends State<UtakulaInput> {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
-              color: effectiveBorderColor.withOpacity(0.3),
+              color: ThemeUtils.blacks(context).withOpacity(0.2),
               width: 1.5,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(
-              color: effectiveBorderColor,
+              color: ThemeUtils.borderColor(context).withOpacity(0.2),
               width: 2,
             ),
           ),

@@ -398,7 +398,7 @@ class DraggableFoodItem extends StatelessWidget {
                 Text(
                   food.name ?? 'Unknown',
                   style: TextStyle(
-                    color: ThemeUtils.secondaryColor(context),
+                    color: ThemeUtils.blacks(context),
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
@@ -438,7 +438,7 @@ class DraggableFoodItem extends StatelessWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.primaryColor(context),
+              color: ThemeUtils.blacks(context),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -466,7 +466,7 @@ class DraggableFoodItem extends StatelessWidget {
                 "${food.calories?.total ?? 0} cal/100g",
                 style: TextStyle(
                   fontSize: 11,
-                  color: ThemeUtils.primaryColor(context).withOpacity(0.6),
+                  color: ThemeUtils.primaryColor(context),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

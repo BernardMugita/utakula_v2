@@ -55,7 +55,7 @@ class DayCard extends StatelessWidget {
           Text(
             day,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 14,
               color: ThemeUtils.primaryColor(context),
             ),
           ),
@@ -181,8 +181,9 @@ class DayCard extends StatelessWidget {
         onTap: () => _navigateToEditDay(context),
         child: CircleAvatar(
           radius: 20,
-          backgroundColor: ThemeUtils.backgroundColor(context),
-          child: Icon(FluentIcons.edit_28_regular, size: 20),
+          backgroundColor: ThemeUtils.primaryColor(context),
+          child: Icon(FluentIcons.edit_28_regular, size: 20, color: ThemeUtils.secondaryColor(
+              context),),
         ),
       ),
     );

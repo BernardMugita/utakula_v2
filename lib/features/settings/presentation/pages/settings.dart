@@ -128,7 +128,7 @@ class Settings extends HookConsumerWidget {
                       ),
                       child: Icon(
                         FluentIcons.settings_24_filled,
-                        color: ThemeUtils.secondaryColor(context),
+                        color: Colors.white,
                         size: 32,
                       ),
                     ),
@@ -140,7 +140,7 @@ class Settings extends HookConsumerWidget {
                           Text(
                             'Preferences',
                             style: TextStyle(
-                              color: ThemeUtils.secondaryColor(context),
+                              color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -149,7 +149,7 @@ class Settings extends HookConsumerWidget {
                           Text(
                             'Customize your app experience',
                             style: TextStyle(
-                              color: ThemeUtils.secondaryColor(context),
+                              color: Colors.white.withOpacity(0.7),
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
@@ -570,7 +570,7 @@ class Settings extends HookConsumerWidget {
                       fontWeight: FontWeight.bold,
                       color: isDanger
                           ? ThemeUtils.$error
-                          : ThemeUtils.primaryColor(context),
+                          : ThemeUtils.blacks(context),
                     ),
                   ),
                   const Gap(2),
@@ -580,7 +580,7 @@ class Settings extends HookConsumerWidget {
                       fontSize: 12,
                       color: isDanger
                           ? ThemeUtils.$error.withOpacity(0.7)
-                          : ThemeUtils.primaryColor(context).withOpacity(0.6),
+                          : ThemeUtils.blacks(context).withOpacity(0.6),
                     ),
                   ),
                 ],
