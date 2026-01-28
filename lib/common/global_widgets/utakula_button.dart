@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 
-enum UtakulaButtonVariant {
-  primary,
-  secondary,
-  outline,
-  text,
-}
+enum UtakulaButtonVariant { primary, secondary, outline, text }
 
-enum UtakulaButtonSize {
-  small,
-  medium,
-  large,
-}
+enum UtakulaButtonSize { small, medium, large }
 
 class UtakulaButton extends StatefulWidget {
   final String text;
@@ -108,29 +99,27 @@ class _UtakulaButtonState extends State<UtakulaButton>
           child: ElevatedButton(
             onPressed: isDisabled ? null : widget.onPressed,
             style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                    (Set<WidgetState> states) {
-                  if (states.contains(WidgetState.disabled)) {
-                    return colors['background']!.withOpacity(0.5);
-                  }
-                  if (states.contains(WidgetState.pressed)) {
-                    return colors['background']!.withOpacity(0.8);
-                  }
-                  return colors['background']!;
-                },
-              ),
+              backgroundColor: WidgetStateProperty.resolveWith<Color>((
+                Set<WidgetState> states,
+              ) {
+                if (states.contains(WidgetState.disabled)) {
+                  return colors['background']!.withOpacity(0.5);
+                }
+                if (states.contains(WidgetState.pressed)) {
+                  return colors['background']!.withOpacity(0.8);
+                }
+                return colors['background']!;
+              }),
               foregroundColor: WidgetStatePropertyAll(colors['text']),
               elevation: WidgetStatePropertyAll(
-                widget.elevation ?? (widget.variant == UtakulaButtonVariant.text ? 0 : 2),
+                widget.elevation ??
+                    (widget.variant == UtakulaButtonVariant.text ? 0 : 2),
               ),
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(dimensions['radius']!),
                   side: widget.variant == UtakulaButtonVariant.outline
-                      ? BorderSide(
-                    color: colors['border']!,
-                    width: 2,
-                  )
+                      ? BorderSide(color: colors['border']!, width: 2)
                       : BorderSide.none,
                 ),
               ),
@@ -140,14 +129,14 @@ class _UtakulaButtonState extends State<UtakulaButton>
                   vertical: dimensions['paddingV']!,
                 ),
               ),
-              overlayColor: WidgetStateProperty.resolveWith<Color>(
-                    (Set<WidgetState> states) {
-                  if (states.contains(WidgetState.pressed)) {
-                    return Colors.white.withOpacity(0.1);
-                  }
-                  return Colors.transparent;
-                },
-              ),
+              overlayColor: WidgetStateProperty.resolveWith<Color>((
+                Set<WidgetState> states,
+              ) {
+                if (states.contains(WidgetState.pressed)) {
+                  return Colors.white.withOpacity(0.1);
+                }
+                return Colors.transparent;
+              }),
             ),
             child: widget.isLoading
                 ? _buildLoadingWidget(colors['text']!)
@@ -180,7 +169,7 @@ class _UtakulaButtonState extends State<UtakulaButton>
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
-          color: ThemeUtils.blacks(context),
+          color: ThemeUtils.$fixedTextColor,
           letterSpacing: 0.5,
         ),
       );
@@ -189,6 +178,7 @@ class _UtakulaButtonState extends State<UtakulaButton>
     final iconWidget = Icon(
       widget.icon,
       size: fontSize + 2,
+      color: ThemeUtils.$fixedTextColor,
     );
 
     final textWidget = Text(
@@ -196,6 +186,7 @@ class _UtakulaButtonState extends State<UtakulaButton>
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: FontWeight.bold,
+        color: ThemeUtils.$fixedTextColor,
         letterSpacing: 0.5,
       ),
     );
@@ -204,16 +195,8 @@ class _UtakulaButtonState extends State<UtakulaButton>
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: widget.iconRight
-          ? [
-        textWidget,
-        const SizedBox(width: 8),
-        iconWidget,
-      ]
-          : [
-        iconWidget,
-        const SizedBox(width: 8),
-        textWidget,
-      ],
+          ? [textWidget, const SizedBox(width: 8), iconWidget]
+          : [iconWidget, const SizedBox(width: 8), textWidget],
     );
   }
 
@@ -259,13 +242,15 @@ class _UtakulaButtonState extends State<UtakulaButton>
     switch (widget.variant) {
       case UtakulaButtonVariant.primary:
         return {
-          'background': widget.backgroundColor ?? ThemeUtils.primaryColor(context),
+          'background':
+              widget.backgroundColor ?? ThemeUtils.primaryColor(context),
           'text': widget.textColor ?? ThemeUtils.blacks(context),
           'border': widget.borderColor ?? ThemeUtils.primaryColor(context),
         };
       case UtakulaButtonVariant.secondary:
         return {
-          'background': widget.backgroundColor ?? ThemeUtils.secondaryColor(context),
+          'background':
+              widget.backgroundColor ?? ThemeUtils.secondaryColor(context),
           'text': widget.textColor ?? ThemeUtils.primaryColor(context),
           'border': widget.borderColor ?? ThemeUtils.secondaryColor(context),
         };

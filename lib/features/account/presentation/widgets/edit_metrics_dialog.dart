@@ -439,7 +439,7 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
               borderSide: BorderSide(
                 color: ThemeUtils.secondaryColor(context),
                 width: 1,
-              )
+              ),
             ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
@@ -495,7 +495,9 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
             child: Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: isSelected ? ThemeUtils.primaryColor(context).withOpacity(0.7) : ThemeUtils.secondaryColor(context),
+                color: isSelected
+                    ? ThemeUtils.primaryColor(context).withOpacity(0.7)
+                    : ThemeUtils.secondaryColor(context),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: isSelected
@@ -536,8 +538,8 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: isSelected
-                                ? ThemeUtils.primaryColor(context)
-                                : ThemeUtils.secondaryColor(context),
+                                ? ThemeUtils.blacks(context)
+                                : ThemeUtils.primaryColor(context),
                           ),
                         ),
                         Text(

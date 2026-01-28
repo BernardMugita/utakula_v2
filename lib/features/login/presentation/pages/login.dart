@@ -141,10 +141,15 @@ class Login extends HookConsumerWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: LinearGradient(
-            colors: [
-              ThemeUtils.primaryColor(context).withOpacity(0.3),
-              ThemeUtils.primaryColor(context).withOpacity(0.1),
-            ],
+            colors: Theme.of(context).brightness == Brightness.dark
+                ? [
+                    ThemeUtils.primaryColor(context).withOpacity(0.3),
+                    ThemeUtils.primaryColor(context).withOpacity(0.1),
+                  ]
+                : [
+                    ThemeUtils.primaryColor(context),
+                    ThemeUtils.primaryColor(context).withOpacity(0.8),
+                  ],
           ),
           boxShadow: [
             BoxShadow(
@@ -161,11 +166,7 @@ class Login extends HookConsumerWidget {
             width: 100,
             height: 100,
             fit: BoxFit.contain,
-            image: AssetImage(
-              Theme.of(context).brightness == Brightness.dark
-                  ? "assets/images/utakula-logo-white.png"
-                  : "assets/images/utakula-logo-green.png",
-            ),
+            image: AssetImage("assets/images/utakula-logo-white.png"),
           ),
         ),
       ),

@@ -13,6 +13,7 @@ class ThemeUtils {
   static const Color $blacksLight = Color(0xFF000000);
   static const Color $boxShadowColorLight = Color(0xFF000000);
   static const Color $borderColor = Color(0xFFE5E5E5);
+  static const Color $fixedTextColor = Color(0xFFFFFFFF);
 
   // ============================================================================
   // DARK THEME COLORS

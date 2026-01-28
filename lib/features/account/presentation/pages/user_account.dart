@@ -459,8 +459,8 @@ class UserAccount extends HookConsumerWidget {
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 colors: [
-                  ThemeUtils.secondaryColor(context),
-                  ThemeUtils.secondaryColor(context).withOpacity(0.6),
+                  ThemeUtils.$fixedTextColor,
+                  ThemeUtils.$fixedTextColor.withOpacity(0.6),
                 ],
               ),
             ),
@@ -477,7 +477,7 @@ class UserAccount extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.bold,
-                    color: ThemeUtils.secondaryColor(context),
+                    color: ThemeUtils.$fixedTextColor,
                   ),
                 ),
               ),
@@ -489,7 +489,7 @@ class UserAccount extends HookConsumerWidget {
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
-              color: ThemeUtils.secondaryColor(context),
+              color: ThemeUtils.$fixedTextColor,
             ),
           ),
           const Gap(4),
@@ -497,17 +497,17 @@ class UserAccount extends HookConsumerWidget {
             userState.user.email ?? '',
             style: TextStyle(
               fontSize: 14,
-              color: ThemeUtils.secondaryColor(context).withOpacity(0.8),
+              color: ThemeUtils.$fixedTextColor.withOpacity(0.8),
             ),
           ),
           const Gap(12),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: ThemeUtils.secondaryColor(context).withOpacity(0.2),
+              color: ThemeUtils.$fixedTextColor.withOpacity(0.2),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: ThemeUtils.secondaryColor(context).withOpacity(0.3),
+                color: ThemeUtils.$fixedTextColor.withOpacity(0.3),
                 width: 1,
               ),
             ),
@@ -518,7 +518,7 @@ class UserAccount extends HookConsumerWidget {
                   userState.user.role == 'admin'
                       ? FluentIcons.shield_checkmark_24_filled
                       : FluentIcons.person_24_regular,
-                  color: ThemeUtils.secondaryColor(context),
+                  color: ThemeUtils.$fixedTextColor,
                   size: 18,
                 ),
                 const Gap(8),
@@ -527,7 +527,7 @@ class UserAccount extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: ThemeUtils.secondaryColor(context),
+                    color: ThemeUtils.$fixedTextColor,
                     letterSpacing: 1.2,
                   ),
                 ),
@@ -663,7 +663,7 @@ class UserAccount extends HookConsumerWidget {
           border: Border.all(
             color: isEditMode && isEditable
                 ? ThemeUtils.primaryColor(context).withOpacity(0.3)
-                : ThemeUtils.accentColor(context),
+                : ThemeUtils.blacks(context).withOpacity(0.3),
             width: isEditMode && isEditable ? 2 : 1,
           ),
           boxShadow: [
@@ -898,7 +898,9 @@ class UserAccount extends HookConsumerWidget {
           decoration: BoxDecoration(
             color: ThemeUtils.secondaryColor(context),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: ThemeUtils.accentColor(context)),
+            border: Border.all(
+              color: ThemeUtils.blacks(context).withOpacity(0.3),
+            ),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.04),
@@ -1032,7 +1034,7 @@ class UserAccount extends HookConsumerWidget {
       decoration: BoxDecoration(
         color: ThemeUtils.secondaryColor(context),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ThemeUtils.accentColor(context)),
+        border: Border.all(color: ThemeUtils.blacks(context).withOpacity(0.3)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),

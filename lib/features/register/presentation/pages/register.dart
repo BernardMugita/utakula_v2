@@ -159,7 +159,10 @@ class Register extends HookConsumerWidget {
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: ThemeUtils.blacks(context).withOpacity(0.2), width: 1),
+            border: Border.all(
+              color: ThemeUtils.blacks(context).withOpacity(0.2),
+              width: 1,
+            ),
           ),
           child: Icon(
             Icons.arrow_back_ios_new,
@@ -175,14 +178,19 @@ class Register extends HookConsumerWidget {
     return Hero(
       tag: 'app_logo',
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: LinearGradient(
-            colors: [
-              ThemeUtils.primaryColor(context).withOpacity(0.3),
-              ThemeUtils.primaryColor(context).withOpacity(0.1),
-            ],
+            colors: Theme.of(context).brightness == Brightness.dark
+                ? [
+                    ThemeUtils.primaryColor(context).withOpacity(0.3),
+                    ThemeUtils.primaryColor(context).withOpacity(0.1),
+                  ]
+                : [
+                    ThemeUtils.primaryColor(context),
+                    ThemeUtils.primaryColor(context).withOpacity(0.8),
+                  ],
           ),
           boxShadow: [
             BoxShadow(
@@ -193,7 +201,7 @@ class Register extends HookConsumerWidget {
           ],
         ),
         child: CircleAvatar(
-          radius: MediaQuery.of(context).size.width / 8,
+          radius: MediaQuery.of(context).size.width / 6,
           backgroundColor: Colors.transparent,
           child: Image(
             width: 100,
@@ -256,7 +264,7 @@ class Register extends HookConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
+        color: ThemeUtils.backgroundColor(context),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
         boxShadow: [
