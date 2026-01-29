@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -173,8 +174,6 @@ class MealPlanController extends HookConsumerWidget {
           userMealPlan?.members ?? [],
         );
 
-        logger.d(MealPlanModel.fromEntity(mealPlanEntity).toJson());
-
         final notifier = ref.read(mealPlanStateProvider.notifier);
 
         // Decide whether to create or update
@@ -187,6 +186,7 @@ class MealPlanController extends HookConsumerWidget {
         }
 
         if (success) {
+          await FirebaseAnalytics.instance.logEvent(name: 'meal_plan_saved');
           if (context.mounted) {
             helperUtils.showSnackBar(
               context,

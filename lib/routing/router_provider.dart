@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,6 +26,12 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     initialLocation: Routes.login,
+
+    // Firebase Analytics Observer
+    observers: [
+      FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+    ],
+
     redirect: (BuildContext context, GoRouterState state) {
       final bool loggedIn = session.status == SessionStatus.authenticated;
       final bool loggingIn =
@@ -48,24 +55,31 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       return null;
     },
+
     routes: [
-      GoRoute(path: Routes.login, builder: (context, state) => const Login()),
+      GoRoute(
+        path: Routes.login,
+        name: 'login',
+        builder: (context, state) => const Login(),
+      ),
       GoRoute(
         path: Routes.register,
+        name: 'register',
         builder: (context, state) => const Register(),
       ),
       GoRoute(
         path: Routes.onboarding,
-        name: '/onboarding',
+        name: 'onboarding',
         builder: (context, state) => const OnboardingController(),
       ),
       GoRoute(
         path: Routes.home,
+        name: 'home',
         builder: (context, state) => const Homepage(),
         routes: [
           GoRoute(
             path: Routes.newPlan,
-            name: '/new-meal-plan',
+            name: 'new-meal-plan',
             builder: (context, state) {
               final extra = state.extra as Map<String, dynamic>?;
               final userMealPlan = extra?['userMealPlan'] as MealPlanEntity?;
@@ -75,7 +89,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.dayMealPlan,
-                name: '/new-meal-plan/day-meal-plan',
+                name: 'day-meal-plan',
                 builder: (context, state) {
                   final extra = state.extra as Map<String, dynamic>;
                   final day = extra['day'] as String;
@@ -86,21 +100,24 @@ final routerProvider = Provider<GoRouter>((ref) {
                   return DayMealPlan(
                     day: day,
                     meals: meals,
-                    onSave: (Map<String, dynamic> updatedMeals, double calories) {
-                      int totalCalories = 0;
+                    onSave:
+                        (Map<String, dynamic> updatedMeals, double calories) {
+                          int totalCalories = 0;
 
-                      for (var mealType in updatedMeals.values) {
-                        if (mealType is List) {
-                          for (var item in mealType) {
-                            if (item is Map && item.containsKey('calories')) {
-                              totalCalories += (item['calories'] as num? ?? 0).toInt();
+                          for (var mealType in updatedMeals.values) {
+                            if (mealType is List) {
+                              for (var item in mealType) {
+                                if (item is Map &&
+                                    item.containsKey('calories')) {
+                                  totalCalories +=
+                                      (item['calories'] as num? ?? 0).toInt();
+                                }
+                              }
                             }
                           }
-                        }
-                      }
 
-                      onSaveCallback(updatedMeals, totalCalories);
-                    },
+                          onSaveCallback(updatedMeals, totalCalories);
+                        },
                   );
                 },
               ),
@@ -108,7 +125,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: Routes.preparation,
-            name: '/how-to-prepare',
+            name: 'how-to-prepare',
             builder: (context, state) {
               final extra = state.extra as Map<String, dynamic>?;
               final selectedPlan = extra?['selectedPlan'] as DayMealPlanEntity?;
@@ -119,27 +136,29 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: Routes.foods,
+        name: 'foods',
         builder: (context, state) => const Foods(),
         routes: [
           GoRoute(
             path: Routes.addFoods,
+            name: 'add-foods',
             builder: (context, state) => const AddFoods(),
           ),
         ],
       ),
       GoRoute(
         path: Routes.reminders,
-        name: '/reminders',
+        name: 'reminders',
         builder: (context, state) => const Reminders(),
       ),
       GoRoute(
         path: Routes.account,
-        name: '/account',
+        name: 'account',
         builder: (context, state) => const UserAccount(),
       ),
       GoRoute(
         path: Routes.settings,
-        name: '/settings',
+        name: 'settings',
         builder: (context, state) => const Settings(),
       ),
     ],

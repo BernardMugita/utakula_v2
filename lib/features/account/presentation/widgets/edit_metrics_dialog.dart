@@ -1,5 +1,6 @@
 // features/account/presentation/widgets/edit_metrics_dialog.dart
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
@@ -75,7 +76,8 @@ class _EditMetricsDialogState extends State<EditMetricsDialog> {
     });
   }
 
-  void _handleSave() {
+  void _handleSave() async {
+    await FirebaseAnalytics.instance.logEvent(name: 'user_metrics_saved');
     if (_formKey.currentState!.validate()) {
       final metrics = {
         'gender': selectedGender,

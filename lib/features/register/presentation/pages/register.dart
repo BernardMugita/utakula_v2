@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -328,6 +329,9 @@ class Register extends HookConsumerWidget {
                             emailController.text,
                             passwordController.text,
                           );
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'user_registrations',
+                      );
                     }
                   },
             isLoading: isLoading,

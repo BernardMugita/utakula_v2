@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,7 +18,10 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Initialize local notifications here (doesn't need ref)
+  // Enable Firebase Analytics
+  await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+
+  // Initialize local notifications
   final localNotificationService = LocalNotificationService();
   await localNotificationService.init();
 
@@ -30,7 +34,7 @@ class MyApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    final themeMode = ref.watch(themeProvider); // ADD THIS
+    final themeMode = ref.watch(themeProvider);
 
     // Initialize Firebase Messaging with ref
     useEffect(() {
@@ -49,19 +53,20 @@ class MyApp extends HookConsumerWidget {
       canPop: false,
       onPopInvoked: (didPop) => _showExitConfirmationDialog(context, (pop) {}),
       child: MaterialApp.router(
-        title: 'Utakula_V2',
+        title: 'Utakula V2',
         debugShowCheckedModeBanner: false,
 
-        // UPDATED: Theme configuration
+        // Theme configuration
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: themeMode,
 
-        // Keep existing localization
+        // Localization
         supportedLocales: L10n.all,
         locale: const Locale('en'),
         localizationsDelegates: const [AppLocalizations.delegate],
 
+        // Router with analytics
         routerConfig: router,
       ),
     );
