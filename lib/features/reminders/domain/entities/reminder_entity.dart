@@ -5,7 +5,7 @@ class ReminderEntity {
   final bool notificationsEnabled;
   final int timeBeforeMeals;
   final int frequencyBeforeMeals;
-  final List<MealNotificationEntity> notificationFor; // Changed to List
+  final List<MealNotificationEntity> notificationFor;
 
   const ReminderEntity({
     required this.notificationsEnabled,

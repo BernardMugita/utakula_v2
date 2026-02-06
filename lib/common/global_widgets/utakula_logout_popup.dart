@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/core/providers/session_provider/session_state_provider.dart';
+import 'package:utakula_v2/features/register/presentation/providers/sign_up_provider.dart';
 import 'package:utakula_v2/routing/routes.dart';
 import 'package:gap/gap.dart';
 
@@ -24,6 +25,8 @@ class UtakulaLogoutPopup extends HookConsumerWidget {
     Future<void> handleLogout() async {
       loggingOut.value = true;
       await ref.read(sessionStateProvider.notifier).logout();
+
+      await ref.read(registerStateProvider.notifier).signOut();
 
       await Future.delayed(const Duration(seconds: 2));
 

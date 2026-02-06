@@ -175,7 +175,7 @@ class ActionItem extends StatelessWidget {
               label: 'Settings',
               onTap: () {
                 Navigator.pop(context);
-                // TODO: Navigate to settings
+                context.go('/settings');
               },
             ),
             const Gap(12),

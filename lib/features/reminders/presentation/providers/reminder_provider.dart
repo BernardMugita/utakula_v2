@@ -5,14 +5,13 @@ import 'package:utakula_v2/core/network/dio_client.dart';
 import 'package:utakula_v2/core/network/exception_handler.dart';
 import 'package:utakula_v2/features/reminders/data/data_sources/reminder_data_source.dart';
 import 'package:utakula_v2/features/reminders/data/repository/reminder_repository_impl.dart';
+import 'package:utakula_v2/features/reminders/domain/entities/notification_entity.dart';
 import 'package:utakula_v2/features/reminders/domain/entities/reminder_entity.dart';
 import 'package:utakula_v2/features/reminders/domain/repository/reminder_repository.dart';
 import 'package:utakula_v2/features/reminders/domain/use_cases/reminder_use_cases.dart';
 
 final dioClientProvider = Provider<DioClient>((ref) {
-  return DioClient(
-    baseUrl: ApiEndpoints.productionURL
-  );
+  return DioClient(baseUrl: ApiEndpoints.productionURL);
 });
 
 final ExceptionHandler exceptionHandler = ExceptionHandler();
@@ -34,6 +33,10 @@ final saveUserNotificationSettingsProvider =
     Provider<SaveUserNotificationSettings>((ref) {
       return SaveUserNotificationSettings(ref.read(reminderRepositoryProvider));
     });
+
+final sendUserNotificationProvider = Provider<SendUserNotification>((ref) {
+  return SendUserNotification(ref.read(reminderRepositoryProvider));
+});
 
 class ReminderState {
   final bool isLoading;
@@ -96,6 +99,25 @@ class ReminderNotifier extends Notifier<ReminderState> {
       saveUserNotificationSettingsProvider,
     );
     final result = await saveUserNotificationSettings(reminderEntity);
+    result.fold(
+      (failure) {
+        state = state.copyWith(
+          isSubmitting: false,
+          errorMessage: failure.message,
+        );
+      },
+      (reminder) {
+        state = state.copyWith(isSubmitting: false);
+      },
+    );
+  }
+
+  Future<void> sendUserNotification(
+    NotificationEntity notificationEntity,
+  ) async {
+    state = state.copyWith(isSubmitting: true, errorMessage: null);
+    final sendUserNotification = ref.read(sendUserNotificationProvider);
+    final result = await sendUserNotification(notificationEntity);
     result.fold(
       (failure) {
         state = state.copyWith(

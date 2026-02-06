@@ -22,6 +22,7 @@ import 'package:utakula_v2/features/homepage/presentation/widgets/metrics_setup_
 import 'package:utakula_v2/features/meal_plan/domain/entities/day_meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/domain/entities/meal_plan_entity.dart';
 import 'package:utakula_v2/features/meal_plan/presentation/providers/meal_plan_provider.dart';
+import 'package:utakula_v2/features/reminders/presentation/providers/reminder_provider.dart';
 import 'package:utakula_v2/routing/routes.dart';
 
 class Homepage extends HookConsumerWidget {
@@ -73,6 +74,9 @@ class Homepage extends HookConsumerWidget {
         await ref.read(userStateProvider.notifier).getUserAccountDetails();
         await ref.read(userMetricsStateProvider.notifier).getUserMetrics();
         await ref.read(mealPlanStateProvider.notifier).fetchMealPlan();
+        await ref
+            .read(reminderStateProvider.notifier)
+            .getUserNotificationSettings();
 
         final currentMealPlan = ref.read(mealPlanStateProvider).currentMealPlan;
         if (currentMealPlan != null && currentMealPlan.mealPlan.isNotEmpty) {
@@ -251,7 +255,7 @@ class Homepage extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: const Text(
-                      'Welcome Back!',
+                      'Bye Bye !',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -290,7 +294,7 @@ class Homepage extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Text(
-                  'Welcome Back!',
+                  'Welcome!',
                   style: TextStyle(
                     color: Color(0xFF2D5016),
                     fontSize: 15,

@@ -4,8 +4,12 @@ class ApiEndpoints {
   static const String productionURL = "https://utakulaserver.arifulib.co.ke";
 
   // -------------------- AUTH --------------------
-  static const String signUp = "/auth/create_account/";
+  static const String signUp = "/auth/create_account";
   static const String signIn = "/auth/authorize_account";
+  static const String forgotPassword = "/auth/forgot_password";
+  static const String resetPassword = "/auth/reset_password";
+  static const String googleAuth = "/auth/google_oauth_login";
+
 
   // -------------------- USERS --------------------
   static const String getAllUsers = "/users/get_all_users";
@@ -49,6 +53,5 @@ class ApiEndpoints {
   // ------------------- Notifications -------------------
   static const String getUserNotificationSettings = "/notifications/get_notification_settings";
   static const String saveUserNotificationSettings = "/notifications/save_settings";
-
-
+  static const String sendUserNotification = "/notifications/send";
 }

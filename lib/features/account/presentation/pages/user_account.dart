@@ -379,6 +379,7 @@ class UserAccount extends HookConsumerWidget {
                     ),
                     const Gap(16),
 
+                    
                     // Show loading state for metrics
                     if (metricsState.isLoading)
                       Center(

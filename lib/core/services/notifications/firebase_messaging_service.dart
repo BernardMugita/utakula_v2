@@ -1,9 +1,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:utakula_v2/core/services/local_notification_service.dart';
+import 'package:utakula_v2/core/services/notifications/local_notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:utakula_v2/features/account/domain/entities/user_entity.dart';
 import 'package:utakula_v2/features/account/presentation/providers/user_providers.dart';
+import 'package:flutter_timezone/flutter_timezone.dart' as ftz;
 
 class FirebaseMessagingService {
   // Private constructor for singleton pattern

@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart'; // Included in hooks_riverpod
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -10,6 +15,8 @@ import 'package:utakula_v2/common/helpers/helper_utils.dart';
 import 'package:utakula_v2/common/themes/theme_utils.dart';
 import 'package:utakula_v2/features/login/presentation/providers/sign_in_provider.dart';
 import 'package:utakula_v2/features/login/presentation/providers/sign_in_state_providers.dart';
+import 'package:utakula_v2/features/register/presentation/providers/sign_up_provider.dart';
+import 'package:utakula_v2/features/register/presentation/providers/sign_up_state_provider.dart';
 import 'package:utakula_v2/routing/routes.dart';
 
 class Login extends HookConsumerWidget {
@@ -21,6 +28,8 @@ class Login extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final formKey = useMemoized(() => GlobalKey<FormState>());
     HelperUtils helperUtils = HelperUtils();
+
+    GoogleSignIn googleSignIn;
 
     final animationController = useAnimationController(
       duration: const Duration(milliseconds: 1200),
@@ -53,18 +62,27 @@ class Login extends HookConsumerWidget {
     }, []);
 
     final loginState = ref.watch(loginStateProvider);
+    final registerState = ref.watch(registerStateProvider);
 
-    ref.listen<LoginState>(loginStateProvider, (previous, next) {
-      if (next.errorMessage != null) {
-        helperUtils.showSnackBar(context, next.errorMessage!, Colors.red);
-      } else if (next.isSuccess) {
-        helperUtils.showSnackBar(context, "Login successful!", Colors.green);
+    void handleAuthState(dynamic state, String successMessage) {
+      if (state.errorMessage != null) {
+        helperUtils.showSnackBar(context, state.errorMessage!, Colors.red);
+      } else if (state.isSuccess) {
+        helperUtils.showSnackBar(context, successMessage, Colors.green);
         Future.delayed(const Duration(seconds: 1), () {
           if (context.mounted) {
             context.go(Routes.home);
           }
         });
       }
+    }
+
+    ref.listen<LoginState>(loginStateProvider, (previous, next) {
+      handleAuthState(next, "Login successful!");
+    });
+
+    ref.listen<RegisterState>(registerNotifierProvider, (previous, next) {
+      handleAuthState(next, "Google sign-in successful!");
     });
 
     return Scaffold(
@@ -119,7 +137,11 @@ class Login extends HookConsumerWidget {
                           const Gap(30),
                           _buildDivider(context),
                           const Gap(20),
-                          _buildSignUpPrompt(context),
+                          _buildSignUpPrompt(
+                            context,
+                            registerState.isLoading,
+                            ref,
+                          ),
                         ],
                       ),
                     ),
@@ -311,7 +333,11 @@ class Login extends HookConsumerWidget {
     );
   }
 
-  Widget _buildSignUpPrompt(BuildContext context) {
+  Widget _buildSignUpPrompt(
+    BuildContext context,
+    bool isLoading,
+    WidgetRef ref,
+  ) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -319,7 +345,7 @@ class Login extends HookConsumerWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
       ),
-      child: Row(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
@@ -331,30 +357,62 @@ class Login extends HookConsumerWidget {
             ),
           ),
           const Gap(8),
-          GestureDetector(
-            onTap: () {
-              context.go('/register');
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: ThemeUtils.primaryColor(context).withOpacity(0.2),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: ThemeUtils.primaryColor(context).withOpacity(0.8),
-                  width: 1,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 10,
+            children: [
+              GestureDetector(
+                onTap: isLoading
+                    ? null
+                    : () async {
+                        await ref
+                            .read(registerStateProvider.notifier)
+                            .signUpWithGoogle();
+                        await FirebaseAnalytics.instance.logEvent(
+                          name: 'google_sign_in',
+                        );
+                      },
+                child: CircleAvatar(
+                  child: Image(
+                    fit: BoxFit.contain,
+                    image: AssetImage("assets/images/google_logo.png"),
+                  ),
                 ),
               ),
-              child: Text(
-                "Sign up",
-                style: TextStyle(
-                  color: ThemeUtils.primaryColor(context),
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
+              Container(
+                height: 30,
+                width: 1,
+                color: ThemeUtils.blacks(context).withOpacity(0.3),
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.go('/register');
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ThemeUtils.primaryColor(context).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: ThemeUtils.primaryColor(context).withOpacity(0.8),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    "Sign up",
+                    style: TextStyle(
+                      color: ThemeUtils.primaryColor(context),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

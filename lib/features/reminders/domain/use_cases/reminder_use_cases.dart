@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:utakula_v2/core/error/failures.dart';
+import 'package:utakula_v2/features/reminders/domain/entities/notification_entity.dart';
 import 'package:utakula_v2/features/reminders/domain/entities/reminder_entity.dart';
 import 'package:utakula_v2/features/reminders/domain/repository/reminder_repository.dart';
 
@@ -18,9 +19,19 @@ class SaveUserNotificationSettings {
 
   SaveUserNotificationSettings(this.repository);
 
-  Future<Either<Failure, void>> call(
-    ReminderEntity reminderEntity,
-  ) async {
+  Future<Either<Failure, void>> call(ReminderEntity reminderEntity) async {
     return await repository.saveUserNotificationSettings(reminderEntity);
+  }
+}
+
+class SendUserNotification {
+  final ReminderRepository repository;
+
+  SendUserNotification(this.repository);
+
+  Future<Either<Failure, void>> call(
+    NotificationEntity notificationEntity,
+  ) async {
+    return await repository.sendUserNotification(notificationEntity);
   }
 }

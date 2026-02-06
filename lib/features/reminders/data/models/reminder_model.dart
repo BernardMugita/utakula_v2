@@ -16,7 +16,7 @@ class ReminderModel {
 
   factory ReminderModel.fromJson(Map<String, dynamic> json) {
     return ReminderModel(
-      notificationsEnabled: json['notification_enabled'] as bool,
+      notificationsEnabled: json['notifications_enabled'] as bool,
       timeBeforeMeals: json['time_before_meals'] as int,
       frequencyBeforeMeals: json['frequency_before_meals'] as int,
       notificationFor:

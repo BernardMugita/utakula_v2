@@ -25,6 +25,10 @@ final registerUserUseCaseProvider = Provider<RegisterUserUseCase>((ref) {
   return RegisterUserUseCase(ref.read(signUpRepositoryProvider));
 });
 
+final signUpWithGoogleProvider = Provider<SignUpWithGoogle>((ref) {
+  return SignUpWithGoogle(ref.read(signUpRepositoryProvider));
+});
+
 final registerStateProvider = NotifierProvider<RegisterNotifier, RegisterState>(
   () {
     return RegisterNotifier();

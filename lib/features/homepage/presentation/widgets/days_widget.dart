@@ -115,7 +115,7 @@ class DaysWidget extends HookConsumerWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        context.pushNamed(
+                        context.push(
                           '/new-meal-plan',
                           extra: {'userMealPlan': myMealPlan},
                         );

@@ -133,7 +133,11 @@ class Register extends HookConsumerWidget {
                           const Gap(30),
                           _buildDivider(context),
                           const Gap(20),
-                          _buildLoginPrompt(context),
+                          _buildGoogleSignInButton(
+                            ref,
+                            registerState.isLoading,
+                            context,
+                          ),
                           const Gap(20),
                         ],
                       ),
@@ -424,6 +428,92 @@ class Register extends HookConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildGoogleSignInButton(
+    WidgetRef ref,
+    bool isLoading,
+    BuildContext context,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.03),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Already have an account?",
+            style: TextStyle(
+              color: ThemeUtils.blacks(context).withOpacity(0.8),
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const Gap(8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 10,
+            children: [
+              GestureDetector(
+                onTap: isLoading
+                    ? null
+                    : () async {
+                        await ref
+                            .read(registerStateProvider.notifier)
+                            .signUpWithGoogle();
+                        await FirebaseAnalytics.instance.logEvent(
+                          name: 'google_sign_in',
+                        );
+                      },
+                child: CircleAvatar(
+                  child: Image(
+                    fit: BoxFit.contain,
+                    image: AssetImage("assets/images/google_logo.png"),
+                  ),
+                ),
+              ),
+              Container(
+                height: 30,
+                width: 1,
+                color: ThemeUtils.blacks(context).withOpacity(0.3),
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.go('/login');
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ThemeUtils.primaryColor(context).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: ThemeUtils.primaryColor(context).withOpacity(0.8),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    "Sign in",
+                    style: TextStyle(
+                      color: ThemeUtils.primaryColor(context),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
